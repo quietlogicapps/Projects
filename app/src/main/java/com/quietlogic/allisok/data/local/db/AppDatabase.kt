@@ -1,0 +1,26 @@
+package com.quietlogic.allisok.data.local.db
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.quietlogic.allisok.data.local.entity.AppSettingsEntity
+import com.quietlogic.allisok.data.local.entity.CareItemEntity
+import com.quietlogic.allisok.data.local.entity.CareLogEntity
+import com.quietlogic.allisok.data.local.entity.CareTimeEntity
+import com.quietlogic.allisok.data.local.entity.ContactSlotEntity
+import com.quietlogic.allisok.data.local.entity.EmergencyInfoEntity
+
+@Database(
+    entities = [
+        ContactSlotEntity::class,
+        CareItemEntity::class,
+        CareTimeEntity::class,
+        CareLogEntity::class,
+        EmergencyInfoEntity::class,
+        AppSettingsEntity::class
+    ],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase()
