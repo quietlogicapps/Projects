@@ -34,6 +34,26 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repeat"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinnerRepeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/textRepeatDays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Days: Daily"
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp"/>
+
         <Button
             android:id="@+id/btnPickStart"
             android:layout_width="match_parent"

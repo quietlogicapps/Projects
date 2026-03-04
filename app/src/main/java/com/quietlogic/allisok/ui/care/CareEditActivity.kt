@@ -3,6 +3,8 @@ package com.quietlogic.allisok.ui.care
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -32,8 +34,8 @@ class CareEditActivity : AppCompatActivity() {
     private var startDate: LocalDate? = null
     private var endDate: LocalDate? = null
 
-    private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-    private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,9 @@ class CareEditActivity : AppCompatActivity() {
 
         val nameInput = findViewById<EditText>(R.id.inputName)
         val instructionSpinner = findViewById<Spinner>(R.id.spinnerInstruction)
+        val repeatSpinner = findViewById<Spinner>(R.id.spinnerRepeat)
+
+        val textRepeatDays = findViewById<TextView>(R.id.textRepeatDays)
 
         val btnPickStart = findViewById<Button>(R.id.btnPickStart)
         val btnPickEnd = findViewById<Button>(R.id.btnPickEnd)
@@ -62,12 +67,43 @@ class CareEditActivity : AppCompatActivity() {
         val btnSave = findViewById<Button>(R.id.btnSaveCare)
 
         val instructions = listOf("None", "Before food", "After food")
-        val spinnerAdapter = ArrayAdapter(
+
+        val instructionAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,
             instructions
         )
-        instructionSpinner.adapter = spinnerAdapter
+
+        instructionSpinner.adapter = instructionAdapter
+
+        val repeatOptions = listOf("Daily", "Specific days")
+
+        val repeatAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            repeatOptions
+        )
+
+        repeatSpinner.adapter = repeatAdapter
+
+        repeatSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+                if (position == 0) {
+                    textRepeatDays.text = "Days: Daily"
+                } else {
+                    textRepeatDays.text = "Days: Custom"
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         renderTimes(textTimes)
 
@@ -86,7 +122,9 @@ class CareEditActivity : AppCompatActivity() {
         }
 
         btnAddTime.setOnClickListener {
+
             openTimePicker { picked ->
+
                 if (times.contains(picked)) {
                     Toast.makeText(this, "Time already added", Toast.LENGTH_SHORT).show()
                     return@openTimePicker
@@ -117,13 +155,14 @@ class CareEditActivity : AppCompatActivity() {
             val end = endDate ?: start.plusDays(30)
 
             val instruction = instructionSpinner.selectedItem.toString()
+            val repeatType = repeatSpinner.selectedItem.toString()
 
             val item = CareItemEntity(
                 name = name,
                 instruction = instruction,
                 startDate = start,
                 endDate = end,
-                repeatType = "DAILY"
+                repeatType = repeatType
             )
 
             lifecycleScope.launch {
@@ -133,6 +172,7 @@ class CareEditActivity : AppCompatActivity() {
                     val itemId = db.careItemDao().insert(item)
 
                     times.forEach { t ->
+
                         db.careTimeDao().insert(
                             CareTimeEntity(
                                 careItemId = itemId,
