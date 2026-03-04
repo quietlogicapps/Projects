@@ -70,10 +70,13 @@ class CareActivity : AppCompatActivity() {
                     val dateRange =
                         "${item.startDate.format(dateFormatter)} → ${item.endDate.format(dateFormatter)}"
 
+                    val line =
+                        "$timesText • ${item.instruction} • $dateRange"
+
                     finalRows.add(
                         CareAdapter.Row(
                             item.name,
-                            "$timesText • $dateRange"
+                            line
                         )
                     )
                 }
