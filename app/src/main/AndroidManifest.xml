@@ -10,7 +10,24 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AllIsOK">
+        android:theme="@style/Theme.AllIsOK"
+        tools:targetApi="31">
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.info.InfoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.care.CareActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.contacts.ContactsActivity"
+            android:exported="false" />
 
         <activity
             android:name=".ui.home.HomeActivity"
