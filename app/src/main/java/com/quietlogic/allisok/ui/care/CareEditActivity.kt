@@ -7,9 +7,13 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.data.local.db.AppDatabase
 
 class CareEditActivity : AppCompatActivity() {
+
+    private lateinit var db: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,34 +21,39 @@ class CareEditActivity : AppCompatActivity() {
 
         title = "Add Care Item"
 
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "allisok-db"
+        ).build()
+
         val nameInput = findViewById<EditText>(R.id.inputName)
         val instructionSpinner = findViewById<Spinner>(R.id.spinnerInstruction)
-        val saveButton = findViewById<Button>(R.id.btnSaveCare)
+        val btnAddTime = findViewById<Button>(R.id.btnAddTime)
+        val btnSave = findViewById<Button>(R.id.btnSaveCare)
 
-        val instructions = listOf(
-            "None",
-            "Before food",
-            "After food"
-        )
-
-        val adapter = ArrayAdapter(
+        val instructions = listOf("None", "Before food", "After food")
+        val spinnerAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,
             instructions
         )
+        instructionSpinner.adapter = spinnerAdapter
 
-        instructionSpinner.adapter = adapter
+        btnAddTime.setOnClickListener {
+            Toast.makeText(this, "ADD TIME (next step)", Toast.LENGTH_SHORT).show()
+        }
 
-        saveButton.setOnClickListener {
-
-            val name = nameInput.text.toString()
+        btnSave.setOnClickListener {
+            val name = nameInput.text.toString().trim()
 
             if (name.isEmpty()) {
                 Toast.makeText(this, "Name required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            Toast.makeText(this, "Care item saved (demo)", Toast.LENGTH_SHORT).show()
+            val instruction = instructionSpinner.selectedItem?.toString() ?: "None"
+            Toast.makeText(this, "SAVE (demo): $name / $instruction", Toast.LENGTH_SHORT).show()
 
             finish()
         }
