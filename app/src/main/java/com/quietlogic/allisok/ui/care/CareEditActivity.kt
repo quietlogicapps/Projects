@@ -1,16 +1,11 @@
 package com.quietlogic.allisok.ui.care
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
@@ -34,6 +29,14 @@ class CareEditActivity : AppCompatActivity() {
     private var startDate: LocalDate? = null
     private var endDate: LocalDate? = null
 
+    private val selectedDays: MutableList<String> = mutableListOf()
+
+    private val days = arrayOf(
+        "MON","TUE","WED","THU","FRI","SAT","SUN"
+    )
+
+    private val checkedDays = BooleanArray(days.size)
+
     private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -53,6 +56,7 @@ class CareEditActivity : AppCompatActivity() {
         val instructionSpinner = findViewById<Spinner>(R.id.spinnerInstruction)
         val repeatSpinner = findViewById<Spinner>(R.id.spinnerRepeat)
 
+        val btnPickDays = findViewById<Button>(R.id.btnPickDays)
         val textRepeatDays = findViewById<TextView>(R.id.textRepeatDays)
 
         val btnPickStart = findViewById<Button>(R.id.btnPickStart)
@@ -68,41 +72,59 @@ class CareEditActivity : AppCompatActivity() {
 
         val instructions = listOf("None", "Before food", "After food")
 
-        val instructionAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_dropdown_item,
-            instructions
-        )
-
-        instructionSpinner.adapter = instructionAdapter
+        instructionSpinner.adapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, instructions)
 
         val repeatOptions = listOf("Daily", "Specific days")
 
-        val repeatAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_dropdown_item,
-            repeatOptions
-        )
-
-        repeatSpinner.adapter = repeatAdapter
+        repeatSpinner.adapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeatOptions)
 
         repeatSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                 if (position == 0) {
                     textRepeatDays.text = "Days: Daily"
                 } else {
-                    textRepeatDays.text = "Days: Custom"
+                    textRepeatDays.text = "Days: Not selected"
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        btnPickDays.setOnClickListener {
+
+            if (repeatSpinner.selectedItemPosition == 0) {
+                Toast.makeText(this, "Repeat is Daily", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            AlertDialog.Builder(this)
+                .setTitle("Select days")
+                .setMultiChoiceItems(days, checkedDays) { _, which, isChecked ->
+                    checkedDays[which] = isChecked
+                }
+                .setPositiveButton("OK") { _, _ ->
+
+                    selectedDays.clear()
+
+                    for (i in days.indices) {
+                        if (checkedDays[i]) {
+                            selectedDays.add(days[i])
+                        }
+                    }
+
+                    if (selectedDays.isEmpty()) {
+                        textRepeatDays.text = "Days: Not selected"
+                    } else {
+                        textRepeatDays.text =
+                            "Days: " + selectedDays.joinToString(", ")
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
         }
 
         renderTimes(textTimes)
@@ -155,7 +177,16 @@ class CareEditActivity : AppCompatActivity() {
             val end = endDate ?: start.plusDays(30)
 
             val instruction = instructionSpinner.selectedItem.toString()
-            val repeatType = repeatSpinner.selectedItem.toString()
+
+            val repeatType = if (repeatSpinner.selectedItemPosition == 0) {
+                "DAILY"
+            } else {
+                if (selectedDays.isEmpty()) {
+                    Toast.makeText(this, "Select days", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                "DAYS:" + selectedDays.joinToString(",")
+            }
 
             val item = CareItemEntity(
                 name = name,
@@ -182,11 +213,7 @@ class CareEditActivity : AppCompatActivity() {
                     }
                 }
 
-                Toast.makeText(
-                    this@CareEditActivity,
-                    "Saved",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@CareEditActivity, "Saved", Toast.LENGTH_SHORT).show()
 
                 finish()
             }
@@ -209,7 +236,7 @@ class CareEditActivity : AppCompatActivity() {
 
         val now = LocalTime.now()
 
-        val dialog = TimePickerDialog(
+        TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
                 onPicked(LocalTime.of(hourOfDay, minute))
@@ -217,16 +244,14 @@ class CareEditActivity : AppCompatActivity() {
             now.hour,
             now.minute,
             true
-        )
-
-        dialog.show()
+        ).show()
     }
 
     private fun openDatePicker(onPicked: (LocalDate) -> Unit) {
 
         val now = LocalDate.now()
 
-        val dialog = DatePickerDialog(
+        DatePickerDialog(
             this,
             { _, year, month, day ->
                 onPicked(LocalDate.of(year, month + 1, day))
@@ -234,8 +259,6 @@ class CareEditActivity : AppCompatActivity() {
             now.year,
             now.monthValue - 1,
             now.dayOfMonth
-        )
-
-        dialog.show()
+        ).show()
     }
 }

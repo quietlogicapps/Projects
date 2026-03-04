@@ -70,8 +70,14 @@ class CareActivity : AppCompatActivity() {
                     val dateRange =
                         "${item.startDate.format(dateFormatter)} → ${item.endDate.format(dateFormatter)}"
 
+                    val repeatText = when {
+                        item.repeatType == "DAILY" -> "Daily"
+                        item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", " ")
+                        else -> item.repeatType
+                    }
+
                     val line =
-                        "$timesText • ${item.instruction} • $dateRange"
+                        "$timesText • ${item.instruction} • $repeatText • $dateRange"
 
                     finalRows.add(
                         CareAdapter.Row(
