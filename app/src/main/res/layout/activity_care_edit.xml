@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.care.CareEditActivity">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Care Item Name"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/inputName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Example: Blood pressure medicine"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instruction"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinnerInstruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnAddTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD TIME"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnSaveCare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVE"/>
+
+    </LinearLayout>
+
+</ScrollView>
