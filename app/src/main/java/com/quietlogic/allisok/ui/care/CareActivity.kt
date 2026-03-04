@@ -1,7 +1,9 @@
 package com.quietlogic.allisok.ui.care
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +20,7 @@ class CareActivity : AppCompatActivity() {
 
         val recycler = findViewById<RecyclerView>(R.id.recyclerCare)
         val empty = findViewById<TextView>(R.id.textEmpty)
+        val btnAdd = findViewById<Button>(R.id.btnAddCare)
 
         val adapter = CareAdapter()
 
@@ -32,5 +35,10 @@ class CareActivity : AppCompatActivity() {
         adapter.submitList(demo)
 
         empty.visibility = if (demo.isEmpty()) View.VISIBLE else View.GONE
+
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, CareEditActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
