@@ -7,4 +7,27 @@
     android:gravity="center"
     android:padding="24dp">
 
+    <Button
+        android:id="@+id/buttonContacts"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="CONTACTS"
+        android:textSize="20sp"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/buttonCare"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="CARE"
+        android:textSize="20sp"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/buttonInfo"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="INFO"
+        android:textSize="20sp"/>
+
 </LinearLayout>
