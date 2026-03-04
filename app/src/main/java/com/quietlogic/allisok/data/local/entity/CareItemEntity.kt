@@ -8,19 +8,15 @@ import java.time.LocalDate
 data class CareItemEntity(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    val id: Long = 0,
 
     val name: String,
 
-    val instruction: String?, // None / Before food / After food
+    val instruction: String,
 
     val startDate: LocalDate,
 
     val endDate: LocalDate,
 
-    val repeatType: String,
-    // DAILY or SPECIFIC_DAYS
-
-    val specificDays: String?
-    // comma separated values if SPECIFIC_DAYS (e.g. "1,3,5")
+    val repeatType: String
 )

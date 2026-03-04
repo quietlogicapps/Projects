@@ -7,9 +7,13 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.AppDatabase
+import com.quietlogic.allisok.data.local.entity.CareItemEntity
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class CareEditActivity : AppCompatActivity() {
 
@@ -33,11 +37,13 @@ class CareEditActivity : AppCompatActivity() {
         val btnSave = findViewById<Button>(R.id.btnSaveCare)
 
         val instructions = listOf("None", "Before food", "After food")
+
         val spinnerAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,
             instructions
         )
+
         instructionSpinner.adapter = spinnerAdapter
 
         btnAddTime.setOnClickListener {
@@ -45,6 +51,7 @@ class CareEditActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
+
             val name = nameInput.text.toString().trim()
 
             if (name.isEmpty()) {
@@ -52,10 +59,28 @@ class CareEditActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val instruction = instructionSpinner.selectedItem?.toString() ?: "None"
-            Toast.makeText(this, "SAVE (demo): $name / $instruction", Toast.LENGTH_SHORT).show()
+            val instruction = instructionSpinner.selectedItem.toString()
 
-            finish()
+            val item = CareItemEntity(
+                name = name,
+                instruction = instruction,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(30),
+                repeatType = "DAILY"
+            )
+
+            lifecycleScope.launch {
+
+                db.careItemDao().insert(item)
+
+                Toast.makeText(
+                    this@CareEditActivity,
+                    "Care item saved",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                finish()
+            }
         }
     }
 }
