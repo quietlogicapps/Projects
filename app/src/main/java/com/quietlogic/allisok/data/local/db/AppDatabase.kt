@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.quietlogic.allisok.data.local.dao.CareItemDao
+import com.quietlogic.allisok.data.local.dao.CareTimeDao
 import com.quietlogic.allisok.data.local.entity.AppSettingsEntity
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareLogEntity
@@ -27,4 +28,5 @@ import com.quietlogic.allisok.data.local.entity.EmergencyInfoEntity
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun careItemDao(): CareItemDao
+    abstract fun careTimeDao(): CareTimeDao
 }

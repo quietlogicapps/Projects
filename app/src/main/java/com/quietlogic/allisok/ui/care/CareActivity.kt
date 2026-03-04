@@ -13,11 +13,14 @@ import androidx.room.Room
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.ui.care.adapter.CareAdapter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 
 class CareActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
+    private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +48,33 @@ class CareActivity : AppCompatActivity() {
         lifecycleScope.launch {
             db.careItemDao().getAllActive().collect { items ->
 
-                val rows = items.map { item ->
-                    CareAdapter.Row(item.name, "—")
+                val finalRows = mutableListOf<CareAdapter.Row>()
+
+                for (item in items) {
+
+                    val times = db.careTimeDao()
+                        .getByItemId(item.id)
+                        .first()
+
+                    val timesText = if (times.isEmpty()) {
+                        "—"
+                    } else {
+                        times
+                            .map { it.time.format(timeFormatter) }
+                            .sorted()
+                            .joinToString(", ")
+                    }
+
+                    finalRows.add(
+                        CareAdapter.Row(
+                            item.name,
+                            timesText
+                        )
+                    )
                 }
 
-                adapter.submitList(rows)
-                empty.visibility = if (rows.isEmpty()) View.VISIBLE else View.GONE
+                adapter.submitList(finalRows)
+                empty.visibility = if (finalRows.isEmpty()) View.VISIBLE else View.GONE
             }
         }
     }
