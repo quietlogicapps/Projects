@@ -20,7 +20,9 @@ import java.time.format.DateTimeFormatter
 class CareActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
+
     private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,10 +67,13 @@ class CareActivity : AppCompatActivity() {
                             .joinToString(", ")
                     }
 
+                    val dateRange =
+                        "${item.startDate.format(dateFormatter)} → ${item.endDate.format(dateFormatter)}"
+
                     finalRows.add(
                         CareAdapter.Row(
                             item.name,
-                            timesText
+                            "$timesText • $dateRange"
                         )
                     )
                 }

@@ -35,6 +35,36 @@
             android:layout_marginBottom="24dp"/>
 
         <Button
+            android:id="@+id/btnPickStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PICK START DATE"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/textStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start: not set"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btnPickEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PICK END DATE"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/textEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="End: not set"
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
             android:id="@+id/btnAddTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
