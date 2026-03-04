@@ -26,6 +26,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.contacts.ContactEditActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.contacts.ContactsActivity"
             android:exported="false" />
 
