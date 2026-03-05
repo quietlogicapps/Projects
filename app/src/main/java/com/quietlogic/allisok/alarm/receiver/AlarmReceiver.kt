@@ -1,12 +1,16 @@
 package com.quietlogic.allisok.alarm.receiver
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.quietlogic.allisok.R
@@ -48,27 +52,6 @@ class AlarmReceiver : BroadcastReceiver() {
         val notificationId =
             if (requestCode != 0) requestCode else (System.currentTimeMillis() and 0x7fffffff).toInt()
 
-        val snooze5 = PendingIntent.getActivity(
-            context,
-            requestCode + 5,
-            activityIntent.putExtra(AlarmActivity.EXTRA_REQUEST_CODE, requestCode),
-            piFlags
-        )
-
-        val snooze10 = PendingIntent.getActivity(
-            context,
-            requestCode + 10,
-            activityIntent.putExtra(AlarmActivity.EXTRA_REQUEST_CODE, requestCode),
-            piFlags
-        )
-
-        val snooze15 = PendingIntent.getActivity(
-            context,
-            requestCode + 15,
-            activityIntent.putExtra(AlarmActivity.EXTRA_REQUEST_CODE, requestCode),
-            piFlags
-        )
-
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(careName)
@@ -80,9 +63,6 @@ class AlarmReceiver : BroadcastReceiver() {
             .setAutoCancel(true)
             .setContentIntent(fullScreenPi)
             .setFullScreenIntent(fullScreenPi, true)
-            .addAction(0, "SNOOZE 5", snooze5)
-            .addAction(0, "SNOOZE 10", snooze10)
-            .addAction(0, "SNOOZE 15", snooze15)
             .build()
 
         nm.notify(notificationId, notification)
@@ -94,19 +74,29 @@ class AlarmReceiver : BroadcastReceiver() {
         val existing = nm.getNotificationChannel(CHANNEL_ID)
         if (existing != null) return
 
+        val soundUri: Uri = Settings.System.DEFAULT_RINGTONE_URI
+
+        val attrs = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ALARM)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Alarms",
+            "Alarms (ringtone + vibrate)",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Care alarms"
-            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
+            description = "Care alarms (uses phone ringtone + vibration)"
+            setSound(soundUri, attrs)
+            enableVibration(true)
+            vibrationPattern = longArrayOf(0, 500, 300, 500, 300, 800)
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
         }
 
         nm.createNotificationChannel(channel)
     }
 
     companion object {
-        private const val CHANNEL_ID = "all_is_ok_alarm"
+        private const val CHANNEL_ID = "all_is_ok_alarm_ringtone_v2"
     }
 }
