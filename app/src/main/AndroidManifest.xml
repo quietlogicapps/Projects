@@ -10,7 +10,7 @@
         android:name="android.permission.SCHEDULE_EXACT_ALARM"
         tools:targetApi="s" />
 
-    <!-- For reschedule after reboot (T10) -->
+    <!-- For reschedule after reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -24,7 +24,7 @@
         android:theme="@style/Theme.AllIsOK"
         tools:targetApi="31">
 
-        <!-- ENTRY GATE (Launcher) -->
+        <!-- ENTRY GATE -->
         <activity
             android:name=".PermissionSetupActivity"
             android:exported="true">
@@ -41,6 +41,10 @@
         <activity android:name=".ui.care.CareEditActivity" android:exported="false" />
         <activity android:name=".ui.info.InfoActivity" android:exported="false" />
         <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
+
+        <receiver
+            android:name=".alarm.receiver.AlarmReceiver"
+            android:exported="false" />
 
     </application>
 

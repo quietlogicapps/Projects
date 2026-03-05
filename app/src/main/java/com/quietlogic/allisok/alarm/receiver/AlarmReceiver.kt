@@ -1,46 +1,27 @@
 package com.quietlogic.allisok.alarm.receiver
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import com.quietlogic.allisok.R
+import com.quietlogic.allisok.alarm.engine.AlarmScheduler
 import kotlin.random.Random
 
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        val title = intent.getStringExtra(AlarmScheduler.EXTRA_TITLE) ?: "Reminder"
+        val text = intent.getStringExtra(AlarmScheduler.EXTRA_TEXT) ?: "Care reminder"
 
-        val channelId = "care_alarm_channel"
+        val notificationId = intent.getIntExtra(
+            AlarmScheduler.EXTRA_REQUEST_CODE,
+            Random.nextInt()
+        )
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Care Alarms",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-
-            val manager = context.getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
-        }
-
-        val notification = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("Reminder")
-            .setContentText("Care reminder")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .build()
-
-        val notificationId = Random.nextInt()
-
-        NotificationManagerCompat.from(context).notify(
-            notificationId,
-            notification
+        NotificationHelper.showAlarmNotification(
+            context = context,
+            notificationId = notificationId,
+            title = title,
+            text = text
         )
     }
 }
