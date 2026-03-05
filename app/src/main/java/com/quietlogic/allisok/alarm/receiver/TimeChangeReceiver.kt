@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 
 class TimeChangeReceiver : BroadcastReceiver() {
 
@@ -14,9 +15,7 @@ class TimeChangeReceiver : BroadcastReceiver() {
             "Time or timezone changed — alarm reschedule will run here later"
         )
 
-        // TODO (T10 next step):
-        // Recalculate next alarms from database
-        // Schedule again using AlarmScheduler
+        AlarmPlanner(context).scheduleSimpleTestAlarm()
 
     }
 }

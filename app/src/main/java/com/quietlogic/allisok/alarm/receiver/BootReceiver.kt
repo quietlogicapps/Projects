@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 
 class BootReceiver : BroadcastReceiver() {
 
@@ -16,9 +17,7 @@ class BootReceiver : BroadcastReceiver() {
                 "Boot completed — alarm reschedule will run here later"
             )
 
-            // TODO (T10 next step):
-            // Re-read all CareItems from database
-            // Re-schedule alarms via AlarmScheduler
+            AlarmPlanner(context).scheduleSimpleTestAlarm()
 
         }
     }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareTimeEntity
@@ -212,6 +213,8 @@ class CareEditActivity : AppCompatActivity() {
                         )
                     }
                 }
+
+                AlarmPlanner(this@CareEditActivity).scheduleSimpleTestAlarm()
 
                 Toast.makeText(this@CareEditActivity, "Saved", Toast.LENGTH_SHORT).show()
 
