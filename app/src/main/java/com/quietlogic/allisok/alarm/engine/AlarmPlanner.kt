@@ -2,13 +2,12 @@ package com.quietlogic.allisok.alarm.engine
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import java.util.Calendar
-import com.quietlogic.allisok.alarm.engine.AlarmScheduler
 
 class AlarmPlanner(private val context: Context) {
 
     fun scheduleSimpleTestAlarm() {
-
         val scheduler = AlarmScheduler(context)
 
         val calendar = Calendar.getInstance()
@@ -17,28 +16,23 @@ class AlarmPlanner(private val context: Context) {
         val triggerAtMillis = calendar.timeInMillis
         val requestCode = triggerAtMillis.hashCode()
 
-        scheduler.scheduleExact(
+        val ok = scheduler.scheduleExact(
             triggerAtMillis = triggerAtMillis,
             requestCode = requestCode,
             title = "Planner Test",
             text = "AlarmPlanner scheduled this"
         )
 
-        Log.d(
-            "AllIsOK",
-            "AlarmPlanner scheduled test alarm for +1 minute"
-        )
+        val msg = if (ok) "TEST ALARM SCHEDULED (+1 min)" else "FAILED: EXACT ALARM NOT ALLOWED"
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+
+        Log.d("AllIsOK", "AlarmPlanner scheduleSimpleTestAlarm ok=$ok triggerAtMillis=$triggerAtMillis requestCode=$requestCode")
     }
 
     fun cancelSimpleTestAlarm(requestCode: Int) {
-
         val scheduler = AlarmScheduler(context)
-
         scheduler.cancel(requestCode)
-
-        Log.d(
-            "AllIsOK",
-            "AlarmPlanner cancel called"
-        )
+        Toast.makeText(context, "TEST ALARM CANCELLED", Toast.LENGTH_SHORT).show()
+        Log.d("AllIsOK", "AlarmPlanner cancelSimpleTestAlarm requestCode=$requestCode")
     }
 }

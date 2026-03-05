@@ -1,9 +1,5 @@
 package com.quietlogic.allisok.alarm
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -11,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.alarm.engine.AlarmScheduler
 
 class AlarmActivity : AppCompatActivity() {
 
@@ -54,48 +51,34 @@ class AlarmActivity : AppCompatActivity() {
             finish()
         }
 
-        findViewById<Button>(R.id.buttonSnooze5).setOnClickListener { snoozeMinutes(5, requestCode, timeText, careName, instruction) }
-        findViewById<Button>(R.id.buttonSnooze10).setOnClickListener { snoozeMinutes(10, requestCode, timeText, careName, instruction) }
-        findViewById<Button>(R.id.buttonSnooze15).setOnClickListener { snoozeMinutes(15, requestCode, timeText, careName, instruction) }
+        findViewById<Button>(R.id.buttonSnooze5).setOnClickListener { snoozeMinutes(5, requestCode, careName, instruction) }
+        findViewById<Button>(R.id.buttonSnooze10).setOnClickListener { snoozeMinutes(10, requestCode, careName, instruction) }
+        findViewById<Button>(R.id.buttonSnooze15).setOnClickListener { snoozeMinutes(15, requestCode, careName, instruction) }
     }
 
     private fun snoozeMinutes(
         minutes: Int,
         requestCode: Int,
-        timeText: String,
         careName: String,
         instruction: String
     ) {
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
         val triggerAtMillis = System.currentTimeMillis() + minutes * 60_000L
 
-        val i = Intent(this, AlarmActivity::class.java).apply {
-            putExtra(EXTRA_TIME_TEXT, timeText)
-            putExtra(EXTRA_CARE_NAME, careName)
-            putExtra(EXTRA_INSTRUCTION, instruction)
-            putExtra(EXTRA_REQUEST_CODE, requestCode)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        }
+        val scheduler = AlarmScheduler(this)
 
-        val flags = PendingIntent.FLAG_UPDATE_CURRENT or
-                (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0)
-
-        val pi = PendingIntent.getActivity(this, requestCode, i, flags)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, pi)
-        } else {
-            @Suppress("DEPRECATION")
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pi)
-        }
+        scheduler.scheduleExact(
+            triggerAtMillis = triggerAtMillis,
+            requestCode = requestCode,
+            title = careName.ifBlank { "Reminder" },
+            text = instruction.ifBlank { "Care reminder" }
+        )
 
         sendSimpleBroadcast("com.quietlogic.allisok.ALARM_SNOOZED_$minutes", requestCode)
         finish()
     }
 
     private fun sendSimpleBroadcast(action: String, requestCode: Int) {
-        sendBroadcast(Intent(action).apply {
+        sendBroadcast(android.content.Intent(action).apply {
             putExtra(EXTRA_REQUEST_CODE, requestCode)
         })
     }

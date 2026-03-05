@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.quietlogic.allisok.alarm.receiver.AlarmReceiver
+import java.util.Calendar
+import java.util.Locale
 
 class AlarmScheduler(private val context: Context) {
 
@@ -19,12 +21,19 @@ class AlarmScheduler(private val context: Context) {
         text: String = "Care reminder"
     ): Boolean {
 
+        // If Android 12+ and exact alarms are not allowed, we hard-fail.
         if (!PermissionGate.hasExactAlarmPermission(context)) {
             return false
         }
 
-        val pendingIntent = buildPendingIntent(requestCode, title, text)
+        val pendingIntent = buildPendingIntent(
+            requestCode = requestCode,
+            title = title,
+            text = text,
+            triggerAtMillis = triggerAtMillis
+        )
 
+        // Cancel any previous alarm with the same requestCode to avoid duplicates.
         alarmManager.cancel(pendingIntent)
 
         when {
@@ -55,7 +64,12 @@ class AlarmScheduler(private val context: Context) {
     }
 
     fun cancel(requestCode: Int) {
-        val pendingIntent = buildPendingIntent(requestCode, "x", "x")
+        val pendingIntent = buildPendingIntent(
+            requestCode = requestCode,
+            title = "x",
+            text = "x",
+            triggerAtMillis = 0L
+        )
         alarmManager.cancel(pendingIntent)
     }
 
@@ -66,7 +80,8 @@ class AlarmScheduler(private val context: Context) {
     private fun buildPendingIntent(
         requestCode: Int,
         title: String,
-        text: String
+        text: String,
+        triggerAtMillis: Long
     ): PendingIntent {
 
         val intent = Intent(context, AlarmReceiver::class.java).apply {
@@ -74,6 +89,7 @@ class AlarmScheduler(private val context: Context) {
             putExtra(EXTRA_TITLE, title)
             putExtra(EXTRA_TEXT, text)
             putExtra(EXTRA_REQUEST_CODE, requestCode)
+            putExtra(EXTRA_TIME_TEXT, formatTime(triggerAtMillis))
         }
 
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or pendingIntentImmutableFlag()
@@ -94,10 +110,23 @@ class AlarmScheduler(private val context: Context) {
         }
     }
 
+    private fun formatTime(timeMillis: Long): String {
+        if (timeMillis <= 0L) return "--:--"
+
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timeMillis
+
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        return String.format(Locale.US, "%02d:%02d", hour, minute)
+    }
+
     companion object {
         const val ACTION_CARE_ALARM = "com.quietlogic.allisok.ACTION_CARE_ALARM"
         const val EXTRA_TITLE = "extra_title"
         const val EXTRA_TEXT = "extra_text"
         const val EXTRA_REQUEST_CODE = "extra_request_code"
+        const val EXTRA_TIME_TEXT = "extra_time_text"
     }
 }
