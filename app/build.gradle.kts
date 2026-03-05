@@ -4,6 +4,10 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
 }
 
+configurations.configureEach {
+    resolutionStrategy.force("androidx.navigationevent:navigationevent-android:1.0.1")
+}
+
 android {
     namespace = "com.quietlogic.allisok"
     compileSdk = 34
@@ -50,6 +54,7 @@ dependencies {
 
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.activity)
     kapt("androidx.room:room-compiler:2.6.1")
 
     testImplementation("junit:junit:4.13.2")
