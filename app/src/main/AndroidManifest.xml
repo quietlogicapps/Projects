@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Notifications (Android 13+) -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Exact alarms (Android 12+ special access) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Exact alarms (Android 12+ special access) -->
     <uses-permission
         android:name="android.permission.SCHEDULE_EXACT_ALARM"
-        tools:targetApi="s" /> <!-- For reschedule after reboot -->
+        tools:targetApi="s" />
+
+    <!-- For reschedule after reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -18,9 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AllIsOK"
         tools:targetApi="31">
+
         <activity
-            android:name=".AlarmActivity"
+            android:name=".alarm.AlarmActivity"
             android:exported="false" />
+
         <!-- ENTRY GATE -->
         <activity
             android:name=".PermissionSetupActivity"
@@ -31,6 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false" />
@@ -72,6 +80,7 @@
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

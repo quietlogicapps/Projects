@@ -19,14 +19,12 @@ class AlarmScheduler(private val context: Context) {
         text: String = "Care reminder"
     ): Boolean {
 
-        // If Android 12+ and exact alarms are not allowed, we hard-fail.
         if (!PermissionGate.hasExactAlarmPermission(context)) {
             return false
         }
 
         val pendingIntent = buildPendingIntent(requestCode, title, text)
 
-        // Cancel any previous alarm with the same requestCode to avoid duplicates.
         alarmManager.cancel(pendingIntent)
 
         when {

@@ -3,6 +3,7 @@ package com.quietlogic.allisok.alarm.engine
 import android.content.Context
 import android.util.Log
 import java.util.Calendar
+import com.quietlogic.allisok.alarm.engine.AlarmScheduler
 
 class AlarmPlanner(private val context: Context) {
 
@@ -11,11 +12,9 @@ class AlarmPlanner(private val context: Context) {
         val scheduler = AlarmScheduler(context)
 
         val calendar = Calendar.getInstance()
-
         calendar.add(Calendar.MINUTE, 1)
 
         val triggerAtMillis = calendar.timeInMillis
-
         val requestCode = triggerAtMillis.hashCode()
 
         scheduler.scheduleExact(
@@ -31,11 +30,9 @@ class AlarmPlanner(private val context: Context) {
         )
     }
 
-    fun cancelSimpleTestAlarm() {
+    fun cancelSimpleTestAlarm(requestCode: Int) {
 
         val scheduler = AlarmScheduler(context)
-
-        val requestCode = Calendar.getInstance().timeInMillis.hashCode()
 
         scheduler.cancel(requestCode)
 
