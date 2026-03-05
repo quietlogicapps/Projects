@@ -3,25 +3,26 @@ package com.quietlogic.allisok.alarm.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.quietlogic.allisok.alarm.AlarmActivity
 import com.quietlogic.allisok.alarm.engine.AlarmScheduler
-import kotlin.random.Random
 
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val title = intent.getStringExtra(AlarmScheduler.EXTRA_TITLE) ?: "Reminder"
-        val text = intent.getStringExtra(AlarmScheduler.EXTRA_TEXT) ?: "Care reminder"
 
-        val notificationId = intent.getIntExtra(
-            AlarmScheduler.EXTRA_REQUEST_CODE,
-            Random.nextInt()
-        )
+        val timeText = intent.getStringExtra(AlarmScheduler.EXTRA_TIME_TEXT) ?: "--:--"
+        val careName = intent.getStringExtra(AlarmScheduler.EXTRA_TITLE) ?: "Reminder"
+        val instruction = intent.getStringExtra(AlarmScheduler.EXTRA_TEXT) ?: ""
+        val requestCode = intent.getIntExtra(AlarmScheduler.EXTRA_REQUEST_CODE, 0)
 
-        NotificationHelper.showAlarmNotification(
-            context = context,
-            notificationId = notificationId,
-            title = title,
-            text = text
-        )
+        val alarmIntent = Intent(context, AlarmActivity::class.java).apply {
+            putExtra(AlarmActivity.EXTRA_TIME_TEXT, timeText)
+            putExtra(AlarmActivity.EXTRA_CARE_NAME, careName)
+            putExtra(AlarmActivity.EXTRA_INSTRUCTION, instruction)
+            putExtra(AlarmActivity.EXTRA_REQUEST_CODE, requestCode)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        context.startActivity(alarmIntent)
     }
 }
