@@ -63,6 +63,9 @@
             android:name=".ui.info.InfoActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.info.EmergencyInfoEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
 

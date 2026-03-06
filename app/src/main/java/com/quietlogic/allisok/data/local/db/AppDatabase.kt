@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.quietlogic.allisok.data.local.dao.CareItemDao
 import com.quietlogic.allisok.data.local.dao.CareLogDao
 import com.quietlogic.allisok.data.local.dao.CareTimeDao
+import com.quietlogic.allisok.data.local.dao.EmergencyInfoDao
 import com.quietlogic.allisok.data.local.entity.AppSettingsEntity
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareLogEntity
@@ -31,4 +32,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun careItemDao(): CareItemDao
     abstract fun careTimeDao(): CareTimeDao
     abstract fun careLogDao(): CareLogDao
+    abstract fun emergencyInfoDao(): EmergencyInfoDao
 }

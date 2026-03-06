@@ -7,9 +7,53 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/textEmergencyTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Emergency Info"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonEditEmergencyInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Edit" />
+
+    <TextView
+        android:id="@+id/textBloodType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Blood type: -" />
+
+    <TextView
+        android:id="@+id/textAllergies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Allergies: -" />
+
+    <TextView
+        android:id="@+id/textConditions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Conditions: -" />
+
+    <TextView
+        android:id="@+id/textNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Notes: -" />
+
+    <TextView
         android:id="@+id/textRecentTakenTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Recent Taken (72H)"
         android:textSize="22sp"
         android:textStyle="bold" />
