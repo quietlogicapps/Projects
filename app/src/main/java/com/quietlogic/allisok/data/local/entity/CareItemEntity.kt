@@ -18,5 +18,7 @@ data class CareItemEntity(
 
     val endDate: LocalDate,
 
-    val repeatType: String
+    val repeatType: String,
+
+    val isArchived: Boolean = false
 )

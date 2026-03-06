@@ -8,10 +8,10 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 import com.quietlogic.allisok.data.local.db.AppDatabase
+import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareTimeEntity
 import kotlinx.coroutines.Dispatchers
@@ -47,11 +47,7 @@ class CareEditActivity : AppCompatActivity() {
 
         title = "Add Care Item"
 
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "allisok-db"
-        ).build()
+        db = DatabaseProvider.getDatabase(applicationContext)
 
         val nameInput = findViewById<EditText>(R.id.inputName)
         val instructionSpinner = findViewById<Spinner>(R.id.spinnerInstruction)

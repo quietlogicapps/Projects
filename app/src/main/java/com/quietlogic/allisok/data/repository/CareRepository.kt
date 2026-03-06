@@ -1,18 +1,26 @@
 package com.quietlogic.allisok.data.repository
 
+import android.content.Context
+import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 import com.quietlogic.allisok.data.local.dao.CareItemDao
 import com.quietlogic.allisok.data.local.dao.CareTimeDao
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareTimeEntity
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 class CareRepository(
+    private val context: Context,
     private val careItemDao: CareItemDao,
     private val careTimeDao: CareTimeDao
 ) {
 
     fun getAllCareItems(): Flow<List<CareItemEntity>> {
         return careItemDao.getAllActive()
+    }
+
+    fun getAllArchivedCareItems(): Flow<List<CareItemEntity>> {
+        return careItemDao.getAllArchived()
     }
 
     suspend fun insertCareItem(item: CareItemEntity): Long {
@@ -25,6 +33,17 @@ class CareRepository(
 
     suspend fun deleteCareItem(item: CareItemEntity) {
         careItemDao.delete(item)
+    }
+
+    suspend fun archiveExpiredItems() {
+        val expiredItems = careItemDao.getExpiredItems(LocalDate.now())
+        val planner = AlarmPlanner(context)
+
+        expiredItems.forEach { item ->
+            val times = careTimeDao.getTimesForItem(item.id).map { it.time }
+            planner.cancelCareItemAlarms(item.id, times)
+            careItemDao.update(item.copy(isArchived = true))
+        }
     }
 
     fun getTimesForItem(itemId: Long): Flow<List<CareTimeEntity>> {

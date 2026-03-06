@@ -3,13 +3,24 @@ package com.quietlogic.allisok.alarm.engine
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import java.time.LocalTime
 import java.util.Calendar
 
 class AlarmPlanner(private val context: Context) {
 
-    fun scheduleSimpleTestAlarm() {
-        val scheduler = AlarmScheduler(context)
+    private val scheduler = AlarmScheduler(context)
 
+    fun buildRequestCode(careItemId: Long, time: LocalTime): Int {
+        return "${careItemId}_${time}".hashCode()
+    }
+
+    fun cancelCareItemAlarms(careItemId: Long, times: List<LocalTime>) {
+        times.forEach { time ->
+            scheduler.cancel(buildRequestCode(careItemId, time))
+        }
+    }
+
+    fun scheduleSimpleTestAlarm() {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.MINUTE, 1)
 
@@ -30,7 +41,6 @@ class AlarmPlanner(private val context: Context) {
     }
 
     fun cancelSimpleTestAlarm(requestCode: Int) {
-        val scheduler = AlarmScheduler(context)
         scheduler.cancel(requestCode)
         Toast.makeText(context, "TEST ALARM CANCELLED", Toast.LENGTH_SHORT).show()
         Log.d("AllIsOK", "AlarmPlanner cancelSimpleTestAlarm requestCode=$requestCode")

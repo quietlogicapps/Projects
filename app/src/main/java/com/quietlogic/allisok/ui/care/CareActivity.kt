@@ -9,9 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.AppDatabase
+import com.quietlogic.allisok.data.local.db.DatabaseProvider
+import com.quietlogic.allisok.data.repository.CareRepository
 import com.quietlogic.allisok.ui.care.adapter.CareAdapter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -20,6 +21,7 @@ import java.time.format.DateTimeFormatter
 class CareActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
+    private lateinit var repository: CareRepository
 
     private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -29,11 +31,13 @@ class CareActivity : AppCompatActivity() {
         setContentView(R.layout.activity_care)
         title = "CARE"
 
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "allisok-db"
-        ).build()
+        db = DatabaseProvider.getDatabase(applicationContext)
+
+        repository = CareRepository(
+            context = applicationContext,
+            careItemDao = db.careItemDao(),
+            careTimeDao = db.careTimeDao()
+        )
 
         val recycler = findViewById<RecyclerView>(R.id.recyclerCare)
         val empty = findViewById<TextView>(R.id.textEmpty)
@@ -48,6 +52,9 @@ class CareActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
+
+            repository.archiveExpiredItems()
+
             db.careItemDao().getAllActive().collect { items ->
 
                 val finalRows = mutableListOf<CareAdapter.Row>()

@@ -21,8 +21,13 @@ class AlarmScheduler(private val context: Context) {
         text: String = "Care reminder"
     ): Boolean {
 
-        // If Android 12+ and exact alarms are not allowed, we hard-fail.
         if (!PermissionGate.hasExactAlarmPermission(context)) {
+            return false
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            !alarmManager.canScheduleExactAlarms()
+        ) {
             return false
         }
 
@@ -33,34 +38,18 @@ class AlarmScheduler(private val context: Context) {
             triggerAtMillis = triggerAtMillis
         )
 
-        // Cancel any previous alarm with the same requestCode to avoid duplicates.
         alarmManager.cancel(pendingIntent)
 
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerAtMillis,
-                    pendingIntent
-                )
-            }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT -> {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerAtMillis,
-                    pendingIntent
-                )
-            }
-            else -> {
-                alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerAtMillis,
-                    pendingIntent
-                )
-            }
+        return try {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pendingIntent
+            )
+            true
+        } catch (_: SecurityException) {
+            false
         }
-
-        return true
     }
 
     fun cancel(requestCode: Int) {
@@ -92,7 +81,7 @@ class AlarmScheduler(private val context: Context) {
             putExtra(EXTRA_TIME_TEXT, formatTime(triggerAtMillis))
         }
 
-        val flags = PendingIntent.FLAG_UPDATE_CURRENT or pendingIntentImmutableFlag()
+        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 
         return PendingIntent.getBroadcast(
             context,
@@ -100,14 +89,6 @@ class AlarmScheduler(private val context: Context) {
             intent,
             flags
         )
-    }
-
-    private fun pendingIntentImmutableFlag(): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_IMMUTABLE
-        } else {
-            0
-        }
     }
 
     private fun formatTime(timeMillis: Long): String {
