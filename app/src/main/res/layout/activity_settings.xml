@@ -1,14 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SETTINGS"
-        android:textSize="24sp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</LinearLayout>
+        <!-- SECURITY -->
+
+        <TextView
+            android:id="@+id/textSecurityTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Security"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonSecurity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Security settings"
+            android:layout_marginTop="8dp" />
+
+        <!-- LANGUAGE -->
+
+        <TextView
+            android:id="@+id/textLanguageTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Language"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/buttonLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change language"
+            android:layout_marginTop="8dp" />
+
+        <!-- BACKUP -->
+
+        <TextView
+            android:id="@+id/textBackupTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Backup"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/buttonExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Export data"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonImport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Import data"
+            android:layout_marginTop="8dp" />
+
+        <!-- HISTORY -->
+
+        <TextView
+            android:id="@+id/textHistoryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="History"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/buttonHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Archived care items"
+            android:layout_marginTop="8dp" />
+
+        <!-- ABOUT -->
+
+        <TextView
+            android:id="@+id/textAboutTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/buttonPrivacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Privacy policy"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonMoreApps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="More apps from QuietLogic"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</ScrollView>
