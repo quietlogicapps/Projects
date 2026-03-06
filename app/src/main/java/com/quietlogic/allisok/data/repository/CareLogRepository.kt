@@ -2,6 +2,7 @@ package com.quietlogic.allisok.data.repository
 
 import com.quietlogic.allisok.data.local.dao.CareLogDao
 import com.quietlogic.allisok.data.local.entity.CareLogEntity
+import com.quietlogic.allisok.data.local.entity.RecentTakenItem
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
@@ -13,9 +14,9 @@ class CareLogRepository(
         return careLogDao.getRecent(fromDate)
     }
 
-    fun getRecentLast72Hours(): Flow<List<CareLogEntity>> {
+    fun getRecentLast72Hours(): Flow<List<RecentTakenItem>> {
         val fromDate = LocalDate.now().minusDays(3).toString()
-        return careLogDao.getRecent(fromDate)
+        return careLogDao.getRecentTakenItems(fromDate)
     }
 
     suspend fun insert(log: CareLogEntity) {

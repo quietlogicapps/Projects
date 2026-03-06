@@ -3,14 +3,14 @@ package com.quietlogic.allisok.ui.info
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.quietlogic.allisok.data.local.entity.CareLogEntity
+import com.quietlogic.allisok.data.local.entity.RecentTakenItem
 import com.quietlogic.allisok.databinding.ItemRecentTakenBinding
 
 class RecentTakenAdapter : RecyclerView.Adapter<RecentTakenAdapter.ViewHolder>() {
 
-    private val items = mutableListOf<CareLogEntity>()
+    private val items = mutableListOf<RecentTakenItem>()
 
-    fun submitList(list: List<CareLogEntity>) {
+    fun submitList(list: List<RecentTakenItem>) {
 
         items.clear()
 
@@ -23,13 +23,13 @@ class RecentTakenAdapter : RecyclerView.Adapter<RecentTakenAdapter.ViewHolder>()
         private val binding: ItemRecentTakenBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: CareLogEntity) {
+        fun bind(item: RecentTakenItem) {
 
-            binding.textDate.text = item.date.toString()
+            binding.textDate.text = item.date
 
-            binding.textTime.text = item.scheduledTime.toString()
+            binding.textTime.text = item.scheduledTime
 
-            binding.textCareName.text = item.careItemId.toString()
+            binding.textCareName.text = item.careItemName
 
             binding.textStatus.text = "Taken"
         }
