@@ -42,7 +42,7 @@ class PinPrefs(context: Context) {
         prefs.edit()
             .putBoolean(KEY_USER_PIN_ENABLED, true)
             .putString(KEY_USER_PIN_HASH, hash)
-            .apply()
+            .commit()
     }
 
     fun setAdminPin(hash: String) {
@@ -50,14 +50,13 @@ class PinPrefs(context: Context) {
         prefs.edit()
             .putBoolean(KEY_ADMIN_PIN_ENABLED, true)
             .putString(KEY_ADMIN_PIN_HASH, hash)
-            .apply()
+            .commit()
     }
 
     fun disableUserPin() {
 
         prefs.edit()
             .putBoolean(KEY_USER_PIN_ENABLED, false)
-            .apply()
+            .commit()
     }
-
 }

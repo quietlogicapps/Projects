@@ -2,6 +2,9 @@ package com.quietlogic.allisok.security
 
 import android.app.Activity
 import android.content.Intent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.quietlogic.allisok.ui.pin.PinActivity
 
 object LockGate {
@@ -12,11 +15,20 @@ object LockGate {
     const val REQUEST_USER_UNLOCK = 1001
     const val REQUEST_ADMIN_UNLOCK = 1002
 
+    private var isObserverRegistered = false
+    private var isUserUnlockedForCurrentForeground = false
+
     fun requireUserUnlock(activity: Activity) {
+
+        ensureObserverRegistered()
 
         val prefs = PinPrefs(activity)
 
         if (!prefs.isUserPinEnabled()) {
+            return
+        }
+
+        if (isUserUnlockedForCurrentForeground) {
             return
         }
 
@@ -40,4 +52,22 @@ object LockGate {
         )
     }
 
+    fun markUserUnlocked() {
+        isUserUnlockedForCurrentForeground = true
+    }
+
+    private fun ensureObserverRegistered() {
+
+        if (isObserverRegistered) return
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(
+            object : DefaultLifecycleObserver {
+                override fun onStop(owner: LifecycleOwner) {
+                    isUserUnlockedForCurrentForeground = false
+                }
+            }
+        )
+
+        isObserverRegistered = true
+    }
 }

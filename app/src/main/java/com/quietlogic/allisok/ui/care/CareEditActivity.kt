@@ -6,7 +6,13 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.quietlogic.allisok.R
@@ -15,6 +21,7 @@ import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareTimeEntity
+import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,7 +53,9 @@ class CareEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        LockGate.requireAdminUnlock(this)
+        if (!AdminSession.isActive()) {
+            LockGate.requireAdminUnlock(this)
+        }
 
         setContentView(R.layout.activity_care_edit)
 

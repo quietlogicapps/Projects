@@ -52,8 +52,12 @@ class CareActivity : AppCompatActivity() {
         recycler.adapter = adapter
 
         btnAdd.setOnClickListener {
-            AdminGate.requireAdmin(this) {
+            if (AdminSession.isActive()) {
                 startActivity(Intent(this, CareEditActivity::class.java))
+            } else {
+                AdminGate.requireAdmin(this) {
+                    startActivity(Intent(this, CareEditActivity::class.java))
+                }
             }
         }
 

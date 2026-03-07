@@ -1,6 +1,7 @@
 package com.quietlogic.allisok.ui.pin
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -13,6 +14,7 @@ import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.security.PinHasher
 import com.quietlogic.allisok.security.PinPrefs
 import com.quietlogic.allisok.security.PinValidator
+import com.quietlogic.allisok.ui.home.HomeActivity
 
 class PinActivity : AppCompatActivity() {
 
@@ -67,7 +69,7 @@ class PinActivity : AppCompatActivity() {
         }
 
         buttonSecondary.setOnClickListener {
-            if (currentScreen == SCREEN_ENTER_PIN) {
+            if (currentScreen == SCREEN_ENTER_PIN && unlockMode == LockGate.MODE_USER_UNLOCK) {
                 setResult(RESULT_OPEN_EMERGENCY_INFO)
                 finish()
             }
@@ -82,18 +84,37 @@ class PinActivity : AppCompatActivity() {
         when (currentScreen) {
 
             SCREEN_ENTER_PIN -> {
-                textTitle.text = "Enter PIN"
+                if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                    textTitle.text = "Enter with Admin PIN"
+                } else {
+                    textTitle.text = "Enter PIN"
+                }
 
                 editPin.visibility = View.VISIBLE
-                editPin.hint = "PIN"
+                editPin.hint =
+                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                        "Admin PIN"
+                    } else {
+                        "PIN"
+                    }
 
                 editPinSecond.visibility = View.GONE
 
                 textForgot.visibility = View.GONE
 
-                buttonPrimary.text = "Unlock"
-                buttonSecondary.visibility = View.VISIBLE
-                buttonSecondary.text = "Emergency Info"
+                buttonPrimary.text =
+                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                        "Enter"
+                    } else {
+                        "Unlock"
+                    }
+
+                if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                    buttonSecondary.visibility = View.GONE
+                } else {
+                    buttonSecondary.visibility = View.VISIBLE
+                    buttonSecondary.text = "Emergency Info"
+                }
             }
 
             SCREEN_CHANGE_PIN -> {
@@ -173,9 +194,19 @@ class PinActivity : AppCompatActivity() {
 
             if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
                 AdminSession.start()
+                setResult(Activity.RESULT_OK)
+                finish()
+                return
             }
 
-            setResult(Activity.RESULT_OK)
+            LockGate.markUserUnlocked()
+
+            val homeIntent = Intent(this, HomeActivity::class.java)
+            homeIntent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(homeIntent)
             finish()
 
         } else {

@@ -14,16 +14,6 @@
         android:paddingEnd="24dp"
         android:paddingBottom="24dp">
 
-        <!-- Exit Admin Mode -->
-        <Button
-            android:id="@+id/buttonExitAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="Exit Admin Mode"
-            android:visibility="gone"
-            android:layout_marginBottom="16dp"
-            android:textAllCaps="false"/>
-
         <TextView
             android:id="@+id/textSecurityTitle"
             android:layout_width="match_parent"

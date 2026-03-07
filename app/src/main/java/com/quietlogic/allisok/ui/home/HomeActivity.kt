@@ -21,8 +21,6 @@ import com.quietlogic.allisok.ui.security.SecurityActivity
 
 class HomeActivity : AppCompatActivity() {
 
-    private var hasRequestedUserUnlock = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,11 +55,8 @@ class HomeActivity : AppCompatActivity() {
         super.onResume()
 
         updateAdminIndicator()
-
-        if (!hasRequestedUserUnlock) {
-            hasRequestedUserUnlock = true
-            LockGate.requireUserUnlock(this)
-        }
+        invalidateOptionsMenu()
+        LockGate.requireUserUnlock(this)
     }
 
     @Deprecated("Deprecated in Java")
@@ -88,18 +83,22 @@ class HomeActivity : AppCompatActivity() {
 
         menuInflater.inflate(R.menu.home_menu, menu)
 
-        val exitItem = menu.findItem(R.id.menu_exit_admin)
+        val adminItem = menu.findItem(R.id.menu_exit_admin)
 
-        exitItem?.isVisible = AdminSession.isActive()
+        adminItem?.title =
+            if (AdminSession.isActive()) "Exit Admin Mode"
+            else "Enter with Admin PIN"
 
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
 
-        val exitItem = menu.findItem(R.id.menu_exit_admin)
+        val adminItem = menu.findItem(R.id.menu_exit_admin)
 
-        exitItem?.isVisible = AdminSession.isActive()
+        adminItem?.title =
+            if (AdminSession.isActive()) "Exit Admin Mode"
+            else "Enter with Admin PIN"
 
         return super.onPrepareOptionsMenu(menu)
     }
@@ -109,9 +108,20 @@ class HomeActivity : AppCompatActivity() {
         when (item.itemId) {
 
             R.id.menu_exit_admin -> {
-                AdminSession.stop()
-                invalidateOptionsMenu()
-                updateAdminIndicator()
+
+                if (AdminSession.isActive()) {
+
+                    AdminSession.stop()
+                    updateAdminIndicator()
+                    invalidateOptionsMenu()
+
+                } else {
+
+                    val intent = Intent(this, PinActivity::class.java)
+                    intent.putExtra("mode", LockGate.MODE_ADMIN_UNLOCK)
+                    startActivity(intent)
+                }
+
                 return true
             }
 
