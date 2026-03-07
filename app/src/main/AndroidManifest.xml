@@ -47,31 +47,43 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.contacts.ContactsActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.contacts.ContactEditActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.care.CareActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.care.CareEditActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.info.InfoActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.info.EmergencyInfoEditActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.settings.SettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.security.SecurityActivity"
             android:exported="false" />
 
         <receiver
             android:name=".alarm.receiver.AlarmReceiver"
             android:exported="false" />
+
         <receiver
             android:name=".alarm.receiver.BootReceiver"
             android:exported="true">
@@ -79,6 +91,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".alarm.receiver.TimeChangeReceiver"
             android:exported="true">

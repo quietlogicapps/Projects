@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_security"
+        android:title="Security" />
+
+    <item
+        android:id="@+id/menu_language"
+        android:title="Language" />
+
+    <item
+        android:id="@+id/menu_export"
+        android:title="Export" />
+
+    <item
+        android:id="@+id/menu_import"
+        android:title="Import" />
+
+    <item
+        android:id="@+id/menu_history"
+        android:title="History" />
+
+    <item
+        android:id="@+id/menu_more_apps"
+        android:title="More from QuietLogic" />
+
+</menu>
