@@ -34,6 +34,10 @@
             android:name=".alarm.AlarmActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.pin.PinActivity"
+            android:exported="false" />
+
         <!-- ENTRY GATE -->
         <activity
             android:name=".PermissionSetupActivity"
