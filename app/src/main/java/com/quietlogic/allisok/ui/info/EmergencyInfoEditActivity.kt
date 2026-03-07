@@ -1,5 +1,6 @@
 package com.quietlogic.allisok.ui.info
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.local.entity.EmergencyInfoEntity
 import com.quietlogic.allisok.data.repository.InfoRepository
 import com.quietlogic.allisok.databinding.ActivityEmergencyInfoEditBinding
+import com.quietlogic.allisok.security.LockGate
 import kotlinx.coroutines.launch
 
 class EmergencyInfoEditActivity : AppCompatActivity() {
@@ -17,6 +19,8 @@ class EmergencyInfoEditActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        LockGate.requireAdminUnlock(this)
 
         binding = ActivityEmergencyInfoEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -68,7 +72,22 @@ class EmergencyInfoEditActivity : AppCompatActivity() {
         binding.buttonClearEmergencyInfo.setOnClickListener {
             lifecycleScope.launch {
                 repository.clear()
-                Toast.makeText(this@EmergencyInfoEditActivity, "Emergency info cleared", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@EmergencyInfoEditActivity,
+                    "Emergency info cleared",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LockGate.REQUEST_ADMIN_UNLOCK) {
+            if (resultCode != RESULT_OK) {
                 finish()
             }
         }

@@ -1,5 +1,6 @@
 package com.quietlogic.allisok.ui.pin
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -7,6 +8,11 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.security.AdminSession
+import com.quietlogic.allisok.security.LockGate
+import com.quietlogic.allisok.security.PinHasher
+import com.quietlogic.allisok.security.PinPrefs
+import com.quietlogic.allisok.security.PinValidator
 
 class PinActivity : AppCompatActivity() {
 
@@ -18,11 +24,16 @@ class PinActivity : AppCompatActivity() {
     private lateinit var buttonPrimary: Button
     private lateinit var buttonSecondary: Button
 
+    private lateinit var pinPrefs: PinPrefs
+
     private var currentScreen: String = SCREEN_ENTER_PIN
+    private var unlockMode: String = LockGate.MODE_USER_UNLOCK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pin)
+
+        pinPrefs = PinPrefs(this)
 
         textTitle = findViewById(R.id.textTitle)
         editPin = findViewById(R.id.editPin)
@@ -31,6 +42,8 @@ class PinActivity : AppCompatActivity() {
         textError = findViewById(R.id.textError)
         buttonPrimary = findViewById(R.id.buttonPrimary)
         buttonSecondary = findViewById(R.id.buttonSecondary)
+
+        unlockMode = intent.getStringExtra("mode") ?: LockGate.MODE_USER_UNLOCK
 
         val titleFromIntent = intent.getStringExtra("PIN_TITLE").orEmpty()
 
@@ -45,17 +58,19 @@ class PinActivity : AppCompatActivity() {
 
         buttonPrimary.setOnClickListener {
             when (currentScreen) {
-                SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> {
-                    currentScreen = SCREEN_CHANGE_ADMIN_PIN_STEP_2
-                    renderScreen()
-                }
-
-                else -> {
-                }
+                SCREEN_ENTER_PIN -> handleEnterPin()
+                SCREEN_CHANGE_PIN -> handleChangeUserPin()
+                SCREEN_SET_ADMIN_PIN -> handleSetAdminPin()
+                SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> handleAdminPinStep1()
+                SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> handleAdminPinStep2()
             }
         }
 
         buttonSecondary.setOnClickListener {
+            if (currentScreen == SCREEN_ENTER_PIN) {
+                setResult(RESULT_OPEN_EMERGENCY_INFO)
+                finish()
+            }
         }
     }
 
@@ -65,6 +80,7 @@ class PinActivity : AppCompatActivity() {
         editPinSecond.setText("")
 
         when (currentScreen) {
+
             SCREEN_ENTER_PIN -> {
                 textTitle.text = "Enter PIN"
 
@@ -142,7 +158,140 @@ class PinActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleEnterPin() {
+
+        val inputPin = editPin.text.toString().trim()
+        val state = pinPrefs.getState()
+
+        val ok = if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+            PinHasher.verify(inputPin, state.adminPinHash)
+        } else {
+            PinHasher.verify(inputPin, state.userPinHash)
+        }
+
+        if (ok) {
+
+            if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                AdminSession.start()
+            }
+
+            setResult(Activity.RESULT_OK)
+            finish()
+
+        } else {
+            showError("Wrong PIN")
+        }
+    }
+
+    private fun handleChangeUserPin() {
+
+        val pin = editPin.text.toString().trim()
+        val confirmPin = editPinSecond.text.toString().trim()
+        val state = pinPrefs.getState()
+
+        if (!PinValidator.isValidFormat(pin)) {
+            showError("PIN must be 4 digits")
+            return
+        }
+
+        if (pin != confirmPin) {
+            showError("PINs do not match")
+            return
+        }
+
+        if (!PinValidator.isDifferentFromAdmin(pin, state.adminPinHash)) {
+            showError("PIN must be different")
+            return
+        }
+
+        pinPrefs.setUserPin(PinHasher.hash(pin))
+
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
+    private fun handleSetAdminPin() {
+
+        val pin = editPin.text.toString().trim()
+        val confirmPin = editPinSecond.text.toString().trim()
+        val state = pinPrefs.getState()
+
+        if (!PinValidator.isValidFormat(pin)) {
+            showError("Admin PIN must be 4 digits")
+            return
+        }
+
+        if (pin != confirmPin) {
+            showError("PINs do not match")
+            return
+        }
+
+        if (!PinValidator.isDifferentFromUser(pin, state.userPinHash)) {
+            showError("PIN must be different")
+            return
+        }
+
+        pinPrefs.setAdminPin(PinHasher.hash(pin))
+
+        AdminSession.start()
+
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
+    private fun handleAdminPinStep1() {
+
+        val currentAdminPin = editPin.text.toString().trim()
+        val state = pinPrefs.getState()
+
+        if (PinHasher.verify(currentAdminPin, state.adminPinHash)) {
+
+            currentScreen = SCREEN_CHANGE_ADMIN_PIN_STEP_2
+            renderScreen()
+
+        } else {
+            showError("Wrong Admin PIN")
+        }
+    }
+
+    private fun handleAdminPinStep2() {
+
+        val pin = editPin.text.toString().trim()
+        val confirmPin = editPinSecond.text.toString().trim()
+        val state = pinPrefs.getState()
+
+        if (!PinValidator.isValidFormat(pin)) {
+            showError("Admin PIN must be 4 digits")
+            return
+        }
+
+        if (pin != confirmPin) {
+            showError("PINs do not match")
+            return
+        }
+
+        if (!PinValidator.isDifferentFromUser(pin, state.userPinHash)) {
+            showError("PIN must be different")
+            return
+        }
+
+        pinPrefs.setAdminPin(PinHasher.hash(pin))
+
+        AdminSession.start()
+
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
+    private fun showError(message: String) {
+        textError.text = message
+        textError.visibility = View.VISIBLE
+    }
+
     companion object {
+
+        const val RESULT_OPEN_EMERGENCY_INFO = 1002
+
         private const val SCREEN_ENTER_PIN = "screen_enter_pin"
         private const val SCREEN_CHANGE_PIN = "screen_change_pin"
         private const val SCREEN_SET_ADMIN_PIN = "screen_set_admin_pin"

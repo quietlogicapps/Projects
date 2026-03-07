@@ -6,6 +6,14 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Admin indicator -->
+    <View
+        android:id="@+id/viewAdminIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@android:color/holo_red_dark"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/textEmergencyTitle"
         android:layout_width="match_parent"

@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_exit_admin"
+        android:title="Exit Admin Mode"
+        android:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_security"
         android:title="Security" />
 

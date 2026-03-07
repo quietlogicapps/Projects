@@ -3,6 +3,7 @@ package com.quietlogic.allisok.ui.care
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -14,6 +15,7 @@ import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareTimeEntity
+import com.quietlogic.allisok.security.LockGate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,7 +35,7 @@ class CareEditActivity : AppCompatActivity() {
     private val selectedDays: MutableList<String> = mutableListOf()
 
     private val days = arrayOf(
-        "MON","TUE","WED","THU","FRI","SAT","SUN"
+        "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"
     )
 
     private val checkedDays = BooleanArray(days.size)
@@ -43,6 +45,9 @@ class CareEditActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        LockGate.requireAdminUnlock(this)
+
         setContentView(R.layout.activity_care_edit)
 
         title = "Add Care Item"
@@ -214,6 +219,17 @@ class CareEditActivity : AppCompatActivity() {
 
                 Toast.makeText(this@CareEditActivity, "Saved", Toast.LENGTH_SHORT).show()
 
+                finish()
+            }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LockGate.REQUEST_ADMIN_UNLOCK) {
+            if (resultCode != RESULT_OK) {
                 finish()
             }
         }

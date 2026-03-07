@@ -13,6 +13,8 @@ import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.repository.CareRepository
+import com.quietlogic.allisok.security.AdminGate
+import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.ui.care.adapter.CareAdapter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -31,6 +33,8 @@ class CareActivity : AppCompatActivity() {
         setContentView(R.layout.activity_care)
         title = "CARE"
 
+        updateAdminIndicator()
+
         db = DatabaseProvider.getDatabase(applicationContext)
 
         repository = CareRepository(
@@ -48,7 +52,9 @@ class CareActivity : AppCompatActivity() {
         recycler.adapter = adapter
 
         btnAdd.setOnClickListener {
-            startActivity(Intent(this, CareEditActivity::class.java))
+            AdminGate.requireAdmin(this) {
+                startActivity(Intent(this, CareEditActivity::class.java))
+            }
         }
 
         lifecycleScope.launch {
@@ -98,5 +104,26 @@ class CareActivity : AppCompatActivity() {
                 empty.visibility = if (finalRows.isEmpty()) View.VISIBLE else View.GONE
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateAdminIndicator()
+    }
+
+    private fun updateAdminIndicator() {
+
+        val indicatorId = resources.getIdentifier(
+            "viewAdminIndicator",
+            "id",
+            packageName
+        )
+
+        if (indicatorId == 0) return
+
+        val indicator = findViewById<View>(indicatorId)
+
+        indicator.visibility =
+            if (AdminSession.isActive()) View.VISIBLE else View.GONE
     }
 }

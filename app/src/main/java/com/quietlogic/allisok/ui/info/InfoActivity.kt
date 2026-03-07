@@ -2,6 +2,7 @@ package com.quietlogic.allisok.ui.info
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import com.quietlogic.allisok.data.repository.CareLogRepository
 import com.quietlogic.allisok.data.repository.InfoRepository
 import com.quietlogic.allisok.databinding.ActivityInfoBinding
 import com.quietlogic.allisok.security.AdminGate
+import com.quietlogic.allisok.security.AdminSession
 import kotlinx.coroutines.launch
 
 class InfoActivity : AppCompatActivity() {
@@ -24,6 +26,8 @@ class InfoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         title = "INFO"
+
+        updateAdminIndicator()
 
         adapter = RecentTakenAdapter()
 
@@ -54,5 +58,15 @@ class InfoActivity : AppCompatActivity() {
                 binding.textNotes.text = "Notes: ${info?.notes?.takeIf { it.isNotBlank() } ?: "-"}"
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateAdminIndicator()
+    }
+
+    private fun updateAdminIndicator() {
+        binding.root.findViewById<View?>(com.quietlogic.allisok.R.id.viewAdminIndicator)?.visibility =
+            if (AdminSession.isActive()) View.VISIBLE else View.GONE
     }
 }
