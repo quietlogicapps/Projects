@@ -213,6 +213,8 @@ class CareEditActivity : AppCompatActivity() {
 
                     val itemId = db.careItemDao().insert(item)
 
+                    val planner = AlarmPlanner(this@CareEditActivity)
+
                     times.forEach { t ->
 
                         db.careTimeDao().insert(
@@ -221,10 +223,25 @@ class CareEditActivity : AppCompatActivity() {
                                 time = t
                             )
                         )
+
+                        val calendar = java.util.Calendar.getInstance()
+
+                        calendar.set(java.util.Calendar.HOUR_OF_DAY, t.hour)
+                        calendar.set(java.util.Calendar.MINUTE, t.minute)
+                        calendar.set(java.util.Calendar.SECOND, 0)
+                        calendar.set(java.util.Calendar.MILLISECOND, 0)
+
+                        val triggerAtMillis = calendar.timeInMillis
+                        val requestCode = planner.buildRequestCode(itemId, t)
+
+                        planner.scheduleCareAlarm(
+                            triggerAtMillis = triggerAtMillis,
+                            requestCode = requestCode,
+                            title = name,
+                            text = instruction
+                        )
                     }
                 }
-
-                AlarmPlanner(this@CareEditActivity).scheduleSimpleTestAlarm()
 
                 Toast.makeText(this@CareEditActivity, "Saved", Toast.LENGTH_SHORT).show()
 
