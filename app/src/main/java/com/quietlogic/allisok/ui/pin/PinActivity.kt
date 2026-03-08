@@ -3,7 +3,11 @@ package com.quietlogic.allisok.ui.pin
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -50,17 +54,26 @@ class PinActivity : AppCompatActivity() {
         val titleFromIntent = intent.getStringExtra("PIN_TITLE").orEmpty()
 
         currentScreen = when (titleFromIntent) {
-            "Change PIN" -> SCREEN_CHANGE_PIN
+            "Change PIN" -> {
+                if (pinPrefs.isUserPinEnabled()) {
+                    SCREEN_CHANGE_PIN
+                } else {
+                    SCREEN_SET_PIN
+                }
+            }
+
             "Set Admin PIN" -> SCREEN_SET_ADMIN_PIN
             "Change Admin PIN" -> SCREEN_CHANGE_ADMIN_PIN_STEP_1
             else -> SCREEN_ENTER_PIN
         }
 
+        setupInputs()
         renderScreen()
 
         buttonPrimary.setOnClickListener {
             when (currentScreen) {
                 SCREEN_ENTER_PIN -> handleEnterPin()
+                SCREEN_SET_PIN -> handleSetUserPin()
                 SCREEN_CHANGE_PIN -> handleChangeUserPin()
                 SCREEN_SET_ADMIN_PIN -> handleSetAdminPin()
                 SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> handleAdminPinStep1()
@@ -76,6 +89,55 @@ class PinActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupInputs() {
+
+        editPin.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+        editPinSecond.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+
+        editPin.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val value = s?.toString().orEmpty()
+
+                if (value.length > 4) {
+                    editPin.setText(value.take(4))
+                    editPin.setSelection(editPin.text.length)
+                    return
+                }
+
+                if (value.length == 4 && editPinSecond.visibility == View.VISIBLE) {
+                    editPinSecond.requestFocus()
+                    editPinSecond.setSelection(editPinSecond.text.length)
+                    showKeyboard(editPinSecond)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        editPinSecond.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val value = s?.toString().orEmpty()
+
+                if (value.length > 4) {
+                    editPinSecond.setText(value.take(4))
+                    editPinSecond.setSelection(editPinSecond.text.length)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        editPin.setOnFocusChangeListener { _, hasFocus ->
+            updateFieldHint(editPin, firstRowLabel(), hasFocus)
+        }
+
+        editPinSecond.setOnFocusChangeListener { _, hasFocus ->
+            updateFieldHint(editPinSecond, secondRowLabel(), hasFocus)
+        }
+    }
+
     private fun renderScreen() {
         textError.visibility = View.GONE
         editPin.setText("")
@@ -84,30 +146,16 @@ class PinActivity : AppCompatActivity() {
         when (currentScreen) {
 
             SCREEN_ENTER_PIN -> {
-                if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                    textTitle.text = "Enter with Admin PIN"
-                } else {
-                    textTitle.text = "Enter PIN"
-                }
+                textTitle.text =
+                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) "Enter with Admin PIN" else "Enter PIN"
 
                 editPin.visibility = View.VISIBLE
-                editPin.hint =
-                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                        "Admin PIN"
-                    } else {
-                        "PIN"
-                    }
-
                 editPinSecond.visibility = View.GONE
 
                 textForgot.visibility = View.GONE
 
                 buttonPrimary.text =
-                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                        "Enter"
-                    } else {
-                        "Unlock"
-                    }
+                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) "Enter" else "Unlock"
 
                 if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
                     buttonSecondary.visibility = View.GONE
@@ -115,44 +163,63 @@ class PinActivity : AppCompatActivity() {
                     buttonSecondary.visibility = View.VISIBLE
                     buttonSecondary.text = "Emergency Info"
                 }
+
+                editPin.hint = firstRowLabel()
+                clearFocusAndHideKeyboard()
+            }
+
+            SCREEN_SET_PIN -> {
+                textTitle.text = "Set PIN"
+
+                editPin.visibility = View.VISIBLE
+                editPinSecond.visibility = View.VISIBLE
+
+                textForgot.visibility = View.GONE
+
+                buttonPrimary.text = "Save PIN"
+                buttonSecondary.visibility = View.GONE
+
+                editPin.hint = firstRowLabel()
+                editPinSecond.hint = secondRowLabel()
+                clearFocusAndHideKeyboard()
             }
 
             SCREEN_CHANGE_PIN -> {
                 textTitle.text = "Change PIN"
 
                 editPin.visibility = View.VISIBLE
-                editPin.hint = "Enter PIN"
-
                 editPinSecond.visibility = View.VISIBLE
-                editPinSecond.hint = "Confirm PIN"
 
                 textForgot.visibility = View.GONE
 
                 buttonPrimary.text = "Save PIN"
                 buttonSecondary.visibility = View.GONE
+
+                editPin.hint = firstRowLabel()
+                editPinSecond.hint = secondRowLabel()
+                clearFocusAndHideKeyboard()
             }
 
             SCREEN_SET_ADMIN_PIN -> {
                 textTitle.text = "Set Admin PIN"
 
                 editPin.visibility = View.VISIBLE
-                editPin.hint = "Enter Admin PIN"
-
                 editPinSecond.visibility = View.VISIBLE
-                editPinSecond.hint = "Confirm Admin PIN"
 
                 textForgot.visibility = View.GONE
 
                 buttonPrimary.text = "Save Admin PIN"
                 buttonSecondary.visibility = View.GONE
+
+                editPin.hint = firstRowLabel()
+                editPinSecond.hint = secondRowLabel()
+                clearFocusAndHideKeyboard()
             }
 
             SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> {
                 textTitle.text = "Change Admin PIN"
 
                 editPin.visibility = View.VISIBLE
-                editPin.hint = "Current Admin PIN"
-
                 editPinSecond.visibility = View.GONE
 
                 textForgot.visibility = View.VISIBLE
@@ -160,21 +227,25 @@ class PinActivity : AppCompatActivity() {
 
                 buttonPrimary.text = "Continue"
                 buttonSecondary.visibility = View.GONE
+
+                editPin.hint = firstRowLabel()
+                clearFocusAndHideKeyboard()
             }
 
             SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> {
                 textTitle.text = "Change Admin PIN"
 
                 editPin.visibility = View.VISIBLE
-                editPin.hint = "New Admin PIN"
-
                 editPinSecond.visibility = View.VISIBLE
-                editPinSecond.hint = "Confirm Admin PIN"
 
                 textForgot.visibility = View.GONE
 
                 buttonPrimary.text = "Save Admin PIN"
                 buttonSecondary.visibility = View.GONE
+
+                editPin.hint = firstRowLabel()
+                editPinSecond.hint = secondRowLabel()
+                clearFocusAndHideKeyboard()
             }
         }
     }
@@ -203,8 +274,7 @@ class PinActivity : AppCompatActivity() {
 
             val homeIntent = Intent(this, HomeActivity::class.java)
             homeIntent.flags =
-                Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             startActivity(homeIntent)
             finish()
@@ -212,6 +282,32 @@ class PinActivity : AppCompatActivity() {
         } else {
             showError("Wrong PIN")
         }
+    }
+
+    private fun handleSetUserPin() {
+
+        val pin = editPin.text.toString().trim()
+        val confirmPin = editPinSecond.text.toString().trim()
+        val state = pinPrefs.getState()
+
+        if (!PinValidator.isValidFormat(pin)) {
+            showError("PIN must be 4 digits")
+            return
+        }
+
+        if (pin != confirmPin) {
+            showError("PINs do not match")
+            return
+        }
+
+        if (!PinValidator.isDifferentFromAdmin(pin, state.adminPinHash)) {
+            showError("PIN must be different")
+            return
+        }
+
+        pinPrefs.setUserPin(PinHasher.hash(pin))
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     private fun handleChangeUserPin() {
@@ -236,7 +332,6 @@ class PinActivity : AppCompatActivity() {
         }
 
         pinPrefs.setUserPin(PinHasher.hash(pin))
-
         setResult(Activity.RESULT_OK)
         finish()
     }
@@ -263,9 +358,7 @@ class PinActivity : AppCompatActivity() {
         }
 
         pinPrefs.setAdminPin(PinHasher.hash(pin))
-
         AdminSession.start()
-
         setResult(Activity.RESULT_OK)
         finish()
     }
@@ -276,10 +369,8 @@ class PinActivity : AppCompatActivity() {
         val state = pinPrefs.getState()
 
         if (PinHasher.verify(currentAdminPin, state.adminPinHash)) {
-
             currentScreen = SCREEN_CHANGE_ADMIN_PIN_STEP_2
             renderScreen()
-
         } else {
             showError("Wrong Admin PIN")
         }
@@ -307,11 +398,52 @@ class PinActivity : AppCompatActivity() {
         }
 
         pinPrefs.setAdminPin(PinHasher.hash(pin))
-
         AdminSession.start()
-
         setResult(Activity.RESULT_OK)
         finish()
+    }
+
+    private fun updateFieldHint(field: EditText, label: String, hasFocus: Boolean) {
+        field.hint = if (hasFocus && field.text.isNullOrEmpty()) "- - - -" else label
+    }
+
+    private fun firstRowLabel(): String {
+        return when (currentScreen) {
+            SCREEN_ENTER_PIN -> if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) "Admin PIN" else "PIN"
+            SCREEN_SET_PIN -> "Enter PIN"
+            SCREEN_CHANGE_PIN -> "Enter PIN"
+            SCREEN_SET_ADMIN_PIN -> "Enter Admin PIN"
+            SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> "Current Admin PIN"
+            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> "New Admin PIN"
+            else -> "PIN"
+        }
+    }
+
+    private fun secondRowLabel(): String {
+        return when (currentScreen) {
+            SCREEN_SET_PIN -> "Confirm PIN"
+            SCREEN_CHANGE_PIN -> "Confirm PIN"
+            SCREEN_SET_ADMIN_PIN -> "Confirm Admin PIN"
+            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> "Confirm Admin PIN"
+            else -> "Confirm PIN"
+        }
+    }
+
+    private fun clearFocusAndHideKeyboard() {
+        editPin.clearFocus()
+        editPinSecond.clearFocus()
+        hideKeyboard()
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val token = currentFocus?.windowToken ?: return
+        imm.hideSoftInputFromWindow(token, 0)
     }
 
     private fun showError(message: String) {
@@ -320,10 +452,10 @@ class PinActivity : AppCompatActivity() {
     }
 
     companion object {
-
         const val RESULT_OPEN_EMERGENCY_INFO = 1002
 
         private const val SCREEN_ENTER_PIN = "screen_enter_pin"
+        private const val SCREEN_SET_PIN = "screen_set_pin"
         private const val SCREEN_CHANGE_PIN = "screen_change_pin"
         private const val SCREEN_SET_ADMIN_PIN = "screen_set_admin_pin"
         private const val SCREEN_CHANGE_ADMIN_PIN_STEP_1 = "screen_change_admin_pin_step_1"
