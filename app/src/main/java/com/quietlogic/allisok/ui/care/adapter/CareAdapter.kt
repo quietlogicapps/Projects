@@ -1,20 +1,28 @@
 package com.quietlogic.allisok.ui.care.adapter
 
-import android.view.LayoutInflater
+import android.content.Context
+import android.graphics.Color
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.quietlogic.allisok.R
 
-class CareAdapter : RecyclerView.Adapter<CareAdapter.VH>() {
+class CareAdapter(
+    private val onDeleteClick: (Long) -> Unit
+) : RecyclerView.Adapter<CareAdapter.VH>() {
 
     data class Row(
+        val id: Long,
         val name: String,
         val subtitle: String
     )
 
     private val items = mutableListOf<Row>()
+
+    private var adminMode: Boolean = false
 
     fun submitList(rows: List<Row>) {
         items.clear()
@@ -22,22 +30,97 @@ class CareAdapter : RecyclerView.Adapter<CareAdapter.VH>() {
         notifyDataSetChanged()
     }
 
+    fun setAdminMode(enabled: Boolean) {
+        adminMode = enabled
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_care, parent, false)
-        return VH(view)
+        val context = parent.context
+
+        val root = LinearLayout(context).apply {
+            layoutParams = RecyclerView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(context, 16), dp(context, 12), dp(context, 16), dp(context, 12))
+        }
+
+        val textContainer = LinearLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            orientation = LinearLayout.VERTICAL
+        }
+
+        val name = TextView(context).apply {
+            textSize = 20f
+            setTextColor(Color.BLACK)
+        }
+
+        val subtitle = TextView(context).apply {
+            textSize = 14f
+            setTextColor(Color.DKGRAY)
+        }
+
+        val delete = TextView(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            text = "X"
+            textSize = 22f
+            setTextColor(Color.RED)
+            setPadding(dp(context, 16), dp(context, 8), dp(context, 8), dp(context, 8))
+            visibility = View.GONE
+        }
+
+        textContainer.addView(name)
+        textContainer.addView(subtitle)
+
+        root.addView(textContainer)
+        root.addView(delete)
+
+        return VH(root, name, subtitle, delete)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item = items[position]
+
         holder.name.text = item.name
         holder.subtitle.text = item.subtitle
+
+        if (adminMode) {
+            holder.delete.visibility = View.VISIBLE
+            holder.delete.setOnClickListener {
+                onDeleteClick(item.id)
+            }
+        } else {
+            holder.delete.visibility = View.GONE
+            holder.delete.setOnClickListener(null)
+        }
     }
 
     override fun getItemCount(): Int = items.size
 
-    class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.textName)
-        val subtitle: TextView = itemView.findViewById(R.id.textSubtitle)
+    class VH(
+        itemView: View,
+        val name: TextView,
+        val subtitle: TextView,
+        val delete: TextView
+    ) : RecyclerView.ViewHolder(itemView)
+
+    companion object {
+        private fun dp(context: Context, value: Int): Int {
+            return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                value.toFloat(),
+                context.resources.displayMetrics
+            ).toInt()
+        }
     }
 }

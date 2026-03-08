@@ -24,6 +24,7 @@ class CareActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
     private lateinit var repository: CareRepository
+    private lateinit var adapter: CareAdapter
 
     private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -47,7 +48,19 @@ class CareActivity : AppCompatActivity() {
         val empty = findViewById<TextView>(R.id.textEmpty)
         val btnAdd = findViewById<Button>(R.id.btnAddCare)
 
-        val adapter = CareAdapter()
+        adapter = CareAdapter { itemId ->
+            if (!AdminSession.isActive()) return@CareAdapter
+
+            lifecycleScope.launch {
+                val item = db.careItemDao().getAllActive().first().firstOrNull { it.id == itemId }
+                if (item != null) {
+                    repository.deleteCareItem(item)
+                }
+            }
+        }
+
+        adapter.setAdminMode(AdminSession.isActive())
+
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
 
@@ -62,7 +75,6 @@ class CareActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-
             repository.archiveExpiredItems()
 
             db.careItemDao().getAllActive().collect { items ->
@@ -70,7 +82,6 @@ class CareActivity : AppCompatActivity() {
                 val finalRows = mutableListOf<CareAdapter.Row>()
 
                 for (item in items) {
-
                     val times = db.careTimeDao()
                         .getByItemId(item.id)
                         .first()
@@ -93,13 +104,13 @@ class CareActivity : AppCompatActivity() {
                         else -> item.repeatType
                     }
 
-                    val line =
-                        "$timesText • ${item.instruction} • $repeatText • $dateRange"
+                    val line = "$timesText • ${item.instruction} • $repeatText • $dateRange"
 
                     finalRows.add(
                         CareAdapter.Row(
-                            item.name,
-                            line
+                            id = item.id,
+                            name = item.name,
+                            subtitle = line
                         )
                     )
                 }
@@ -113,10 +124,10 @@ class CareActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         updateAdminIndicator()
+        adapter.setAdminMode(AdminSession.isActive())
     }
 
     private fun updateAdminIndicator() {
-
         val indicatorId = resources.getIdentifier(
             "viewAdminIndicator",
             "id",

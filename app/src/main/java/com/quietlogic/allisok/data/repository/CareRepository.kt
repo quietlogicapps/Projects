@@ -15,23 +15,20 @@ class CareRepository(
     private val careTimeDao: CareTimeDao
 ) {
 
-    fun getAllCareItems(): Flow<List<CareItemEntity>> {
-        return careItemDao.getAllActive()
-    }
+    fun getAllCareItems(): Flow<List<CareItemEntity>> = careItemDao.getAllActive()
 
-    fun getAllArchivedCareItems(): Flow<List<CareItemEntity>> {
-        return careItemDao.getAllArchived()
-    }
+    fun getAllArchivedCareItems(): Flow<List<CareItemEntity>> = careItemDao.getAllArchived()
 
-    suspend fun insertCareItem(item: CareItemEntity): Long {
-        return careItemDao.insert(item)
-    }
+    suspend fun insertCareItem(item: CareItemEntity): Long = careItemDao.insert(item)
 
     suspend fun updateCareItem(item: CareItemEntity) {
         careItemDao.update(item)
     }
 
     suspend fun deleteCareItem(item: CareItemEntity) {
+        val times = careTimeDao.getTimesForItem(item.id).map { it.time }
+        AlarmPlanner(context).cancelCareItemAlarms(item.id, times)
+        careTimeDao.deleteByItemId(item.id)
         careItemDao.delete(item)
     }
 
@@ -46,9 +43,7 @@ class CareRepository(
         }
     }
 
-    fun getTimesForItem(itemId: Long): Flow<List<CareTimeEntity>> {
-        return careTimeDao.getByItemId(itemId)
-    }
+    fun getTimesForItem(itemId: Long): Flow<List<CareTimeEntity>> = careTimeDao.getByItemId(itemId)
 
     suspend fun insertTime(time: CareTimeEntity) {
         careTimeDao.insert(time)
