@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
+    <TextView
         android:id="@+id/viewAdminIndicator"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
+        android:layout_height="28dp"
         android:background="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:text="ADMIN MODE ACTIVE"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
         android:visibility="gone"/>
 
     <LinearLayout
