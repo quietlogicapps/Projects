@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.quietlogic.allisok.data.local.dao.CareItemDao
 import com.quietlogic.allisok.data.local.dao.CareLogDao
 import com.quietlogic.allisok.data.local.dao.CareTimeDao
+import com.quietlogic.allisok.data.local.dao.ContactSlotDao
 import com.quietlogic.allisok.data.local.dao.EmergencyInfoDao
 import com.quietlogic.allisok.data.local.entity.AppSettingsEntity
 import com.quietlogic.allisok.data.local.entity.CareItemEntity
@@ -28,6 +29,8 @@ import com.quietlogic.allisok.data.local.entity.EmergencyInfoEntity
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
+
+    abstract fun contactSlotDao(): ContactSlotDao
 
     abstract fun careItemDao(): CareItemDao
     abstract fun careTimeDao(): CareTimeDao
