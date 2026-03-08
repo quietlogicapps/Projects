@@ -1,6 +1,7 @@
 package com.quietlogic.allisok.ui.contacts
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -46,22 +47,22 @@ class ContactsActivity : AppCompatActivity() {
         buttonEmergency = findViewById(R.id.buttonEmergency)
 
         buttonRelative.setOnLongClickListener {
-            openContactEdit(R.id.buttonRelative)
+            openAdminContactActions(R.id.buttonRelative)
             true
         }
 
         buttonDoctor.setOnLongClickListener {
-            openContactEdit(R.id.buttonDoctor)
+            openAdminContactActions(R.id.buttonDoctor)
             true
         }
 
         buttonContact3.setOnLongClickListener {
-            openContactEdit(R.id.buttonContact3)
+            openAdminContactActions(R.id.buttonContact3)
             true
         }
 
         buttonEmergency.setOnLongClickListener {
-            openContactEdit(R.id.buttonEmergency)
+            openAdminContactActions(R.id.buttonEmergency)
             true
         }
 
@@ -85,9 +86,7 @@ class ContactsActivity : AppCompatActivity() {
 
         if (requestCode == LockGate.REQUEST_ADMIN_UNLOCK) {
             if (resultCode == RESULT_OK && pendingButtonId != View.NO_ID) {
-                val intent = Intent(this, ContactEditActivity::class.java)
-                intent.putExtra("buttonId", pendingButtonId)
-                startActivityForResult(intent, REQUEST_EDIT_CONTACT)
+                showContactActionsDialog(pendingButtonId)
             } else {
                 pendingButtonId = View.NO_ID
             }
@@ -126,25 +125,73 @@ class ContactsActivity : AppCompatActivity() {
         }
     }
 
-    private fun openContactEdit(buttonId: Int) {
+    private fun openAdminContactActions(buttonId: Int) {
         pendingButtonId = buttonId
 
         AdminGate.requireAdmin(this) {
             if (AdminSession.isActive()) {
-                val intent = Intent(this, ContactEditActivity::class.java)
-                intent.putExtra("buttonId", buttonId)
-                startActivityForResult(intent, REQUEST_EDIT_CONTACT)
+                showContactActionsDialog(buttonId)
             } else {
                 LockGate.requireAdminUnlock(this)
             }
         }
     }
 
+    private fun showContactActionsDialog(buttonId: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("Contact options")
+            .setItems(arrayOf("Select from phone contacts", "Delete contact")) { _, which ->
+                when (which) {
+                    0 -> {
+                        val intent = Intent(this, ContactEditActivity::class.java)
+                        intent.putExtra("buttonId", buttonId)
+                        startActivityForResult(intent, REQUEST_EDIT_CONTACT)
+                    }
+
+                    1 -> {
+                        deleteContact(buttonId)
+                    }
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deleteContact(buttonId: Int) {
+        val slotId = when (buttonId) {
+            R.id.buttonRelative -> 1
+            R.id.buttonDoctor -> 2
+            R.id.buttonContact3 -> 3
+            R.id.buttonEmergency -> 4
+            else -> 0
+        }
+
+        if (slotId == 0) return
+
+        lifecycleScope.launch {
+            repository.saveContact(
+                ContactSlotEntity(
+                    slotId = slotId,
+                    label = "",
+                    phoneNumber = null,
+                    iconType = "default"
+                )
+            )
+        }
+    }
+
     private fun applyContacts(contacts: List<ContactSlotEntity>) {
-        buttonRelative.text = contacts.firstOrNull { it.slotId == 1 }?.label ?: "RELATIVE"
-        buttonDoctor.text = contacts.firstOrNull { it.slotId == 2 }?.label ?: "DOCTOR"
-        buttonContact3.text = contacts.firstOrNull { it.slotId == 3 }?.label ?: "CONTACT 3"
-        buttonEmergency.text = contacts.firstOrNull { it.slotId == 4 }?.label ?: "EMERGENCY"
+        buttonRelative.text =
+            contacts.firstOrNull { it.slotId == 1 }?.label?.takeIf { it.isNotBlank() } ?: "RELATIVE"
+
+        buttonDoctor.text =
+            contacts.firstOrNull { it.slotId == 2 }?.label?.takeIf { it.isNotBlank() } ?: "DOCTOR"
+
+        buttonContact3.text =
+            contacts.firstOrNull { it.slotId == 3 }?.label?.takeIf { it.isNotBlank() } ?: "CONTACT 3"
+
+        buttonEmergency.text =
+            contacts.firstOrNull { it.slotId == 4 }?.label?.takeIf { it.isNotBlank() } ?: "EMERGENCY"
     }
 
     private fun updateAdminIndicator() {
