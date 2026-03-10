@@ -7,12 +7,12 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.ui.history.HistoryActivity
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_settings)
 
         title = "SETTINGS TEST"
@@ -20,9 +20,27 @@ class SettingsActivity : AppCompatActivity() {
         val buttonExport = findViewById<Button>(R.id.buttonExport)
         val buttonImport = findViewById<Button>(R.id.buttonImport)
         val buttonMoreApps = findViewById<Button>(R.id.buttonMoreApps)
+        val buttonHistory = findViewById<Button>(R.id.buttonHistory)
+
+        Toast.makeText(
+            this,
+            "History btn found = ${buttonHistory != null}",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        buttonHistory.setOnClickListener {
+            Toast.makeText(
+                this,
+                "Opening History",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            startActivity(
+                Intent(this, HistoryActivity::class.java)
+            )
+        }
 
         buttonMoreApps.setOnClickListener {
-
             val uri = Uri.parse(
                 "https://play.google.com/store/apps/dev?id=QuietLogic"
             )
@@ -32,7 +50,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         buttonExport.setOnClickListener {
-
             Toast.makeText(
                 this,
                 "Export button pressed",
@@ -41,7 +58,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         buttonImport.setOnClickListener {
-
             Toast.makeText(
                 this,
                 "Import button pressed",

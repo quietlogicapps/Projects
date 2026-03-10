@@ -17,6 +17,7 @@ import com.quietlogic.allisok.ui.backup.ExportActivity
 import com.quietlogic.allisok.ui.backup.ImportActivity
 import com.quietlogic.allisok.ui.care.CareActivity
 import com.quietlogic.allisok.ui.contacts.ContactsActivity
+import com.quietlogic.allisok.ui.history.HistoryActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
@@ -144,7 +145,10 @@ class HomeActivity : AppCompatActivity() {
                 return true
             }
 
-            R.id.menu_history -> return true
+            R.id.menu_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                return true
+            }
 
             R.id.menu_more_apps -> {
                 val uri = Uri.parse("https://play.google.com/store/apps/dev?id=QuietLogic")
