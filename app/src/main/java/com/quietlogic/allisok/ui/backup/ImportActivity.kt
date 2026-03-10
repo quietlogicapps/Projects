@@ -5,7 +5,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.data.backup.RestoreRepository
+import com.quietlogic.allisok.data.local.db.DatabaseProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class ImportActivity : AppCompatActivity() {
@@ -39,11 +45,20 @@ class ImportActivity : AppCompatActivity() {
 
             textImportPreview.text = json
 
-            Toast.makeText(
-                this,
-                "Backup loaded",
-                Toast.LENGTH_SHORT
-            ).show()
+            lifecycleScope.launch {
+
+                withContext(Dispatchers.IO) {
+                    val db = DatabaseProvider.getDatabase(applicationContext)
+                    val repository = RestoreRepository(db)
+                    repository.restoreFromJson(json)
+                }
+
+                Toast.makeText(
+                    this@ImportActivity,
+                    "Backup restored",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }
