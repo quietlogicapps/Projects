@@ -19,6 +19,7 @@ import com.quietlogic.allisok.ui.care.CareActivity
 import com.quietlogic.allisok.ui.contacts.ContactsActivity
 import com.quietlogic.allisok.ui.history.HistoryActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
+import com.quietlogic.allisok.ui.language.LanguageActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
 
@@ -133,7 +134,10 @@ class HomeActivity : AppCompatActivity() {
                 return true
             }
 
-            R.id.menu_language -> return true
+            R.id.menu_language -> {
+                startActivity(Intent(this, LanguageActivity::class.java))
+                return true
+            }
 
             R.id.menu_export -> {
                 startActivity(Intent(this, ExportActivity::class.java))
