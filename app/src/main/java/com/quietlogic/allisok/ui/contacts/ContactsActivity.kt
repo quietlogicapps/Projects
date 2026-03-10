@@ -1,12 +1,18 @@
 package com.quietlogic.allisok.ui.contacts
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
@@ -22,9 +28,12 @@ class ContactsActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_EDIT_CONTACT = 2001
+        private const val REQUEST_CALL_PHONE = 2002
     }
 
     private var pendingButtonId: Int = View.NO_ID
+    private var pendingCallNumber: String? = null
+    private var currentContacts: List<ContactSlotEntity> = emptyList()
 
     private lateinit var buttonRelative: Button
     private lateinit var buttonDoctor: Button
@@ -45,6 +54,22 @@ class ContactsActivity : AppCompatActivity() {
         buttonDoctor = findViewById(R.id.buttonDoctor)
         buttonContact3 = findViewById(R.id.buttonContact3)
         buttonEmergency = findViewById(R.id.buttonEmergency)
+
+        buttonRelative.setOnClickListener {
+            handleContactTap(1)
+        }
+
+        buttonDoctor.setOnClickListener {
+            handleContactTap(2)
+        }
+
+        buttonContact3.setOnClickListener {
+            handleContactTap(3)
+        }
+
+        buttonEmergency.setOnClickListener {
+            handleContactTap(4)
+        }
 
         buttonRelative.setOnLongClickListener {
             openAdminContactActions(R.id.buttonRelative)
@@ -68,6 +93,7 @@ class ContactsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repository.getAllContacts().collectLatest { contacts ->
+                currentContacts = contacts
                 applyContacts(contacts)
             }
         }
@@ -125,6 +151,27 @@ class ContactsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CALL_PHONE) {
+            val granted = grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+
+            if (granted) {
+                pendingCallNumber?.let { startDirectCall(it) }
+            } else {
+                Toast.makeText(this, "Call permission denied", Toast.LENGTH_SHORT).show()
+            }
+
+            pendingCallNumber = null
+        }
+    }
+
     private fun openAdminContactActions(buttonId: Int) {
         pendingButtonId = buttonId
 
@@ -178,6 +225,42 @@ class ContactsActivity : AppCompatActivity() {
                 )
             )
         }
+    }
+
+    private fun handleContactTap(slotId: Int) {
+        val phoneNumber = currentContacts
+            .firstOrNull { it.slotId == slotId }
+            ?.phoneNumber
+            ?.trim()
+            .orEmpty()
+
+        if (phoneNumber.isBlank()) {
+            Toast.makeText(this, "Contact not configured", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        startDirectCall(phoneNumber)
+    }
+
+    private fun startDirectCall(phoneNumber: String) {
+        if (
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            pendingCallNumber = phoneNumber
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CALL_PHONE),
+                REQUEST_CALL_PHONE
+            )
+            return
+        }
+
+        val callIntent = Intent(Intent.ACTION_CALL).apply {
+            data = Uri.parse("tel:${Uri.encode(phoneNumber)}")
+        }
+
+        startActivity(callIntent)
     }
 
     private fun applyContacts(contacts: List<ContactSlotEntity>) {
