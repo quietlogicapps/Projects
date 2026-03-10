@@ -3,6 +3,7 @@ package com.quietlogic.allisok.ui.backup
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.quietlogic.allisok.R
@@ -11,6 +12,7 @@ import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class ExportActivity : AppCompatActivity() {
 
@@ -27,15 +29,32 @@ class ExportActivity : AppCompatActivity() {
         buttonGenerateExport.setOnClickListener {
 
             lifecycleScope.launch {
+
                 textExportJson.text = "Generating..."
 
                 val json = withContext(Dispatchers.IO) {
+
                     val db = DatabaseProvider.getDatabase(applicationContext)
                     val repository = BackupRepository(db)
                     repository.buildExportJson()
                 }
 
                 textExportJson.text = json
+
+                withContext(Dispatchers.IO) {
+
+                    val file = File(filesDir, "allisok_backup.json")
+                    file.writeText(json)
+
+                    file.absolutePath
+                }.also { path ->
+
+                    Toast.makeText(
+                        this@ExportActivity,
+                        "Backup saved:\n$path",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
