@@ -10,6 +10,9 @@ interface ContactSlotDao {
     @Query("SELECT * FROM contact_slots ORDER BY slotId ASC")
     fun getAll(): Flow<List<ContactSlotEntity>>
 
+    @Query("SELECT * FROM contact_slots ORDER BY slotId ASC")
+    suspend fun getAllDirect(): List<ContactSlotEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(contact: ContactSlotEntity)
 

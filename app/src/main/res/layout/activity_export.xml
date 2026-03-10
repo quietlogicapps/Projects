@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/textExportTitle"
@@ -13,5 +12,27 @@
         android:text="Export Data"
         android:textSize="24sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonGenerateExport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Generate export JSON" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textExportJson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No export generated yet"
+            android:textIsSelectable="true"
+            android:textSize="14sp" />
+    </ScrollView>
 
 </LinearLayout>

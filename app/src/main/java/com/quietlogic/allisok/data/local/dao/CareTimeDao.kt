@@ -13,6 +13,9 @@ interface CareTimeDao {
     @Query("SELECT * FROM care_times WHERE careItemId = :itemId")
     suspend fun getTimesForItem(itemId: Long): List<CareTimeEntity>
 
+    @Query("SELECT * FROM care_times")
+    suspend fun getAllDirect(): List<CareTimeEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(time: CareTimeEntity)
 

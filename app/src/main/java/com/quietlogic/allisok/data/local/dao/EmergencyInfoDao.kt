@@ -13,6 +13,9 @@ interface EmergencyInfoDao {
     @Query("SELECT * FROM emergency_info WHERE id = 1")
     fun get(): Flow<EmergencyInfoEntity?>
 
+    @Query("SELECT * FROM emergency_info WHERE id = 1")
+    suspend fun getDirect(): EmergencyInfoEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(info: EmergencyInfoEntity)
 

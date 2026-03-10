@@ -28,6 +28,9 @@ interface CareLogDao {
     """)
     fun getRecentTakenItems(fromDate: String): Flow<List<RecentTakenItem>>
 
+    @Query("SELECT * FROM care_logs")
+    suspend fun getAllDirect(): List<CareLogEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(log: CareLogEntity)
 }

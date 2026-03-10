@@ -17,6 +17,9 @@ interface CareItemDao {
     @Query("SELECT * FROM care_items WHERE isArchived = 1 ORDER BY id DESC")
     fun getAllArchived(): Flow<List<CareItemEntity>>
 
+    @Query("SELECT * FROM care_items")
+    suspend fun getAllDirect(): List<CareItemEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: CareItemEntity): Long
 
