@@ -17,6 +17,9 @@ interface CareItemDao {
     @Query("SELECT * FROM care_items WHERE isArchived = 1 ORDER BY id DESC")
     fun getAllArchived(): Flow<List<CareItemEntity>>
 
+    @Query("DELETE FROM care_items WHERE isArchived = 1 AND id NOT IN (SELECT id FROM care_items WHERE isArchived = 1 ORDER BY id DESC LIMIT 50)")
+    suspend fun trimArchivedTo50()
+
     @Query("SELECT * FROM care_items")
     suspend fun getAllDirect(): List<CareItemEntity>
 

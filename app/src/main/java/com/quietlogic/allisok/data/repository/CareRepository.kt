@@ -41,6 +41,16 @@ class CareRepository(
             planner.cancelCareItemAlarms(item.id, times)
             careItemDao.update(item.copy(isArchived = true))
         }
+
+        val archivedToRemove = careItemDao.getAllDirect()
+            .filter { it.isArchived }
+            .sortedByDescending { it.id }
+            .drop(50)
+
+        archivedToRemove.forEach { item ->
+            careTimeDao.deleteByItemId(item.id)
+            careItemDao.delete(item)
+        }
     }
 
     fun getTimesForItem(itemId: Long): Flow<List<CareTimeEntity>> = careTimeDao.getByItemId(itemId)
