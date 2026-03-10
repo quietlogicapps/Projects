@@ -125,6 +125,10 @@ class CareActivity : AppCompatActivity() {
         super.onResume()
         updateAdminIndicator()
         adapter.setAdminMode(AdminSession.isActive())
+
+        lifecycleScope.launch {
+            repository.archiveExpiredItems()
+        }
     }
 
     private fun updateAdminIndicator() {
