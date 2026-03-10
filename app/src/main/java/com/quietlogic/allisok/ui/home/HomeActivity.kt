@@ -13,12 +13,13 @@ import androidx.appcompat.widget.Toolbar
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
+import com.quietlogic.allisok.ui.backup.ExportActivity
+import com.quietlogic.allisok.ui.backup.ImportActivity
 import com.quietlogic.allisok.ui.care.CareActivity
 import com.quietlogic.allisok.ui.contacts.ContactsActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
-import com.quietlogic.allisok.ui.backup.ExportActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -138,7 +139,10 @@ class HomeActivity : AppCompatActivity() {
                 return true
             }
 
-            R.id.menu_import -> return true
+            R.id.menu_import -> {
+                startActivity(Intent(this, ImportActivity::class.java))
+                return true
+            }
 
             R.id.menu_history -> return true
 
