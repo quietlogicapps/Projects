@@ -27,7 +27,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class CareEditActivity : AppCompatActivity() {
@@ -224,14 +226,11 @@ class CareEditActivity : AppCompatActivity() {
                             )
                         )
 
-                        val calendar = java.util.Calendar.getInstance()
+                        val triggerAtMillis = buildFirstTriggerAtMillis(
+                            startDate = start,
+                            time = t
+                        )
 
-                        calendar.set(java.util.Calendar.HOUR_OF_DAY, t.hour)
-                        calendar.set(java.util.Calendar.MINUTE, t.minute)
-                        calendar.set(java.util.Calendar.SECOND, 0)
-                        calendar.set(java.util.Calendar.MILLISECOND, 0)
-
-                        val triggerAtMillis = calendar.timeInMillis
                         val requestCode = planner.buildRequestCode(itemId, t)
 
                         planner.scheduleCareAlarm(
@@ -301,5 +300,21 @@ class CareEditActivity : AppCompatActivity() {
             now.monthValue - 1,
             now.dayOfMonth
         ).show()
+    }
+
+    private fun buildFirstTriggerAtMillis(startDate: LocalDate, time: LocalTime): Long {
+        val now = LocalDateTime.now()
+        var triggerDate = startDate
+        var triggerDateTime = LocalDateTime.of(triggerDate, time)
+
+        if (!triggerDateTime.isAfter(now)) {
+            triggerDate = triggerDate.plusDays(1)
+            triggerDateTime = LocalDateTime.of(triggerDate, time)
+        }
+
+        return triggerDateTime
+            .atZone(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli()
     }
 }
