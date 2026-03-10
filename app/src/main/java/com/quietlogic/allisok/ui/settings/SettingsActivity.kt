@@ -3,22 +3,25 @@ package com.quietlogic.allisok.ui.settings
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.quietlogic.allisok.databinding.ActivitySettingsBinding
+import com.quietlogic.allisok.R
 
 class SettingsActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_settings)
 
-        title = "SETTINGS"
+        title = "SETTINGS TEST"
 
-        binding.buttonMoreApps.setOnClickListener {
+        val buttonExport = findViewById<Button>(R.id.buttonExport)
+        val buttonImport = findViewById<Button>(R.id.buttonImport)
+        val buttonMoreApps = findViewById<Button>(R.id.buttonMoreApps)
+
+        buttonMoreApps.setOnClickListener {
 
             val uri = Uri.parse(
                 "https://play.google.com/store/apps/dev?id=QuietLogic"
@@ -26,6 +29,24 @@ class SettingsActivity : AppCompatActivity() {
 
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
+        }
+
+        buttonExport.setOnClickListener {
+
+            Toast.makeText(
+                this,
+                "Export button pressed",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        buttonImport.setOnClickListener {
+
+            Toast.makeText(
+                this,
+                "Import button pressed",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

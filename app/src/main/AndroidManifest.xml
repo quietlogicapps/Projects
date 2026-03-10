@@ -90,6 +90,10 @@
             android:name=".ui.security.SecurityActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.backup.ExportActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".alarm.receiver.AlarmReceiver"
             android:exported="false" />

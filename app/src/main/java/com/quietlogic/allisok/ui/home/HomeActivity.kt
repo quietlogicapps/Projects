@@ -18,6 +18,7 @@ import com.quietlogic.allisok.ui.contacts.ContactsActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
+import com.quietlogic.allisok.ui.backup.ExportActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -131,8 +132,14 @@ class HomeActivity : AppCompatActivity() {
             }
 
             R.id.menu_language -> return true
-            R.id.menu_export -> return true
+
+            R.id.menu_export -> {
+                startActivity(Intent(this, ExportActivity::class.java))
+                return true
+            }
+
             R.id.menu_import -> return true
+
             R.id.menu_history -> return true
 
             R.id.menu_more_apps -> {
