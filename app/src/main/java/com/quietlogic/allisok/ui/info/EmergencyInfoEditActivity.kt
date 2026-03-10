@@ -9,6 +9,7 @@ import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.local.entity.EmergencyInfoEntity
 import com.quietlogic.allisok.data.repository.InfoRepository
 import com.quietlogic.allisok.databinding.ActivityEmergencyInfoEditBinding
+import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
 import kotlinx.coroutines.launch
 
@@ -20,7 +21,9 @@ class EmergencyInfoEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        LockGate.requireAdminUnlock(this)
+        if (!AdminSession.isActive()) {
+            LockGate.requireAdminUnlock(this)
+        }
 
         binding = ActivityEmergencyInfoEditBinding.inflate(layoutInflater)
         setContentView(binding.root)

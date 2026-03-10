@@ -39,8 +39,12 @@ class InfoActivity : AppCompatActivity() {
         val infoRepository = InfoRepository(database.emergencyInfoDao())
 
         binding.buttonEditEmergencyInfo.setOnClickListener {
-            AdminGate.requireAdmin(this) {
+            if (AdminSession.isActive()) {
                 startActivity(Intent(this, EmergencyInfoEditActivity::class.java))
+            } else {
+                AdminGate.requireAdmin(this) {
+                    startActivity(Intent(this, EmergencyInfoEditActivity::class.java))
+                }
             }
         }
 
