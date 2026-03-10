@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.alarm.engine.AlarmRescheduler
 import com.quietlogic.allisok.data.backup.RestoreRepository
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +52,9 @@ class ImportActivity : AppCompatActivity() {
                     val db = DatabaseProvider.getDatabase(applicationContext)
                     val repository = RestoreRepository(db)
                     repository.restoreFromJson(json)
+
+                    val rescheduler = AlarmRescheduler(applicationContext)
+                    rescheduler.rescheduleAll()
                 }
 
                 Toast.makeText(
