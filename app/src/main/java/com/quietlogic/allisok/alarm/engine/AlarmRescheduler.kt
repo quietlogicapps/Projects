@@ -35,6 +35,7 @@ class AlarmRescheduler(private val context: Context) {
 
                     planner.scheduleCareAlarm(
                         triggerAtMillis = triggerAtMillis,
+                        careItemId = item.id,
                         requestCode = planner.buildRequestCode(item.id, careTime.time),
                         title = item.name,
                         text = item.instruction

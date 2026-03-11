@@ -16,6 +16,7 @@ class AlarmScheduler(private val context: Context) {
 
     fun scheduleExact(
         triggerAtMillis: Long,
+        careItemId: Long,
         requestCode: Int,
         title: String = "Reminder",
         text: String = "Care reminder"
@@ -32,10 +33,11 @@ class AlarmScheduler(private val context: Context) {
         }
 
         val pendingIntent = buildPendingIntent(
+            triggerAtMillis = triggerAtMillis,
+            careItemId = careItemId,
             requestCode = requestCode,
             title = title,
-            text = text,
-            triggerAtMillis = triggerAtMillis
+            text = text
         )
 
         alarmManager.cancel(pendingIntent)
@@ -54,10 +56,11 @@ class AlarmScheduler(private val context: Context) {
 
     fun cancel(requestCode: Int) {
         val pendingIntent = buildPendingIntent(
+            triggerAtMillis = 0L,
+            careItemId = -1L,
             requestCode = requestCode,
             title = "x",
-            text = "x",
-            triggerAtMillis = 0L
+            text = "x"
         )
         alarmManager.cancel(pendingIntent)
     }
@@ -67,10 +70,11 @@ class AlarmScheduler(private val context: Context) {
     }
 
     private fun buildPendingIntent(
+        triggerAtMillis: Long,
+        careItemId: Long,
         requestCode: Int,
         title: String,
-        text: String,
-        triggerAtMillis: Long
+        text: String
     ): PendingIntent {
 
         val intent = Intent(context, AlarmReceiver::class.java).apply {
@@ -79,6 +83,7 @@ class AlarmScheduler(private val context: Context) {
             putExtra(EXTRA_TEXT, text)
             putExtra(EXTRA_REQUEST_CODE, requestCode)
             putExtra(EXTRA_TIME_TEXT, formatTime(triggerAtMillis))
+            putExtra(EXTRA_CARE_ITEM_ID, careItemId)
         }
 
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -109,5 +114,6 @@ class AlarmScheduler(private val context: Context) {
         const val EXTRA_TEXT = "extra_text"
         const val EXTRA_REQUEST_CODE = "extra_request_code"
         const val EXTRA_TIME_TEXT = "extra_time_text"
+        const val EXTRA_CARE_ITEM_ID = "extra_care_item_id"
     }
 }

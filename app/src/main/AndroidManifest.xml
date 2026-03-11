@@ -111,6 +111,15 @@
             android:name=".alarm.receiver.AlarmReceiver"
             android:exported="false" />
 
+        <!-- NEW: receiver for TAKEN -->
+        <receiver
+            android:name=".alarm.receiver.AlarmTakenReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.quietlogic.allisok.ALARM_TAKEN" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".alarm.receiver.BootReceiver"
             android:exported="true">

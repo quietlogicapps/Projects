@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.AlarmActivity
 import com.quietlogic.allisok.alarm.engine.AlarmScheduler
+import java.time.LocalDate
+import java.time.LocalTime
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -28,16 +30,37 @@ class AlarmReceiver : BroadcastReceiver() {
         val instruction = intent.getStringExtra(AlarmScheduler.EXTRA_TEXT) ?: ""
         val requestCode = intent.getIntExtra(AlarmScheduler.EXTRA_REQUEST_CODE, 0)
 
+        val careItemId = intent.getLongExtra(
+            AlarmScheduler.EXTRA_CARE_ITEM_ID,
+            -1L
+        )
+
+        val logDate = LocalDate.now().toString()
+
+        val logTime = runCatching {
+            LocalTime.parse(timeText)
+        }.getOrElse {
+            LocalTime.now()
+        }.toString()
+
         val activityIntent = Intent(context, AlarmActivity::class.java).apply {
+
             putExtra(AlarmActivity.EXTRA_TIME_TEXT, timeText)
             putExtra(AlarmActivity.EXTRA_CARE_NAME, careName)
             putExtra(AlarmActivity.EXTRA_INSTRUCTION, instruction)
             putExtra(AlarmActivity.EXTRA_REQUEST_CODE, requestCode)
+
+            putExtra(AlarmActivity.EXTRA_CARE_ITEM_ID, careItemId)
+            putExtra(AlarmActivity.EXTRA_LOG_DATE, logDate)
+            putExtra(AlarmActivity.EXTRA_LOG_TIME, logTime)
+
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
 
-        val piFlags = PendingIntent.FLAG_UPDATE_CURRENT or
-                (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0)
+        val piFlags =
+            PendingIntent.FLAG_UPDATE_CURRENT or
+                    (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        PendingIntent.FLAG_IMMUTABLE else 0)
 
         val fullScreenPi = PendingIntent.getActivity(
             context,
@@ -46,11 +69,17 @@ class AlarmReceiver : BroadcastReceiver() {
             piFlags
         )
 
-        val nm = ContextCompat.getSystemService(context, NotificationManager::class.java) ?: return
+        val nm =
+            ContextCompat.getSystemService(context, NotificationManager::class.java)
+                ?: return
+
         ensureChannel(nm)
 
         val notificationId =
-            if (requestCode != 0) requestCode else (System.currentTimeMillis() and 0x7fffffff).toInt()
+            if (requestCode != 0)
+                requestCode
+            else
+                (System.currentTimeMillis() and 0x7fffffff).toInt()
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
@@ -69,6 +98,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun ensureChannel(nm: NotificationManager) {
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
         val existing = nm.getNotificationChannel(CHANNEL_ID)
@@ -86,6 +116,7 @@ class AlarmReceiver : BroadcastReceiver() {
             "Alarms (ringtone + vibrate)",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
+
             description = "Care alarms (uses phone ringtone + vibration)"
             setSound(soundUri, attrs)
             enableVibration(true)

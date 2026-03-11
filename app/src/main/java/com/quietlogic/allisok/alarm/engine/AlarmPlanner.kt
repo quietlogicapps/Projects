@@ -17,15 +17,16 @@ class AlarmPlanner(private val context: Context) {
         }
     }
 
-    // Real alarm scheduling will be implemented later
     fun scheduleCareAlarm(
         triggerAtMillis: Long,
+        careItemId: Long,
         requestCode: Int,
         title: String,
         text: String
     ): Boolean {
         return scheduler.scheduleExact(
             triggerAtMillis = triggerAtMillis,
+            careItemId = careItemId,
             requestCode = requestCode,
             title = title,
             text = text

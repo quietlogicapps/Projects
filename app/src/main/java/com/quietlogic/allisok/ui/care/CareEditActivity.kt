@@ -235,6 +235,7 @@ class CareEditActivity : AppCompatActivity() {
 
                         planner.scheduleCareAlarm(
                             triggerAtMillis = triggerAtMillis,
+                            careItemId = itemId,
                             requestCode = requestCode,
                             title = name,
                             text = instruction
