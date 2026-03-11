@@ -15,6 +15,7 @@ import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.repository.CareRepository
 import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
+import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.ui.care.adapter.CareAdapter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -28,6 +29,11 @@ class CareActivity : AppCompatActivity() {
 
     private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+    override fun onStart() {
+        super.onStart()
+        LockGate.requireUserUnlock(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
