@@ -14,7 +14,10 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.alarm.engine.PermissionGate
+import com.quietlogic.allisok.security.LockGate
+import com.quietlogic.allisok.security.PinPrefs
 import com.quietlogic.allisok.ui.home.HomeActivity
+import com.quietlogic.allisok.ui.pin.PinActivity
 
 class PermissionSetupActivity : AppCompatActivity() {
 
@@ -33,6 +36,8 @@ class PermissionSetupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        resetRestoredPinDataOnFirstLaunch()
+
         setContentView(buildContentView())
         refreshUi()
         proceedIfReady()
@@ -48,16 +53,50 @@ class PermissionSetupActivity : AppCompatActivity() {
         proceedIfReady()
     }
 
+    private fun resetRestoredPinDataOnFirstLaunch() {
+        val firstRunPrefs = getSharedPreferences(FIRST_RUN_PREFS, MODE_PRIVATE)
+        val alreadyInitialized = firstRunPrefs.getBoolean(KEY_FIRST_RUN_DONE, false)
+
+        if (alreadyInitialized) {
+            return
+        }
+
+        getSharedPreferences("pin_prefs", MODE_PRIVATE)
+            .edit()
+            .clear()
+            .commit()
+
+        firstRunPrefs.edit()
+            .putBoolean(KEY_FIRST_RUN_DONE, true)
+            .commit()
+    }
+
     private fun proceedIfReady(force: Boolean = false) {
         val ok = PermissionGate.isFullyGranted(this)
+
         if (!ok) {
             if (force) {
-                // No-op: we intentionally block the app until permissions are granted.
+                // blocked until permissions are granted
             }
             return
         }
 
-        startActivity(Intent(this, HomeActivity::class.java))
+        openNextScreen()
+    }
+
+    private fun openNextScreen() {
+        val state = PinPrefs(this).getState()
+
+        val intent = if (state.userPinEnabled && !state.userPinHash.isNullOrBlank()) {
+            Intent(this, PinActivity::class.java).apply {
+                putExtra("mode", LockGate.MODE_USER_UNLOCK)
+            }
+        } else {
+            Intent(this, HomeActivity::class.java)
+        }
+
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
         finish()
     }
 
@@ -83,13 +122,10 @@ class PermissionSetupActivity : AppCompatActivity() {
 
         btnNotifications.isEnabled = needsNotif
         btnExactAlarms.isEnabled = needsExact
-
-        // Continue button is only visible when everything is OK (extra clarity)
         btnContinue.visibility = if (needsNotif || needsExact) View.GONE else View.VISIBLE
     }
 
     private fun onEnableNotificationsClicked() {
-        // Android 13+ uses runtime permission; below that we open app notification settings.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPostNotifications.launch(Manifest.permission.POST_NOTIFICATIONS)
             return
@@ -99,7 +135,6 @@ class PermissionSetupActivity : AppCompatActivity() {
     }
 
     private fun onEnableExactAlarmsClicked() {
-        // Exact alarms special access is Android 12+ (S)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             refreshUi()
             proceedIfReady()
@@ -111,7 +146,6 @@ class PermissionSetupActivity : AppCompatActivity() {
             intent.data = Uri.parse("package:$packageName")
             startActivity(intent)
         } catch (_: Exception) {
-            // Fallback: open app details settings
             openAppDetailsSettings()
         }
     }
@@ -191,5 +225,10 @@ class PermissionSetupActivity : AppCompatActivity() {
     private fun dp(value: Int): Int {
         val density = resources.displayMetrics.density
         return (value * density).toInt()
+    }
+
+    companion object {
+        private const val FIRST_RUN_PREFS = "first_run_prefs"
+        private const val KEY_FIRST_RUN_DONE = "first_run_done"
     }
 }

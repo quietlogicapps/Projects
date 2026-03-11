@@ -22,9 +22,14 @@ object LockGate {
 
         ensureObserverRegistered()
 
-        val prefs = PinPrefs(activity)
+        val state = PinPrefs(activity).getState()
 
-        if (!prefs.isUserPinEnabled()) {
+        // ❗ КРИТИЧНО: ако няма hash → няма PIN
+        if (state.userPinHash.isNullOrBlank()) {
+            return
+        }
+
+        if (!state.userPinEnabled) {
             return
         }
 

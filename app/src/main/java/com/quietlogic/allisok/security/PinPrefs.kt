@@ -26,15 +26,15 @@ class PinPrefs(context: Context) {
         val adminHash = prefs.getString(KEY_ADMIN_PIN_HASH, null)
 
         return PinState(
-            userPinEnabled = userEnabled,
+            userPinEnabled = userEnabled && !userHash.isNullOrBlank(),
             userPinHash = userHash,
-            adminPinEnabled = adminEnabled,
+            adminPinEnabled = adminEnabled && !adminHash.isNullOrBlank(),
             adminPinHash = adminHash
         )
     }
 
     fun isUserPinEnabled(): Boolean {
-        return prefs.getBoolean(KEY_USER_PIN_ENABLED, false)
+        return getState().userPinEnabled
     }
 
     fun setUserPin(hash: String) {
@@ -57,6 +57,7 @@ class PinPrefs(context: Context) {
 
         prefs.edit()
             .putBoolean(KEY_USER_PIN_ENABLED, false)
+            .remove(KEY_USER_PIN_HASH)
             .commit()
     }
 }

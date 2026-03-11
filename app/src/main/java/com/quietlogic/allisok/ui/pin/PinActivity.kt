@@ -306,6 +306,7 @@ class PinActivity : AppCompatActivity() {
         }
 
         pinPrefs.setUserPin(PinHasher.hash(pin))
+        LockGate.markUserUnlocked()
         setResult(Activity.RESULT_OK)
         finish()
     }
@@ -332,6 +333,7 @@ class PinActivity : AppCompatActivity() {
         }
 
         pinPrefs.setUserPin(PinHasher.hash(pin))
+        LockGate.markUserUnlocked()
         setResult(Activity.RESULT_OK)
         finish()
     }

@@ -25,6 +25,8 @@ import com.quietlogic.allisok.ui.security.SecurityActivity
 
 class HomeActivity : AppCompatActivity() {
 
+    private var skipUserUnlockOnce = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,6 +62,12 @@ class HomeActivity : AppCompatActivity() {
 
         updateAdminIndicator()
         invalidateOptionsMenu()
+
+        if (skipUserUnlockOnce) {
+            skipUserUnlockOnce = false
+            return
+        }
+
         LockGate.requireUserUnlock(this)
     }
 
@@ -72,8 +80,8 @@ class HomeActivity : AppCompatActivity() {
                 RESULT_OK -> {}
 
                 PinActivity.RESULT_OPEN_EMERGENCY_INFO -> {
+                    skipUserUnlockOnce = true
                     startActivity(Intent(this, InfoActivity::class.java))
-                    finish()
                 }
 
                 else -> {

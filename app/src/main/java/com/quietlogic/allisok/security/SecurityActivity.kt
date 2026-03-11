@@ -21,6 +21,8 @@ class SecurityActivity : AppCompatActivity() {
 
     private lateinit var pinPrefs: PinPrefs
 
+    private var isUpdatingUi = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_security)
@@ -38,13 +40,17 @@ class SecurityActivity : AppCompatActivity() {
 
         switchEnablePin.setOnCheckedChangeListener { _, isChecked ->
 
+            if (isUpdatingUi) {
+                return@setOnCheckedChangeListener
+            }
+
             if (isChecked) {
                 val intent = Intent(this, PinActivity::class.java)
                 intent.putExtra("PIN_TITLE", "Change PIN")
                 startActivity(intent)
             } else {
                 pinPrefs.disableUserPin()
-                textPinStatus.text = "App opens without PIN"
+                updateState()
             }
         }
 
@@ -56,8 +62,7 @@ class SecurityActivity : AppCompatActivity() {
 
         buttonUserDisablePin.setOnClickListener {
             pinPrefs.disableUserPin()
-            switchEnablePin.isChecked = false
-            textPinStatus.text = "App opens without PIN"
+            updateState()
         }
 
         buttonAdminPin.setOnClickListener {
@@ -82,11 +87,13 @@ class SecurityActivity : AppCompatActivity() {
 
         val enabled = pinPrefs.isUserPinEnabled()
 
+        isUpdatingUi = true
+        switchEnablePin.isChecked = enabled
+        isUpdatingUi = false
+
         if (enabled) {
-            switchEnablePin.isChecked = true
             textPinStatus.text = "App PIN enabled"
         } else {
-            switchEnablePin.isChecked = false
             textPinStatus.text = "App opens without PIN"
         }
     }
