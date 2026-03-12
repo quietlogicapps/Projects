@@ -24,6 +24,9 @@ class AlarmActivity : AppCompatActivity() {
         const val EXTRA_INSTRUCTION = "extra_instruction"
         const val EXTRA_REQUEST_CODE = "extra_request_code"
         const val EXTRA_CARE_ITEM_ID = "extra_care_item_id"
+        const val EXTRA_CARE_ITEM_IDS = "extra_care_item_ids"
+        const val EXTRA_CARE_ITEM_NAMES = "extra_care_item_names"
+        const val EXTRA_CARE_ITEM_INSTRUCTIONS = "extra_care_item_instructions"
         const val EXTRA_LOG_DATE = "extra_log_date"
         const val EXTRA_LOG_TIME = "extra_log_time"
     }
@@ -54,34 +57,123 @@ class AlarmActivity : AppCompatActivity() {
         val careName = intent.getStringExtra(EXTRA_CARE_NAME) ?: ""
         val instruction = intent.getStringExtra(EXTRA_INSTRUCTION) ?: ""
         val requestCode = intent.getIntExtra(EXTRA_REQUEST_CODE, 0)
-        val careItemId = intent.getLongExtra(EXTRA_CARE_ITEM_ID, -1L)
+        val primaryCareItemId = intent.getLongExtra(EXTRA_CARE_ITEM_ID, -1L)
+
+        val careItemIds = intent.getLongArrayExtra(EXTRA_CARE_ITEM_IDS)
+        val careItemNames = intent.getStringArrayExtra(EXTRA_CARE_ITEM_NAMES)
+        val careItemInstructions = intent.getStringArrayExtra(EXTRA_CARE_ITEM_INSTRUCTIONS)
 
         val logDate = intent.getStringExtra(EXTRA_LOG_DATE) ?: ""
         val logTime = intent.getStringExtra(EXTRA_LOG_TIME) ?: ""
 
-        findViewById<TextView>(R.id.textAlarmTime).text = timeText
-        findViewById<TextView>(R.id.textCareName).text = careName
-        findViewById<TextView>(R.id.textInstruction).text = instruction
+        val textAlarmTime = findViewById<TextView>(R.id.textAlarmTime)
+        val textCareName = findViewById<TextView>(R.id.textCareName)
+        val textInstruction = findViewById<TextView>(R.id.textInstruction)
+
+        textAlarmTime.text = timeText
+
+        val hasGroupedItems =
+            careItemIds != null &&
+                    careItemIds.isNotEmpty() &&
+                    careItemNames != null &&
+                    careItemNames.size == careItemIds.size
+
+        if (hasGroupedItems) {
+            textCareName.text = "${careItemIds!!.size} reminders"
+            textInstruction.text = careItemNames!!
+                .joinToString(separator = "\n") { "• $it" }
+        } else {
+            textCareName.text = careName
+            textInstruction.text = instruction
+        }
 
         findViewById<Button>(R.id.buttonTaken).setOnClickListener {
             stopRingtone()
-            sendTakenBroadcast(requestCode, careItemId, logDate, logTime)
+            val idsToLog = when {
+                hasGroupedItems -> careItemIds!!
+                primaryCareItemId > 0L -> longArrayOf(primaryCareItemId)
+                else -> longArrayOf()
+            }
+
+            idsToLog.forEach { id ->
+                sendTakenBroadcast(requestCode, id, logDate, logTime)
+            }
             finish()
         }
 
         findViewById<Button>(R.id.buttonSnooze5).setOnClickListener {
             stopRingtone()
-            snoozeMinutes(5, requestCode, careItemId, careName, instruction)
+            if (hasGroupedItems &&
+                careItemIds != null &&
+                careItemNames != null &&
+                careItemInstructions != null
+            ) {
+                snoozeMinutesGrouped(
+                    minutes = 5,
+                    requestCode = requestCode,
+                    careItemIds = careItemIds,
+                    careItemNames = careItemNames,
+                    careItemInstructions = careItemInstructions
+                )
+            } else {
+                snoozeMinutesSingle(
+                    minutes = 5,
+                    requestCode = requestCode,
+                    careItemId = primaryCareItemId,
+                    careName = careName,
+                    instruction = instruction
+                )
+            }
         }
 
         findViewById<Button>(R.id.buttonSnooze10).setOnClickListener {
             stopRingtone()
-            snoozeMinutes(10, requestCode, careItemId, careName, instruction)
+            if (hasGroupedItems &&
+                careItemIds != null &&
+                careItemNames != null &&
+                careItemInstructions != null
+            ) {
+                snoozeMinutesGrouped(
+                    minutes = 10,
+                    requestCode = requestCode,
+                    careItemIds = careItemIds,
+                    careItemNames = careItemNames,
+                    careItemInstructions = careItemInstructions
+                )
+            } else {
+                snoozeMinutesSingle(
+                    minutes = 10,
+                    requestCode = requestCode,
+                    careItemId = primaryCareItemId,
+                    careName = careName,
+                    instruction = instruction
+                )
+            }
         }
 
         findViewById<Button>(R.id.buttonSnooze15).setOnClickListener {
             stopRingtone()
-            snoozeMinutes(15, requestCode, careItemId, careName, instruction)
+            if (hasGroupedItems &&
+                careItemIds != null &&
+                careItemNames != null &&
+                careItemInstructions != null
+            ) {
+                snoozeMinutesGrouped(
+                    minutes = 15,
+                    requestCode = requestCode,
+                    careItemIds = careItemIds,
+                    careItemNames = careItemNames,
+                    careItemInstructions = careItemInstructions
+                )
+            } else {
+                snoozeMinutesSingle(
+                    minutes = 15,
+                    requestCode = requestCode,
+                    careItemId = primaryCareItemId,
+                    careName = careName,
+                    instruction = instruction
+                )
+            }
         }
     }
 
@@ -138,7 +230,7 @@ class AlarmActivity : AppCompatActivity() {
         ringtone = null
     }
 
-    private fun snoozeMinutes(
+    private fun snoozeMinutesSingle(
         minutes: Int,
         requestCode: Int,
         careItemId: Long,
@@ -155,6 +247,28 @@ class AlarmActivity : AppCompatActivity() {
             requestCode = requestCode,
             title = careName.ifBlank { "Reminder" },
             text = instruction.ifBlank { "Care reminder" }
+        )
+
+        finish()
+    }
+
+    private fun snoozeMinutesGrouped(
+        minutes: Int,
+        requestCode: Int,
+        careItemIds: LongArray,
+        careItemNames: Array<String>,
+        careItemInstructions: Array<String>
+    ) {
+
+        val triggerAtMillis =
+            System.currentTimeMillis() + minutes * 60_000L
+
+        AlarmScheduler(this).scheduleExactGrouped(
+            triggerAtMillis = triggerAtMillis,
+            requestCode = requestCode,
+            careItemIds = careItemIds,
+            careItemNames = careItemNames,
+            careItemInstructions = careItemInstructions
         )
 
         finish()

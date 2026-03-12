@@ -54,6 +54,50 @@ class AlarmScheduler(private val context: Context) {
         }
     }
 
+    fun scheduleExactGrouped(
+        triggerAtMillis: Long,
+        requestCode: Int,
+        careItemIds: LongArray,
+        careItemNames: Array<String>,
+        careItemInstructions: Array<String>,
+        title: String = "Reminder",
+        text: String = "Care reminder"
+    ): Boolean {
+
+        if (!PermissionGate.hasExactAlarmPermission(context)) {
+            return false
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            !alarmManager.canScheduleExactAlarms()
+        ) {
+            return false
+        }
+
+        val pendingIntent = buildPendingIntentGrouped(
+            triggerAtMillis = triggerAtMillis,
+            requestCode = requestCode,
+            careItemIds = careItemIds,
+            careItemNames = careItemNames,
+            careItemInstructions = careItemInstructions,
+            title = title,
+            text = text
+        )
+
+        alarmManager.cancel(pendingIntent)
+
+        return try {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pendingIntent
+            )
+            true
+        } catch (_: SecurityException) {
+            false
+        }
+    }
+
     fun cancel(requestCode: Int) {
         val pendingIntent = buildPendingIntent(
             triggerAtMillis = 0L,
@@ -96,6 +140,40 @@ class AlarmScheduler(private val context: Context) {
         )
     }
 
+    private fun buildPendingIntentGrouped(
+        triggerAtMillis: Long,
+        requestCode: Int,
+        careItemIds: LongArray,
+        careItemNames: Array<String>,
+        careItemInstructions: Array<String>,
+        title: String,
+        text: String
+    ): PendingIntent {
+
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            action = ACTION_CARE_ALARM
+            putExtra(EXTRA_TITLE, title)
+            putExtra(EXTRA_TEXT, text)
+            putExtra(EXTRA_REQUEST_CODE, requestCode)
+            putExtra(EXTRA_TIME_TEXT, formatTime(triggerAtMillis))
+            if (careItemIds.isNotEmpty()) {
+                putExtra(EXTRA_CARE_ITEM_ID, careItemIds.first())
+            }
+            putExtra(EXTRA_CARE_ITEM_IDS, careItemIds)
+            putExtra(EXTRA_CARE_ITEM_NAMES, careItemNames)
+            putExtra(EXTRA_CARE_ITEM_INSTRUCTIONS, careItemInstructions)
+        }
+
+        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+
+        return PendingIntent.getBroadcast(
+            context,
+            requestCode,
+            intent,
+            flags
+        )
+    }
+
     private fun formatTime(timeMillis: Long): String {
         if (timeMillis <= 0L) return "--:--"
 
@@ -115,5 +193,8 @@ class AlarmScheduler(private val context: Context) {
         const val EXTRA_REQUEST_CODE = "extra_request_code"
         const val EXTRA_TIME_TEXT = "extra_time_text"
         const val EXTRA_CARE_ITEM_ID = "extra_care_item_id"
+        const val EXTRA_CARE_ITEM_IDS = "extra_care_item_ids"
+        const val EXTRA_CARE_ITEM_NAMES = "extra_care_item_names"
+        const val EXTRA_CARE_ITEM_INSTRUCTIONS = "extra_care_item_instructions"
     }
 }
