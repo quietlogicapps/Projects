@@ -19,6 +19,7 @@ import com.quietlogic.allisok.security.PinHasher
 import com.quietlogic.allisok.security.PinPrefs
 import com.quietlogic.allisok.security.PinValidator
 import com.quietlogic.allisok.ui.home.HomeActivity
+import com.quietlogic.allisok.ui.info.InfoActivity
 
 class PinActivity : AppCompatActivity() {
 
@@ -83,8 +84,14 @@ class PinActivity : AppCompatActivity() {
 
         buttonSecondary.setOnClickListener {
             if (currentScreen == SCREEN_ENTER_PIN && unlockMode == LockGate.MODE_USER_UNLOCK) {
-                setResult(RESULT_OPEN_EMERGENCY_INFO)
-                finish()
+                if (callingActivity != null) {
+                    // Launched via LockGate.requireUserUnlock() → return a result to HomeActivity
+                    setResult(RESULT_OPEN_EMERGENCY_INFO)
+                    finish()
+                } else {
+                    // Launched as the first screen from PermissionSetupActivity → open Info directly
+                    startActivity(Intent(this, InfoActivity::class.java))
+                }
             }
         }
     }
