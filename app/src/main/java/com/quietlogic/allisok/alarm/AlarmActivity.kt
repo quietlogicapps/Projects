@@ -1,5 +1,6 @@
 package com.quietlogic.allisok.alarm
 
+import android.app.NotificationManager
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.Ringtone
@@ -99,6 +100,10 @@ class AlarmActivity : AppCompatActivity() {
 
             idsToLog.forEach { id ->
                 sendTakenBroadcast(requestCode, id, logDate, logTime)
+            }
+            if (requestCode != 0) {
+                val nm = getSystemService(NotificationManager::class.java)
+                nm?.cancel(requestCode)
             }
             finish()
         }
