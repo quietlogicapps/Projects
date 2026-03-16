@@ -8,12 +8,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.engine.AlarmScheduler
+import com.quietlogic.allisok.alarm.engine.SnoozeStore
 import com.quietlogic.allisok.alarm.receiver.AlarmTakenReceiver
 
 class AlarmActivity : AppCompatActivity() {
@@ -108,6 +110,7 @@ class AlarmActivity : AppCompatActivity() {
                 careItemNames != null &&
                 careItemInstructions != null
             ) {
+                Log.d("AllIsOK", "AlarmActivity.snooze5 grouped rc=$requestCode ids=${careItemIds.joinToString()}")
                 snoozeMinutesGrouped(
                     minutes = 5,
                     requestCode = requestCode,
@@ -116,6 +119,7 @@ class AlarmActivity : AppCompatActivity() {
                     careItemInstructions = careItemInstructions
                 )
             } else {
+                Log.d("AllIsOK", "AlarmActivity.snooze5 single rc=$requestCode careItemId=$primaryCareItemId")
                 snoozeMinutesSingle(
                     minutes = 5,
                     requestCode = requestCode,
@@ -133,6 +137,7 @@ class AlarmActivity : AppCompatActivity() {
                 careItemNames != null &&
                 careItemInstructions != null
             ) {
+                Log.d("AllIsOK", "AlarmActivity.snooze10 grouped rc=$requestCode ids=${careItemIds.joinToString()}")
                 snoozeMinutesGrouped(
                     minutes = 10,
                     requestCode = requestCode,
@@ -141,6 +146,7 @@ class AlarmActivity : AppCompatActivity() {
                     careItemInstructions = careItemInstructions
                 )
             } else {
+                Log.d("AllIsOK", "AlarmActivity.snooze10 single rc=$requestCode careItemId=$primaryCareItemId")
                 snoozeMinutesSingle(
                     minutes = 10,
                     requestCode = requestCode,
@@ -158,6 +164,7 @@ class AlarmActivity : AppCompatActivity() {
                 careItemNames != null &&
                 careItemInstructions != null
             ) {
+                Log.d("AllIsOK", "AlarmActivity.snooze15 grouped rc=$requestCode ids=${careItemIds.joinToString()}")
                 snoozeMinutesGrouped(
                     minutes = 15,
                     requestCode = requestCode,
@@ -166,6 +173,7 @@ class AlarmActivity : AppCompatActivity() {
                     careItemInstructions = careItemInstructions
                 )
             } else {
+                Log.d("AllIsOK", "AlarmActivity.snooze15 single rc=$requestCode careItemId=$primaryCareItemId")
                 snoozeMinutesSingle(
                     minutes = 15,
                     requestCode = requestCode,
@@ -241,6 +249,20 @@ class AlarmActivity : AppCompatActivity() {
         val triggerAtMillis =
             System.currentTimeMillis() + minutes * 60_000L
 
+        Log.d(
+            "AllIsOK",
+            "AlarmActivity.snoozeMinutesSingle rc=$requestCode careItemId=$careItemId " +
+                    "minutes=$minutes triggerAt=$triggerAtMillis"
+        )
+
+        SnoozeStore(this).saveSingle(
+            requestCode = requestCode,
+            triggerAtMillis = triggerAtMillis,
+            careItemId = careItemId,
+            title = careName.ifBlank { "Reminder" },
+            text = instruction.ifBlank { "Care reminder" }
+        )
+
         AlarmScheduler(this).scheduleExact(
             triggerAtMillis = triggerAtMillis,
             careItemId = careItemId,
@@ -262,6 +284,20 @@ class AlarmActivity : AppCompatActivity() {
 
         val triggerAtMillis =
             System.currentTimeMillis() + minutes * 60_000L
+
+        Log.d(
+            "AllIsOK",
+            "AlarmActivity.snoozeMinutesGrouped rc=$requestCode minutes=$minutes " +
+                    "triggerAt=$triggerAtMillis ids=${careItemIds.joinToString()}"
+        )
+
+        SnoozeStore(this).saveGrouped(
+            requestCode = requestCode,
+            triggerAtMillis = triggerAtMillis,
+            careItemIds = careItemIds,
+            careItemNames = careItemNames,
+            careItemInstructions = careItemInstructions
+        )
 
         AlarmScheduler(this).scheduleExactGrouped(
             triggerAtMillis = triggerAtMillis,

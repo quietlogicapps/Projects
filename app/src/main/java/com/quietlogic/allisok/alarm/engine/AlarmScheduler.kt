@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import com.quietlogic.allisok.alarm.receiver.AlarmReceiver
 import java.util.Calendar
 import java.util.Locale
@@ -23,12 +24,20 @@ class AlarmScheduler(private val context: Context) {
     ): Boolean {
 
         if (!PermissionGate.hasExactAlarmPermission(context)) {
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExact blockedMissingPermission rc=$requestCode careItemId=$careItemId"
+            )
             return false
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
             !alarmManager.canScheduleExactAlarms()
         ) {
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExact blockedBySystem rc=$requestCode careItemId=$careItemId"
+            )
             return false
         }
 
@@ -40,6 +49,11 @@ class AlarmScheduler(private val context: Context) {
             text = text
         )
 
+        Log.d(
+            "AllIsOK",
+            "AlarmScheduler.scheduleExact scheduling rc=$requestCode careItemId=$careItemId triggerAt=$triggerAtMillis"
+        )
+
         alarmManager.cancel(pendingIntent)
 
         return try {
@@ -48,8 +62,16 @@ class AlarmScheduler(private val context: Context) {
                 triggerAtMillis,
                 pendingIntent
             )
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExact scheduled rc=$requestCode careItemId=$careItemId triggerAt=$triggerAtMillis"
+            )
             true
         } catch (_: SecurityException) {
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExact securityException rc=$requestCode careItemId=$careItemId"
+            )
             false
         }
     }
@@ -65,12 +87,20 @@ class AlarmScheduler(private val context: Context) {
     ): Boolean {
 
         if (!PermissionGate.hasExactAlarmPermission(context)) {
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExactGrouped blockedMissingPermission rc=$requestCode ids=${careItemIds.toList()}"
+            )
             return false
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
             !alarmManager.canScheduleExactAlarms()
         ) {
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExactGrouped blockedBySystem rc=$requestCode ids=${careItemIds.toList()}"
+            )
             return false
         }
 
@@ -84,6 +114,11 @@ class AlarmScheduler(private val context: Context) {
             text = text
         )
 
+        Log.d(
+            "AllIsOK",
+            "AlarmScheduler.scheduleExactGrouped scheduling rc=$requestCode ids=${careItemIds.toList()} triggerAt=$triggerAtMillis"
+        )
+
         alarmManager.cancel(pendingIntent)
 
         return try {
@@ -92,8 +127,16 @@ class AlarmScheduler(private val context: Context) {
                 triggerAtMillis,
                 pendingIntent
             )
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExactGrouped scheduled rc=$requestCode ids=${careItemIds.toList()} triggerAt=$triggerAtMillis"
+            )
             true
         } catch (_: SecurityException) {
+            Log.d(
+                "AllIsOK",
+                "AlarmScheduler.scheduleExactGrouped securityException rc=$requestCode"
+            )
             false
         }
     }
@@ -106,6 +149,7 @@ class AlarmScheduler(private val context: Context) {
             title = "x",
             text = "x"
         )
+        Log.d("AllIsOK", "AlarmScheduler.cancel rc=$requestCode")
         alarmManager.cancel(pendingIntent)
     }
 

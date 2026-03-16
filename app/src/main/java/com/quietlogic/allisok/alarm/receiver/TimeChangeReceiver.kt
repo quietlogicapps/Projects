@@ -15,7 +15,11 @@ class TimeChangeReceiver : BroadcastReceiver() {
             "Time or timezone changed — alarm reschedule will run here later"
         )
 
-        AlarmRescheduler(context).rescheduleAll()
+        if (intent.action == Intent.ACTION_TIMEZONE_CHANGED) {
+            AlarmRescheduler(context).rescheduleAfterTimezoneChanged()
+        } else {
+            AlarmRescheduler(context).rescheduleAll()
+        }
 
     }
 }

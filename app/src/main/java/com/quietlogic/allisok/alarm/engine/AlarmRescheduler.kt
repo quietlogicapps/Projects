@@ -1,6 +1,7 @@
 package com.quietlogic.allisok.alarm.engine
 
 import android.content.Context
+import android.util.Log
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import kotlinx.coroutines.runBlocking
 import java.time.DayOfWeek
@@ -43,6 +44,13 @@ class AlarmRescheduler(private val context: Context) {
                 }
             }
         }
+    }
+
+    fun rescheduleAfterTimezoneChanged() {
+        Log.d("AllIsOK", "AlarmRescheduler.rescheduleAfterTimezoneChanged begin")
+        rescheduleAll()
+        val restored = SnoozeStore(context.applicationContext).rescheduleAllActive()
+        Log.d("AllIsOK", "AlarmRescheduler.rescheduleAfterTimezoneChanged done restored=$restored")
     }
 
     private fun findNextTriggerAtMillis(

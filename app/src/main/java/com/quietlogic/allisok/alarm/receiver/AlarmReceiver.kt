@@ -12,11 +12,13 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.AlarmActivity
 import com.quietlogic.allisok.alarm.engine.AlarmScheduler
+import com.quietlogic.allisok.alarm.engine.SnoozeStore
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,10 +33,24 @@ class AlarmReceiver : BroadcastReceiver() {
 
         if (intent.action != AlarmScheduler.ACTION_CARE_ALARM) return
 
-        val timeText = intent.getStringExtra(AlarmScheduler.EXTRA_TIME_TEXT) ?: "--:--"
+        val requestCode = intent.getIntExtra(AlarmScheduler.EXTRA_REQUEST_CODE, 0)
+        val timeTextRaw = intent.getStringExtra(AlarmScheduler.EXTRA_TIME_TEXT)
+        val careItemIdRaw = intent.getLongExtra(AlarmScheduler.EXTRA_CARE_ITEM_ID, -1L)
+
+        Log.d(
+            "AllIsOK",
+            "AlarmReceiver.onReceive action=${intent.action} rc=$requestCode " +
+                    "timeText=$timeTextRaw careItemId=$careItemIdRaw"
+        )
+
+        val timeText = timeTextRaw ?: "--:--"
         val baseCareName = intent.getStringExtra(AlarmScheduler.EXTRA_TITLE) ?: "Reminder"
         val baseInstruction = intent.getStringExtra(AlarmScheduler.EXTRA_TEXT) ?: ""
-        val requestCode = intent.getIntExtra(AlarmScheduler.EXTRA_REQUEST_CODE, 0)
+
+        if (requestCode != 0) {
+            Log.d("AllIsOK", "AlarmReceiver.clearSnooze rc=$requestCode")
+            SnoozeStore(context.applicationContext).clear(requestCode)
+        }
 
         val baseCareItemId = intent.getLongExtra(
             AlarmScheduler.EXTRA_CARE_ITEM_ID,
