@@ -8,10 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.media.AudioAttributes
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -242,21 +239,14 @@ class AlarmReceiver : BroadcastReceiver() {
         val existing = nm.getNotificationChannel(CHANNEL_ID)
         if (existing != null) return
 
-        val soundUri: Uri = Settings.System.DEFAULT_RINGTONE_URI
-
-        val attrs = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ALARM)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
-
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Alarms (ringtone + vibrate)",
+            "Alarms (vibrate only)",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
 
-            description = "Care alarms (uses phone ringtone + vibration)"
-            setSound(soundUri, attrs)
+            description = "Care alarms (sound played by alarm UI; channel is vibrate-only)"
+            setSound(null, null)
             enableVibration(true)
             vibrationPattern = longArrayOf(0, 500, 300, 500, 300, 800)
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC

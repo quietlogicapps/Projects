@@ -36,6 +36,8 @@ class AlarmActivity : AppCompatActivity() {
 
     private var ringtone: Ringtone? = null
     private val handler = Handler(Looper.getMainLooper())
+    private var audioKey: String = ""
+    private var audioAcquired: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +70,7 @@ class AlarmActivity : AppCompatActivity() {
 
         val logDate = intent.getStringExtra(EXTRA_LOG_DATE) ?: ""
         val logTime = intent.getStringExtra(EXTRA_LOG_TIME) ?: ""
+        audioKey = "alarm|$logDate|$logTime"
 
         val textAlarmTime = findViewById<TextView>(R.id.textAlarmTime)
         val textCareName = findViewById<TextView>(R.id.textCareName)
@@ -196,8 +199,12 @@ class AlarmActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        stopRingtone()
         super.onPause()
+    }
+
+    override fun onStop() {
+        stopRingtone()
+        super.onStop()
     }
 
     override fun onDestroy() {
@@ -208,6 +215,22 @@ class AlarmActivity : AppCompatActivity() {
     private fun startRingtone() {
 
         if (ringtone?.isPlaying == true) return
+
+        val shouldPlayAudio: Boolean =
+            if (audioAcquired) {
+                true
+            } else {
+                try {
+                    AlarmAudioSession.tryAcquire(audioKey).also { acquired ->
+                        audioAcquired = acquired
+                    }
+                } catch (_: Throwable) {
+                    // Fail-safe: never allow an exception in the guard to cause a silent alarm.
+                    true
+                }
+            }
+
+        if (!shouldPlayAudio) return
 
         val uri = RingtoneManager.getActualDefaultRingtoneUri(
             this,
@@ -241,6 +264,13 @@ class AlarmActivity : AppCompatActivity() {
         }
 
         ringtone = null
+        if (audioAcquired) {
+            AlarmAudioSession.release(audioKey)
+        } else {
+            // Safe even if we never acquired; release() is ownership-checked.
+            AlarmAudioSession.release(audioKey)
+        }
+        audioAcquired = false
     }
 
     private fun snoozeMinutesSingle(
