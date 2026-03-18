@@ -16,6 +16,7 @@ class HistoryAdapter(
 ) : RecyclerView.Adapter<HistoryAdapter.VH>() {
 
     private val items = mutableListOf<CareItemEntity>()
+    var dateFormatter: java.time.format.DateTimeFormatter? = null
 
     fun submitList(newItems: List<CareItemEntity>) {
         items.clear()
@@ -79,7 +80,7 @@ class HistoryAdapter(
         val item = items[position]
 
         holder.name.text = item.name
-        holder.subtitle.text = item.endDate.toString()
+        holder.subtitle.text = dateFormatter?.format(item.endDate) ?: item.endDate.toString()
 
         holder.delete.setOnClickListener {
             onDeleteClick(item.id)

@@ -11,6 +11,8 @@ import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.repository.CareRepository
+import com.quietlogic.allisok.data.repository.SettingsRepository
+import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -50,8 +52,11 @@ class HistoryActivity : AppCompatActivity() {
         recycler.adapter = adapter
 
         lifecycleScope.launch {
-            repository.getAllArchivedCareItems().collect { items ->
+            val settings = SettingsRepository(db.appSettingsDao()).getSettings().first()
+            val pattern = if (settings?.dateFormat == "US") "MM/dd/yyyy" else "dd/MM/yyyy"
+            adapter.dateFormatter = DateTimeFormatter.ofPattern(pattern)
 
+            repository.getAllArchivedCareItems().collect { items ->
                 adapter.submitList(items)
 
                 if (items.isEmpty()) {
@@ -62,6 +67,18 @@ class HistoryActivity : AppCompatActivity() {
                     recycler.visibility = View.VISIBLE
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        lifecycleScope.launch {
+            kotlinx.coroutines.delay(500)
+            val settings = SettingsRepository(db.appSettingsDao()).getSettings().first()
+            val pattern = if (settings?.dateFormat == "US") "MM/dd/yyyy" else "dd/MM/yyyy"
+            adapter.dateFormatter = DateTimeFormatter.ofPattern(pattern)
+            adapter.notifyDataSetChanged()
         }
     }
 }

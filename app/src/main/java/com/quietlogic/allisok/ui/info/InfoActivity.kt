@@ -6,13 +6,18 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.quietlogic.allisok.data.local.entity.RecentTakenItem
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.repository.CareLogRepository
 import com.quietlogic.allisok.data.repository.InfoRepository
+import com.quietlogic.allisok.data.repository.SettingsRepository
 import com.quietlogic.allisok.databinding.ActivityInfoBinding
 import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class InfoActivity : AppCompatActivity() {
 
@@ -49,8 +54,24 @@ class InfoActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
+            val settings = SettingsRepository(DatabaseProvider.getDatabase(applicationContext).appSettingsDao()).getSettings().first()
+            val pattern = if (settings?.dateFormat == "US") "MM/dd/yyyy" else "dd/MM/yyyy"
+            val formatter = DateTimeFormatter.ofPattern(pattern)
+
             careLogRepository.getRecentLast72Hours().collect { list ->
-                adapter.submitList(list)
+                val formatted = list.map { item ->
+                    val parsedDate = try {
+                        LocalDate.parse(item.date).format(formatter)
+                    } catch (e: Exception) {
+                        item.date
+                    }
+                    RecentTakenItem(
+                        date = parsedDate,
+                        scheduledTime = item.scheduledTime,
+                        careItemName = item.careItemName
+                    )
+                }
+                adapter.submitList(formatted)
             }
         }
 
