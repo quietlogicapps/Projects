@@ -16,8 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.alarm.engine.PermissionGate
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.security.PinPrefs
+import com.quietlogic.allisok.security.TrialManager
 import com.quietlogic.allisok.ui.home.HomeActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
+import com.quietlogic.allisok.ui.trial.TrialEndedActivity
 
 class PermissionSetupActivity : AppCompatActivity() {
 
@@ -85,6 +87,16 @@ class PermissionSetupActivity : AppCompatActivity() {
     }
 
     private fun openNextScreen() {
+        TrialManager.ensureTrialStarted(this)
+
+        if (!TrialManager.isTrialActive(this)) {
+            val intent = Intent(this, TrialEndedActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            return
+        }
+
         val state = PinPrefs(this).getState()
 
         val intent = if (state.userPinEnabled && !state.userPinHash.isNullOrBlank()) {
