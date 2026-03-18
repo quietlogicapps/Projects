@@ -229,6 +229,10 @@ class AlarmReceiver : BroadcastReceiver() {
                 .build()
 
             nm.notify(notificationId, notification)
+
+            try {
+                context.startActivity(activityIntent)
+            } catch (_: Throwable) {}
         }
     }
 
