@@ -20,6 +20,7 @@ import com.quietlogic.allisok.ui.contacts.ContactsActivity
 import com.quietlogic.allisok.ui.history.HistoryActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
 import com.quietlogic.allisok.ui.language.LanguageActivity
+import com.quietlogic.allisok.ui.settings.DateFormatActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
 
@@ -144,6 +145,11 @@ class HomeActivity : AppCompatActivity() {
 
             R.id.menu_language -> {
                 startActivity(Intent(this, LanguageActivity::class.java))
+                return true
+            }
+
+            R.id.menu_date_format -> {
+                startActivity(Intent(this, DateFormatActivity::class.java))
                 return true
             }
 

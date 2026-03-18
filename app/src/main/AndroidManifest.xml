@@ -96,6 +96,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.settings.DateFormatActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.security.SecurityActivity"
             android:exported="false" />
 

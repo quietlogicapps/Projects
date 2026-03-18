@@ -13,6 +13,7 @@ import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.repository.CareRepository
+import com.quietlogic.allisok.data.repository.SettingsRepository
 import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
@@ -28,7 +29,7 @@ class CareActivity : AppCompatActivity() {
     private lateinit var adapter: CareAdapter
 
     private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-    private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private var dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     override fun onStart() {
         super.onStart()
@@ -81,6 +82,10 @@ class CareActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
+            val settings = SettingsRepository(db.appSettingsDao()).getSettings().first()
+            val pattern = if (settings?.dateFormat == "US") "MM/dd/yyyy" else "dd/MM/yyyy"
+            dateFormatter = DateTimeFormatter.ofPattern(pattern)
+
             repository.archiveExpiredItems()
 
             db.careItemDao().getAllActive().collect { items ->
@@ -101,8 +106,9 @@ class CareActivity : AppCompatActivity() {
                             .joinToString(", ")
                     }
 
+                    val currentDateFormatter = dateFormatter
                     val dateRange =
-                        "${item.startDate.format(dateFormatter)} → ${item.endDate.format(dateFormatter)}"
+                        "${item.startDate.format(currentDateFormatter)} → ${item.endDate.format(currentDateFormatter)}"
 
                     val repeatText = when {
                         item.repeatType == "DAILY" -> "Daily"
@@ -133,7 +139,43 @@ class CareActivity : AppCompatActivity() {
         adapter.setAdminMode(AdminSession.isActive())
 
         lifecycleScope.launch {
+            kotlinx.coroutines.delay(500)
+
+            val settings = SettingsRepository(db.appSettingsDao()).getSettings().first()
+            val pattern = if (settings?.dateFormat == "US") "MM/dd/yyyy" else "dd/MM/yyyy"
+            dateFormatter = DateTimeFormatter.ofPattern(pattern)
+
             repository.archiveExpiredItems()
+
+            val items = db.careItemDao().getAllActive().first()
+            val finalRows = mutableListOf<CareAdapter.Row>()
+
+            for (item in items) {
+                val times = db.careTimeDao().getByItemId(item.id).first()
+
+                val timesText = if (times.isEmpty()) "—"
+                else times.map { it.time.format(timeFormatter) }.sorted().joinToString(", ")
+
+                val dateRange = "${item.startDate.format(dateFormatter)} → ${item.endDate.format(dateFormatter)}"
+
+                val repeatText = when {
+                    item.repeatType == "DAILY" -> "Daily"
+                    item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", " ")
+                    else -> item.repeatType
+                }
+
+                finalRows.add(
+                    CareAdapter.Row(
+                        id = item.id,
+                        name = item.name,
+                        subtitle = "$timesText • ${item.instruction} • $repeatText • $dateRange"
+                    )
+                )
+            }
+
+            val empty = findViewById<TextView>(R.id.textEmpty)
+            adapter.submitList(finalRows)
+            empty.visibility = if (finalRows.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

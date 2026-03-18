@@ -14,7 +14,8 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "allisok_database"
-            ).build().also { database ->
+            ).addMigrations(AppDatabase.MIGRATION_1_2)
+                .build().also { database ->
                 instance = database
             }
         }

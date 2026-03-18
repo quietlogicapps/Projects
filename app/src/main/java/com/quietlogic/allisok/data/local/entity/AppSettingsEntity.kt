@@ -17,5 +17,7 @@ data class AppSettingsEntity(
 
     val isTrialUsed: Boolean = false,
 
-    val languageCode: String = "en"
+    val languageCode: String = "en",
+
+    val dateFormat: String = "EU"
 )

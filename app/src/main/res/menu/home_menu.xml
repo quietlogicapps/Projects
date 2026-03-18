@@ -2,17 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_exit_admin"
-        android:title="Exit Admin Mode"
-        android:showAsAction="never" />
-
-    <item
         android:id="@+id/menu_security"
         android:title="Security" />
 
     <item
         android:id="@+id/menu_language"
         android:title="Language" />
+
+    <item
+        android:id="@+id/menu_date_format"
+        android:title="Date Format" />
 
     <item
         android:id="@+id/menu_export"
@@ -29,5 +28,10 @@
     <item
         android:id="@+id/menu_more_apps"
         android:title="More from QuietLogic" />
+
+    <item
+        android:id="@+id/menu_exit_admin"
+        android:title="Enter with Admin PIN"
+        android:showAsAction="never" />
 
 </menu>
