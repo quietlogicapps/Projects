@@ -37,18 +37,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCare"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:fadingEdgeLength="16dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Scroll ↓"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:textColor="#888888"
-        android:paddingTop="6dp"/>
+        android:fadeScrollbars="false"
+        android:scrollbarStyle="insideInset" />
 
 </LinearLayout>
