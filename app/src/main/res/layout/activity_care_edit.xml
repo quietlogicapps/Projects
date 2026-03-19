@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Example: Blood pressure medicine"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,21 +40,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="None"
-                android:checked="true"/>
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/radioBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Before food"
-                android:layout_marginStart="16dp"/>
+                android:layout_marginStart="16dp"
+                android:text="Before food" />
 
             <RadioButton
                 android:id="@+id/radioAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="After food"
-                android:layout_marginStart="16dp"/>
+                android:layout_marginStart="16dp"
+                android:text="After food" />
 
         </RadioGroup>
 
@@ -76,14 +76,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Daily"
-                android:checked="true"/>
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/radioSpecific"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Specific days"
-                android:layout_marginStart="16dp"/>
+                android:layout_marginStart="16dp"
+                android:text="Specific days" />
 
         </RadioGroup>
 
@@ -91,68 +91,75 @@
             android:id="@+id/btnPickDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="PICK DAYS"
-            android:visibility="gone"
-            android:layout_marginBottom="8dp"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/textRepeatDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:text="Days: Daily"
-            android:textSize="16sp"
-            android:layout_marginBottom="24dp"/>
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnPickStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PICK START DATE"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="PICK START DATE" />
 
         <TextView
             android:id="@+id/textStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="Start: not set"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp"/>
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnPickEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PICK END DATE"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="PICK END DATE" />
 
         <TextView
             android:id="@+id/textEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:text="End: not set"
-            android:textSize="16sp"
-            android:layout_marginBottom="24dp"/>
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnAddTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ADD TIME"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp"
+            android:text="ADD TIME" />
 
-        <TextView
-            android:id="@+id/textTimes"
+        <LinearLayout
+            android:id="@+id/layoutTimes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/textNoTimes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:text="No times added"
-            android:textSize="16sp"
-            android:layout_marginBottom="24dp"/>
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnSaveCare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SAVE"/>
+            android:text="SAVE" />
 
     </LinearLayout>
 

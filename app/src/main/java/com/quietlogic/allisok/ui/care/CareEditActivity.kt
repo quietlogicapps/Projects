@@ -6,7 +6,12 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RadioGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.quietlogic.allisok.R
@@ -62,10 +67,7 @@ class CareEditActivity : AppCompatActivity() {
         val nameInput = findViewById<EditText>(R.id.inputName)
 
         val groupInstruction = findViewById<RadioGroup>(R.id.groupInstruction)
-
         val groupRepeat = findViewById<RadioGroup>(R.id.groupRepeat)
-        val radioDaily = findViewById<RadioButton>(R.id.radioDaily)
-        val radioSpecific = findViewById<RadioButton>(R.id.radioSpecific)
 
         val btnPickDays = findViewById<Button>(R.id.btnPickDays)
         val textRepeatDays = findViewById<TextView>(R.id.textRepeatDays)
@@ -77,7 +79,8 @@ class CareEditActivity : AppCompatActivity() {
         val textEnd = findViewById<TextView>(R.id.textEnd)
 
         val btnAddTime = findViewById<Button>(R.id.btnAddTime)
-        val textTimes = findViewById<TextView>(R.id.textTimes)
+        val layoutTimes = findViewById<LinearLayout>(R.id.layoutTimes)
+        val textNoTimes = findViewById<TextView>(R.id.textNoTimes)
 
         val btnSave = findViewById<Button>(R.id.btnSaveCare)
 
@@ -89,20 +92,19 @@ class CareEditActivity : AppCompatActivity() {
                 btnPickDays.visibility = View.GONE
                 textRepeatDays.text = "Days: Daily"
                 selectedDays.clear()
+
+                for (i in checkedDays.indices) {
+                    checkedDays[i] = false
+                }
             }
 
             if (checkedId == R.id.radioSpecific) {
-                btnPickDays.visibility = View.VISIBLE
-
+                btnPickDays.visibility = View.GONE
                 openDaysDialog(textRepeatDays)
             }
         }
 
-        btnPickDays.setOnClickListener {
-            openDaysDialog(textRepeatDays)
-        }
-
-        renderTimes(textTimes)
+        renderTimes(layoutTimes, textNoTimes)
 
         btnPickStart.setOnClickListener {
             openDatePicker { date ->
@@ -130,7 +132,7 @@ class CareEditActivity : AppCompatActivity() {
                 times.add(picked)
                 times.sort()
 
-                renderTimes(textTimes)
+                renderTimes(layoutTimes, textNoTimes)
             }
         }
 
@@ -236,11 +238,17 @@ class CareEditActivity : AppCompatActivity() {
                 if (selectedDays.isEmpty()) {
                     textRepeatDays.text = "Days: Not selected"
                 } else {
-                    textRepeatDays.text =
-                        "Days: " + selectedDays.joinToString(", ")
+                    textRepeatDays.text = "Days: " + selectedDays.joinToString(", ")
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton("Cancel") { _, _ ->
+                if (
+                    selectedDays.isEmpty() &&
+                    findViewById<RadioGroup>(R.id.groupRepeat).checkedRadioButtonId == R.id.radioSpecific
+                ) {
+                    textRepeatDays.text = "Days: Not selected"
+                }
+            }
             .show()
     }
 
@@ -255,16 +263,33 @@ class CareEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun renderTimes(textTimes: TextView) {
+    private fun renderTimes(layoutTimes: LinearLayout, textNoTimes: TextView) {
+
+        layoutTimes.removeAllViews()
 
         if (times.isEmpty()) {
-            textTimes.text = "No times added"
+            textNoTimes.visibility = View.VISIBLE
             return
         }
 
-        val joined = times.joinToString(", ") { it.format(timeFormatter) }
+        textNoTimes.visibility = View.GONE
 
-        textTimes.text = joined
+        times.forEach { time ->
+
+            val itemView = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    bottomMargin = dpToPx(8)
+                }
+                text = "• ${time.format(timeFormatter)}"
+                textSize = 18f
+                setPadding(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4))
+            }
+
+            layoutTimes.addView(itemView)
+        }
     }
 
     private fun openTimePicker(onPicked: (LocalTime) -> Unit) {
@@ -311,5 +336,9 @@ class CareEditActivity : AppCompatActivity() {
             .atZone(ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
+    }
+
+    private fun dpToPx(value: Int): Int {
+        return (value * resources.displayMetrics.density).toInt()
     }
 }
