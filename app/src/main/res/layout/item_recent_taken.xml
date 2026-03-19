@@ -21,22 +21,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="08:30"
+        android:text="08:30 Paracetamol"
         android:textSize="15sp" />
 
+    <!-- махаме отделния ред за име -->
     <TextView
         android:id="@+id/textCareName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Paracetamol"
-        android:textSize="15sp" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/textStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:text="Taken"
         android:textSize="15sp"
         android:textStyle="bold" />

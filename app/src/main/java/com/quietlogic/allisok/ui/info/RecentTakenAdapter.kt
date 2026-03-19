@@ -27,9 +27,11 @@ class RecentTakenAdapter : RecyclerView.Adapter<RecentTakenAdapter.ViewHolder>()
 
             binding.textDate.text = item.date
 
-            binding.textTime.text = item.scheduledTime
+            // комбинираме TIME + NAME на един ред
+            binding.textTime.text = "${item.scheduledTime}  ${item.careItemName}"
 
-            binding.textCareName.text = item.careItemName
+            // махаме отделния ред за име
+            binding.textCareName.text = ""
 
             binding.textStatus.text = "Taken"
         }
