@@ -103,35 +103,64 @@
             android:text="Days: Daily"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btnPickStart"
+        <!-- START + END grouped -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="PICK START DATE" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
 
-        <TextView
-            android:id="@+id/textStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Start: not set"
-            android:textSize="16sp" />
+            <!-- START -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnPickEnd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="PICK END DATE" />
+                <Button
+                    android:id="@+id/btnPickStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="START DATE" />
 
-        <TextView
-            android:id="@+id/textEnd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="End: not set"
-            android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/textStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Start: not set"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <!-- END -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnPickEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="END DATE" />
+
+                <TextView
+                    android:id="@+id/textEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="End: not set"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnAddTime"
