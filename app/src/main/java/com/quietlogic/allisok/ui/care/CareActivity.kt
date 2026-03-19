@@ -112,17 +112,22 @@ class CareActivity : AppCompatActivity() {
 
                     val repeatText = when {
                         item.repeatType == "DAILY" -> "Daily"
-                        item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", " ")
+                        item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", ", ")
                         else -> item.repeatType
                     }
 
-                    val line = "$timesText • ${item.instruction} • $repeatText • $dateRange"
+                    val subtitle = buildSubtitle(
+                        dateRange = dateRange,
+                        timesText = timesText,
+                        instruction = item.instruction,
+                        repeatText = repeatText
+                    )
 
                     finalRows.add(
                         CareAdapter.Row(
                             id = item.id,
                             name = item.name,
-                            subtitle = line
+                            subtitle = subtitle
                         )
                     )
                 }
@@ -153,22 +158,32 @@ class CareActivity : AppCompatActivity() {
             for (item in items) {
                 val times = db.careTimeDao().getByItemId(item.id).first()
 
-                val timesText = if (times.isEmpty()) "—"
-                else times.map { it.time.format(timeFormatter) }.sorted().joinToString(", ")
+                val timesText = if (times.isEmpty()) {
+                    "—"
+                } else {
+                    times.map { it.time.format(timeFormatter) }.sorted().joinToString(", ")
+                }
 
                 val dateRange = "${item.startDate.format(dateFormatter)} → ${item.endDate.format(dateFormatter)}"
 
                 val repeatText = when {
                     item.repeatType == "DAILY" -> "Daily"
-                    item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", " ")
+                    item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", ", ")
                     else -> item.repeatType
                 }
+
+                val subtitle = buildSubtitle(
+                    dateRange = dateRange,
+                    timesText = timesText,
+                    instruction = item.instruction,
+                    repeatText = repeatText
+                )
 
                 finalRows.add(
                     CareAdapter.Row(
                         id = item.id,
                         name = item.name,
-                        subtitle = "$timesText • ${item.instruction} • $repeatText • $dateRange"
+                        subtitle = subtitle
                     )
                 )
             }
@@ -177,6 +192,26 @@ class CareActivity : AppCompatActivity() {
             adapter.submitList(finalRows)
             empty.visibility = if (finalRows.isEmpty()) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun buildSubtitle(
+        dateRange: String,
+        timesText: String,
+        instruction: String,
+        repeatText: String
+    ): String {
+        val lines = mutableListOf<String>()
+
+        lines.add(dateRange)
+        lines.add(timesText)
+
+        if (instruction != "None") {
+            lines.add(instruction)
+        }
+
+        lines.add(repeatText)
+
+        return lines.joinToString("\n")
     }
 
     private fun updateAdminIndicator() {

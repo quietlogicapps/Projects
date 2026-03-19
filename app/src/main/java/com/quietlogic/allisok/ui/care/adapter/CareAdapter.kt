@@ -43,6 +43,14 @@ class CareAdapter(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
+            orientation = LinearLayout.VERTICAL
+        }
+
+        val content = LinearLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setPadding(dp(context, 16), dp(context, 12), dp(context, 16), dp(context, 12))
@@ -58,8 +66,9 @@ class CareAdapter(
         }
 
         val name = TextView(context).apply {
-            textSize = 20f
+            textSize = 22f
             setTextColor(Color.BLACK)
+            setTypeface(null, android.graphics.Typeface.BOLD)
         }
 
         val subtitle = TextView(context).apply {
@@ -79,11 +88,22 @@ class CareAdapter(
             visibility = View.GONE
         }
 
+        val divider = View(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                dp(context, 1)
+            )
+            setBackgroundColor(Color.LTGRAY)
+        }
+
         textContainer.addView(name)
         textContainer.addView(subtitle)
 
-        root.addView(textContainer)
-        root.addView(delete)
+        content.addView(textContainer)
+        content.addView(delete)
+
+        root.addView(content)
+        root.addView(divider)
 
         return VH(root, name, subtitle, delete)
     }
