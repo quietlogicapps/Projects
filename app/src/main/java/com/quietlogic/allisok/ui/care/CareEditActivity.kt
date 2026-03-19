@@ -3,9 +3,11 @@ package com.quietlogic.allisok.ui.care
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -94,7 +96,13 @@ class CareEditActivity : AppCompatActivity() {
         )
         updateAddTimeUi(btnAddTime, textNoTimes)
 
+        groupInstruction.setOnCheckedChangeListener { _, _ ->
+            hideKeyboardAndClearFocus(nameInput)
+        }
+
         groupRepeat.setOnCheckedChangeListener { _, checkedId ->
+
+            hideKeyboardAndClearFocus(nameInput)
 
             if (checkedId == R.id.radioDaily) {
                 btnPickDays.visibility = View.GONE
@@ -137,6 +145,8 @@ class CareEditActivity : AppCompatActivity() {
         renderTimes(layoutTimes, textNoTimes, btnAddTime)
 
         btnPickStart.setOnClickListener {
+            hideKeyboardAndClearFocus(nameInput)
+
             if (groupRepeat.checkedRadioButtonId != R.id.radioDaily) return@setOnClickListener
 
             openDatePicker { date ->
@@ -146,6 +156,8 @@ class CareEditActivity : AppCompatActivity() {
         }
 
         btnPickEnd.setOnClickListener {
+            hideKeyboardAndClearFocus(nameInput)
+
             if (groupRepeat.checkedRadioButtonId != R.id.radioDaily) return@setOnClickListener
 
             openDatePicker { date ->
@@ -155,10 +167,13 @@ class CareEditActivity : AppCompatActivity() {
         }
 
         btnAddTime.setOnClickListener {
+            hideKeyboardAndClearFocus(nameInput)
             openTimePicker(layoutTimes, textNoTimes, btnAddTime)
         }
 
         btnSave.setOnClickListener {
+
+            hideKeyboardAndClearFocus(nameInput)
 
             val name = nameInput.text.toString().trim()
 
@@ -456,6 +471,13 @@ class CareEditActivity : AppCompatActivity() {
             .atZone(ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
+    }
+
+    private fun hideKeyboardAndClearFocus(view: View) {
+        view.clearFocus()
+
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun dpToPx(value: Int): Int {
