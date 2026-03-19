@@ -28,11 +28,35 @@
             android:text="Instruction"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinnerInstruction"
+        <RadioGroup
+            android:id="@+id/groupInstruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/radioNone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="None"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/radioBefore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Before food"
+                android:layout_marginStart="16dp"/>
+
+            <RadioButton
+                android:id="@+id/radioAfter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="After food"
+                android:layout_marginStart="16dp"/>
+
+        </RadioGroup>
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,17 +64,35 @@
             android:text="Repeat"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinnerRepeat"
+        <RadioGroup
+            android:id="@+id/groupRepeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <RadioButton
+                android:id="@+id/radioDaily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/radioSpecific"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Specific days"
+                android:layout_marginStart="16dp"/>
+
+        </RadioGroup>
 
         <Button
             android:id="@+id/btnPickDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="PICK DAYS"
+            android:visibility="gone"
             android:layout_marginBottom="8dp"/>
 
         <TextView

@@ -6,13 +6,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.quietlogic.allisok.R
@@ -66,8 +60,12 @@ class CareEditActivity : AppCompatActivity() {
         db = DatabaseProvider.getDatabase(applicationContext)
 
         val nameInput = findViewById<EditText>(R.id.inputName)
-        val instructionSpinner = findViewById<Spinner>(R.id.spinnerInstruction)
-        val repeatSpinner = findViewById<Spinner>(R.id.spinnerRepeat)
+
+        val groupInstruction = findViewById<RadioGroup>(R.id.groupInstruction)
+
+        val groupRepeat = findViewById<RadioGroup>(R.id.groupRepeat)
+        val radioDaily = findViewById<RadioButton>(R.id.radioDaily)
+        val radioSpecific = findViewById<RadioButton>(R.id.radioSpecific)
 
         val btnPickDays = findViewById<Button>(R.id.btnPickDays)
         val textRepeatDays = findViewById<TextView>(R.id.textRepeatDays)
@@ -83,61 +81,25 @@ class CareEditActivity : AppCompatActivity() {
 
         val btnSave = findViewById<Button>(R.id.btnSaveCare)
 
-        val instructions = listOf("None", "Before food", "After food")
+        btnPickDays.visibility = View.GONE
 
-        instructionSpinner.adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, instructions)
+        groupRepeat.setOnCheckedChangeListener { _, checkedId ->
 
-        val repeatOptions = listOf("Daily", "Specific days")
-
-        repeatSpinner.adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, repeatOptions)
-
-        repeatSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-                if (position == 0) {
-                    textRepeatDays.text = "Days: Daily"
-                } else {
-                    textRepeatDays.text = "Days: Not selected"
-                }
+            if (checkedId == R.id.radioDaily) {
+                btnPickDays.visibility = View.GONE
+                textRepeatDays.text = "Days: Daily"
+                selectedDays.clear()
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            if (checkedId == R.id.radioSpecific) {
+                btnPickDays.visibility = View.VISIBLE
+
+                openDaysDialog(textRepeatDays)
+            }
         }
 
         btnPickDays.setOnClickListener {
-
-            if (repeatSpinner.selectedItemPosition == 0) {
-                Toast.makeText(this, "Repeat is Daily", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            AlertDialog.Builder(this)
-                .setTitle("Select days")
-                .setMultiChoiceItems(days, checkedDays) { _, which, isChecked ->
-                    checkedDays[which] = isChecked
-                }
-                .setPositiveButton("OK") { _, _ ->
-
-                    selectedDays.clear()
-
-                    for (i in days.indices) {
-                        if (checkedDays[i]) {
-                            selectedDays.add(days[i])
-                        }
-                    }
-
-                    if (selectedDays.isEmpty()) {
-                        textRepeatDays.text = "Days: Not selected"
-                    } else {
-                        textRepeatDays.text =
-                            "Days: " + selectedDays.joinToString(", ")
-                    }
-                }
-                .setNegativeButton("Cancel", null)
-                .show()
+            openDaysDialog(textRepeatDays)
         }
 
         renderTimes(textTimes)
@@ -189,9 +151,13 @@ class CareEditActivity : AppCompatActivity() {
             val start = startDate ?: LocalDate.now()
             val end = endDate ?: start.plusDays(30)
 
-            val instruction = instructionSpinner.selectedItem.toString()
+            val instruction = when (groupInstruction.checkedRadioButtonId) {
+                R.id.radioBefore -> "Before food"
+                R.id.radioAfter -> "After food"
+                else -> "None"
+            }
 
-            val repeatType = if (repeatSpinner.selectedItemPosition == 0) {
+            val repeatType = if (groupRepeat.checkedRadioButtonId == R.id.radioDaily) {
                 "DAILY"
             } else {
                 if (selectedDays.isEmpty()) {
@@ -248,6 +214,34 @@ class CareEditActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun openDaysDialog(textRepeatDays: TextView) {
+
+        AlertDialog.Builder(this)
+            .setTitle("Select days")
+            .setMultiChoiceItems(days, checkedDays) { _, which, isChecked ->
+                checkedDays[which] = isChecked
+            }
+            .setPositiveButton("OK") { _, _ ->
+
+                selectedDays.clear()
+
+                for (i in days.indices) {
+                    if (checkedDays[i]) {
+                        selectedDays.add(days[i])
+                    }
+                }
+
+                if (selectedDays.isEmpty()) {
+                    textRepeatDays.text = "Days: Not selected"
+                } else {
+                    textRepeatDays.text =
+                        "Days: " + selectedDays.joinToString(", ")
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     @Deprecated("Deprecated in Java")
