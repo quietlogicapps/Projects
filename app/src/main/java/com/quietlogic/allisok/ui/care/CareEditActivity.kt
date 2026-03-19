@@ -85,6 +85,7 @@ class CareEditActivity : AppCompatActivity() {
         val btnSave = findViewById<Button>(R.id.btnSaveCare)
 
         btnPickDays.visibility = View.GONE
+        updateAddTimeUi(btnAddTime, textNoTimes)
 
         groupRepeat.setOnCheckedChangeListener { _, checkedId ->
 
@@ -104,7 +105,7 @@ class CareEditActivity : AppCompatActivity() {
             }
         }
 
-        renderTimes(layoutTimes, textNoTimes)
+        renderTimes(layoutTimes, textNoTimes, btnAddTime)
 
         btnPickStart.setOnClickListener {
             openDatePicker { date ->
@@ -121,19 +122,7 @@ class CareEditActivity : AppCompatActivity() {
         }
 
         btnAddTime.setOnClickListener {
-
-            openTimePicker { picked ->
-
-                if (times.contains(picked)) {
-                    Toast.makeText(this, "Time already added", Toast.LENGTH_SHORT).show()
-                    return@openTimePicker
-                }
-
-                times.add(picked)
-                times.sort()
-
-                renderTimes(layoutTimes, textNoTimes)
-            }
+            openTimePicker(layoutTimes, textNoTimes, btnAddTime)
         }
 
         btnSave.setOnClickListener {
@@ -263,48 +252,105 @@ class CareEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun renderTimes(layoutTimes: LinearLayout, textNoTimes: TextView) {
+    private fun renderTimes(
+        layoutTimes: LinearLayout,
+        textNoTimes: TextView,
+        btnAddTime: Button
+    ) {
 
         layoutTimes.removeAllViews()
 
         if (times.isEmpty()) {
-            textNoTimes.visibility = View.VISIBLE
+            updateAddTimeUi(btnAddTime, textNoTimes)
             return
         }
 
-        textNoTimes.visibility = View.GONE
+        updateAddTimeUi(btnAddTime, textNoTimes)
 
         times.forEach { time ->
 
-            val itemView = TextView(this).apply {
+            val row = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
                     bottomMargin = dpToPx(8)
                 }
-                text = "• ${time.format(timeFormatter)}"
-                textSize = 18f
-                setPadding(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4))
             }
 
-            layoutTimes.addView(itemView)
+            val timeText = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+                text = time.format(timeFormatter)
+                textSize = 18f
+            }
+
+            val deleteBtn = TextView(this).apply {
+                text = "X"
+                textSize = 18f
+                setPadding(dpToPx(12), dpToPx(4), dpToPx(4), dpToPx(4))
+
+                setOnClickListener {
+                    times.remove(time)
+                    renderTimes(layoutTimes, textNoTimes, btnAddTime)
+                }
+            }
+
+            row.addView(timeText)
+            row.addView(deleteBtn)
+
+            layoutTimes.addView(row)
         }
     }
 
-    private fun openTimePicker(onPicked: (LocalTime) -> Unit) {
+    private fun updateAddTimeUi(btnAddTime: Button, textNoTimes: TextView) {
+        if (times.isEmpty()) {
+            btnAddTime.text = "ADD TIME"
+            textNoTimes.text = "No times added"
+            textNoTimes.visibility = View.VISIBLE
+        } else {
+            btnAddTime.text = "ADD ANOTHER TIME"
+            textNoTimes.text = "Add another time"
+            textNoTimes.visibility = View.VISIBLE
+        }
+    }
+
+    private fun openTimePicker(
+        layoutTimes: LinearLayout,
+        textNoTimes: TextView,
+        btnAddTime: Button
+    ) {
 
         val now = LocalTime.now()
 
-        TimePickerDialog(
+        val dialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
-                onPicked(LocalTime.of(hourOfDay, minute))
+
+                val picked = LocalTime.of(hourOfDay, minute)
+
+                if (times.contains(picked)) {
+                    Toast.makeText(this, "Time already added", Toast.LENGTH_SHORT).show()
+                } else {
+                    times.add(picked)
+                    times.sort()
+                    renderTimes(layoutTimes, textNoTimes, btnAddTime)
+                }
             },
             now.hour,
             now.minute,
             true
-        ).show()
+        )
+
+        dialog.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun openDatePicker(onPicked: (LocalDate) -> Unit) {
