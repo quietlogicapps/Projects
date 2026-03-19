@@ -85,6 +85,13 @@ class CareEditActivity : AppCompatActivity() {
         val btnSave = findViewById<Button>(R.id.btnSaveCare)
 
         btnPickDays.visibility = View.GONE
+        updateDateButtonsState(
+            groupRepeat = groupRepeat,
+            btnPickStart = btnPickStart,
+            btnPickEnd = btnPickEnd,
+            textStart = textStart,
+            textEnd = textEnd
+        )
         updateAddTimeUi(btnAddTime, textNoTimes)
 
         groupRepeat.setOnCheckedChangeListener { _, checkedId ->
@@ -97,10 +104,32 @@ class CareEditActivity : AppCompatActivity() {
                 for (i in checkedDays.indices) {
                     checkedDays[i] = false
                 }
+
+                updateDateButtonsState(
+                    groupRepeat = groupRepeat,
+                    btnPickStart = btnPickStart,
+                    btnPickEnd = btnPickEnd,
+                    textStart = textStart,
+                    textEnd = textEnd
+                )
             }
 
             if (checkedId == R.id.radioSpecific) {
                 btnPickDays.visibility = View.GONE
+
+                startDate = null
+                endDate = null
+                textStart.text = "Start: not available"
+                textEnd.text = "End: not available"
+
+                updateDateButtonsState(
+                    groupRepeat = groupRepeat,
+                    btnPickStart = btnPickStart,
+                    btnPickEnd = btnPickEnd,
+                    textStart = textStart,
+                    textEnd = textEnd
+                )
+
                 openDaysDialog(textRepeatDays)
             }
         }
@@ -108,6 +137,8 @@ class CareEditActivity : AppCompatActivity() {
         renderTimes(layoutTimes, textNoTimes, btnAddTime)
 
         btnPickStart.setOnClickListener {
+            if (groupRepeat.checkedRadioButtonId != R.id.radioDaily) return@setOnClickListener
+
             openDatePicker { date ->
                 startDate = date
                 textStart.text = "Start: ${date.format(dateFormatter)}"
@@ -115,6 +146,8 @@ class CareEditActivity : AppCompatActivity() {
         }
 
         btnPickEnd.setOnClickListener {
+            if (groupRepeat.checkedRadioButtonId != R.id.radioDaily) return@setOnClickListener
+
             openDatePicker { date ->
                 endDate = date
                 textEnd.text = "End: ${date.format(dateFormatter)}"
@@ -139,8 +172,19 @@ class CareEditActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val start = startDate ?: LocalDate.now()
-            val end = endDate ?: start.plusDays(30)
+            val isDaily = groupRepeat.checkedRadioButtonId == R.id.radioDaily
+
+            val start = if (isDaily) {
+                startDate ?: LocalDate.now()
+            } else {
+                LocalDate.now()
+            }
+
+            val end = if (isDaily) {
+                endDate ?: start.plusDays(30)
+            } else {
+                start.plusDays(30)
+            }
 
             val instruction = when (groupInstruction.checkedRadioButtonId) {
                 R.id.radioBefore -> "Before food"
@@ -148,7 +192,7 @@ class CareEditActivity : AppCompatActivity() {
                 else -> "None"
             }
 
-            val repeatType = if (groupRepeat.checkedRadioButtonId == R.id.radioDaily) {
+            val repeatType = if (isDaily) {
                 "DAILY"
             } else {
                 if (selectedDays.isEmpty()) {
@@ -203,6 +247,36 @@ class CareEditActivity : AppCompatActivity() {
                 Toast.makeText(this@CareEditActivity, "Saved", Toast.LENGTH_SHORT).show()
 
                 finish()
+            }
+        }
+    }
+
+    private fun updateDateButtonsState(
+        groupRepeat: RadioGroup,
+        btnPickStart: Button,
+        btnPickEnd: Button,
+        textStart: TextView,
+        textEnd: TextView
+    ) {
+        val isDaily = groupRepeat.checkedRadioButtonId == R.id.radioDaily
+
+        btnPickStart.isEnabled = isDaily
+        btnPickEnd.isEnabled = isDaily
+
+        textStart.isEnabled = isDaily
+        textEnd.isEnabled = isDaily
+
+        if (isDaily) {
+            if (startDate == null) {
+                textStart.text = "Start: not set"
+            } else {
+                textStart.text = "Start: ${startDate!!.format(dateFormatter)}"
+            }
+
+            if (endDate == null) {
+                textEnd.text = "End: not set"
+            } else {
+                textEnd.text = "End: ${endDate!!.format(dateFormatter)}"
             }
         }
     }
