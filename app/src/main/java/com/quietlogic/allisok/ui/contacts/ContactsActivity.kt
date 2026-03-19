@@ -265,13 +265,13 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun applyContacts(contacts: List<ContactSlotEntity>) {
         buttonRelative.text =
-            contacts.firstOrNull { it.slotId == 1 }?.label?.takeIf { it.isNotBlank() } ?: "RELATIVE"
+            contacts.firstOrNull { it.slotId == 1 }?.label?.takeIf { it.isNotBlank() } ?: "CLOSE ONE"
 
         buttonDoctor.text =
-            contacts.firstOrNull { it.slotId == 2 }?.label?.takeIf { it.isNotBlank() } ?: "DOCTOR"
+            contacts.firstOrNull { it.slotId == 2 }?.label?.takeIf { it.isNotBlank() } ?: "FAMILY"
 
         buttonContact3.text =
-            contacts.firstOrNull { it.slotId == 3 }?.label?.takeIf { it.isNotBlank() } ?: "CONTACT 3"
+            contacts.firstOrNull { it.slotId == 3 }?.label?.takeIf { it.isNotBlank() } ?: "DOCTOR"
 
         buttonEmergency.text =
             contacts.firstOrNull { it.slotId == 4 }?.label?.takeIf { it.isNotBlank() } ?: "EMERGENCY"
