@@ -77,7 +77,7 @@ class InfoActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             infoRepository.getInfo().collect { info ->
-                binding.textBloodType.text = "Blood type: ${info?.bloodType?.takeIf { it.isNotBlank() } ?: "-"}"
+                binding.textBloodType.text = "Blood Type: ${info?.bloodType?.takeIf { it.isNotBlank() } ?: "-"}"
                 binding.textAllergies.text = "Allergies: ${info?.allergies?.takeIf { it.isNotBlank() } ?: "-"}"
                 binding.textConditions.text = "Conditions: ${info?.conditions?.takeIf { it.isNotBlank() } ?: "-"}"
                 binding.textNotes.text = "Notes: ${info?.notes?.takeIf { it.isNotBlank() } ?: "-"}"

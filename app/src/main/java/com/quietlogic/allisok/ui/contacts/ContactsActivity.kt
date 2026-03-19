@@ -187,7 +187,7 @@ class ContactsActivity : AppCompatActivity() {
     private fun showContactActionsDialog(buttonId: Int) {
         AlertDialog.Builder(this)
             .setTitle("Contact options")
-            .setItems(arrayOf("Select from phone contacts", "Delete contact")) { _, which ->
+            .setItems(arrayOf("Choose from phone contacts", "Delete contact")) { _, which ->
                 when (which) {
                     0 -> {
                         val intent = Intent(this, ContactEditActivity::class.java)

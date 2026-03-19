@@ -127,8 +127,8 @@ class CareEditActivity : AppCompatActivity() {
 
                 startDate = null
                 endDate = null
-                textStart.text = "Start: not available"
-                textEnd.text = "End: not available"
+                textStart.text = "Start: not set"
+                textEnd.text = "End: not set"
 
                 updateDateButtonsState(
                     groupRepeat = groupRepeat,
