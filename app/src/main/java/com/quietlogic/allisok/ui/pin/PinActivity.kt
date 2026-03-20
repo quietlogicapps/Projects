@@ -55,7 +55,7 @@ class PinActivity : AppCompatActivity() {
         val titleFromIntent = intent.getStringExtra("PIN_TITLE").orEmpty()
 
         currentScreen = when (titleFromIntent) {
-            "Change PIN" -> {
+            getString(R.string.pin_title_change_pin) -> {
                 if (pinPrefs.isUserPinEnabled()) {
                     SCREEN_CHANGE_PIN
                 } else {
@@ -63,8 +63,8 @@ class PinActivity : AppCompatActivity() {
                 }
             }
 
-            "Set Admin PIN" -> SCREEN_SET_ADMIN_PIN
-            "Change Admin PIN" -> SCREEN_CHANGE_ADMIN_PIN_STEP_1
+            getString(R.string.pin_title_set_admin_pin) -> SCREEN_SET_ADMIN_PIN
+            getString(R.string.pin_title_change_admin_pin) -> SCREEN_CHANGE_ADMIN_PIN_STEP_1
             else -> SCREEN_ENTER_PIN
         }
 
@@ -85,11 +85,9 @@ class PinActivity : AppCompatActivity() {
         buttonSecondary.setOnClickListener {
             if (currentScreen == SCREEN_ENTER_PIN && unlockMode == LockGate.MODE_USER_UNLOCK) {
                 if (callingActivity != null) {
-                    // Launched via LockGate.requireUserUnlock() → return a result to HomeActivity
                     setResult(RESULT_OPEN_EMERGENCY_INFO)
                     finish()
                 } else {
-                    // Launched as the first screen from PermissionSetupActivity → open Info directly
                     startActivity(Intent(this, InfoActivity::class.java))
                 }
             }
@@ -119,6 +117,7 @@ class PinActivity : AppCompatActivity() {
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
@@ -133,6 +132,7 @@ class PinActivity : AppCompatActivity() {
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
@@ -154,7 +154,11 @@ class PinActivity : AppCompatActivity() {
 
             SCREEN_ENTER_PIN -> {
                 textTitle.text =
-                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) "Enter with Admin PIN" else "Enter PIN"
+                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                        getString(R.string.menu_enter_admin)
+                    } else {
+                        getString(R.string.pin_enter)
+                    }
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.GONE
@@ -162,13 +166,17 @@ class PinActivity : AppCompatActivity() {
                 textForgot.visibility = View.GONE
 
                 buttonPrimary.text =
-                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) "Enter" else "Unlock"
+                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                        getString(R.string.pin_enter_button)
+                    } else {
+                        getString(R.string.pin_unlock)
+                    }
 
                 if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
                     buttonSecondary.visibility = View.GONE
                 } else {
                     buttonSecondary.visibility = View.VISIBLE
-                    buttonSecondary.text = "Emergency Info"
+                    buttonSecondary.text = getString(R.string.pin_emergency_info)
                 }
 
                 editPin.hint = firstRowLabel()
@@ -176,14 +184,14 @@ class PinActivity : AppCompatActivity() {
             }
 
             SCREEN_SET_PIN -> {
-                textTitle.text = "Set PIN"
+                textTitle.text = getString(R.string.pin_set)
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.VISIBLE
 
                 textForgot.visibility = View.GONE
 
-                buttonPrimary.text = "Save PIN"
+                buttonPrimary.text = getString(R.string.pin_save)
                 buttonSecondary.visibility = View.GONE
 
                 editPin.hint = firstRowLabel()
@@ -192,14 +200,14 @@ class PinActivity : AppCompatActivity() {
             }
 
             SCREEN_CHANGE_PIN -> {
-                textTitle.text = "Change PIN"
+                textTitle.text = getString(R.string.pin_title_change_pin)
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.VISIBLE
 
                 textForgot.visibility = View.GONE
 
-                buttonPrimary.text = "Save PIN"
+                buttonPrimary.text = getString(R.string.pin_save)
                 buttonSecondary.visibility = View.GONE
 
                 editPin.hint = firstRowLabel()
@@ -208,14 +216,14 @@ class PinActivity : AppCompatActivity() {
             }
 
             SCREEN_SET_ADMIN_PIN -> {
-                textTitle.text = "Set Admin PIN"
+                textTitle.text = getString(R.string.pin_title_set_admin_pin)
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.VISIBLE
 
                 textForgot.visibility = View.GONE
 
-                buttonPrimary.text = "Save Admin PIN"
+                buttonPrimary.text = getString(R.string.pin_save_admin)
                 buttonSecondary.visibility = View.GONE
 
                 editPin.hint = firstRowLabel()
@@ -224,15 +232,15 @@ class PinActivity : AppCompatActivity() {
             }
 
             SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> {
-                textTitle.text = "Change Admin PIN"
+                textTitle.text = getString(R.string.pin_title_change_admin_pin)
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.GONE
 
                 textForgot.visibility = View.VISIBLE
-                textForgot.text = "Forgot Admin PIN? Reset app"
+                textForgot.text = getString(R.string.pin_forgot_admin)
 
-                buttonPrimary.text = "Continue"
+                buttonPrimary.text = getString(R.string.pin_continue)
                 buttonSecondary.visibility = View.GONE
 
                 editPin.hint = firstRowLabel()
@@ -240,14 +248,14 @@ class PinActivity : AppCompatActivity() {
             }
 
             SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> {
-                textTitle.text = "Change Admin PIN"
+                textTitle.text = getString(R.string.pin_title_change_admin_pin)
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.VISIBLE
 
                 textForgot.visibility = View.GONE
 
-                buttonPrimary.text = "Save Admin PIN"
+                buttonPrimary.text = getString(R.string.pin_save_admin)
                 buttonSecondary.visibility = View.GONE
 
                 editPin.hint = firstRowLabel()
@@ -287,7 +295,11 @@ class PinActivity : AppCompatActivity() {
             finish()
 
         } else {
-            showError("Wrong PIN")
+            if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                showError(getString(R.string.pin_error_wrong_admin))
+            } else {
+                showError(getString(R.string.pin_error_wrong))
+            }
         }
     }
 
@@ -298,17 +310,17 @@ class PinActivity : AppCompatActivity() {
         val state = pinPrefs.getState()
 
         if (!PinValidator.isValidFormat(pin)) {
-            showError("PIN must be 4 digits")
+            showError(getString(R.string.pin_error_format))
             return
         }
 
         if (pin != confirmPin) {
-            showError("PINs do not match")
+            showError(getString(R.string.pin_error_mismatch))
             return
         }
 
         if (!PinValidator.isDifferentFromAdmin(pin, state.adminPinHash)) {
-            showError("PIN must be different")
+            showError(getString(R.string.pin_error_same))
             return
         }
 
@@ -325,17 +337,17 @@ class PinActivity : AppCompatActivity() {
         val state = pinPrefs.getState()
 
         if (!PinValidator.isValidFormat(pin)) {
-            showError("PIN must be 4 digits")
+            showError(getString(R.string.pin_error_format))
             return
         }
 
         if (pin != confirmPin) {
-            showError("PINs do not match")
+            showError(getString(R.string.pin_error_mismatch))
             return
         }
 
         if (!PinValidator.isDifferentFromAdmin(pin, state.adminPinHash)) {
-            showError("PIN must be different")
+            showError(getString(R.string.pin_error_same))
             return
         }
 
@@ -352,17 +364,17 @@ class PinActivity : AppCompatActivity() {
         val state = pinPrefs.getState()
 
         if (!PinValidator.isValidFormat(pin)) {
-            showError("Admin PIN must be 4 digits")
+            showError(getString(R.string.pin_error_format_admin))
             return
         }
 
         if (pin != confirmPin) {
-            showError("PINs do not match")
+            showError(getString(R.string.pin_error_mismatch))
             return
         }
 
         if (!PinValidator.isDifferentFromUser(pin, state.userPinHash)) {
-            showError("PIN must be different")
+            showError(getString(R.string.pin_error_same))
             return
         }
 
@@ -381,7 +393,7 @@ class PinActivity : AppCompatActivity() {
             currentScreen = SCREEN_CHANGE_ADMIN_PIN_STEP_2
             renderScreen()
         } else {
-            showError("Wrong Admin PIN")
+            showError(getString(R.string.pin_error_wrong_admin))
         }
     }
 
@@ -392,17 +404,17 @@ class PinActivity : AppCompatActivity() {
         val state = pinPrefs.getState()
 
         if (!PinValidator.isValidFormat(pin)) {
-            showError("Admin PIN must be 4 digits")
+            showError(getString(R.string.pin_error_format_admin))
             return
         }
 
         if (pin != confirmPin) {
-            showError("PINs do not match")
+            showError(getString(R.string.pin_error_mismatch))
             return
         }
 
         if (!PinValidator.isDifferentFromUser(pin, state.userPinHash)) {
-            showError("PIN must be different")
+            showError(getString(R.string.pin_error_same))
             return
         }
 
@@ -418,23 +430,30 @@ class PinActivity : AppCompatActivity() {
 
     private fun firstRowLabel(): String {
         return when (currentScreen) {
-            SCREEN_ENTER_PIN -> if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) "Admin PIN" else "PIN"
-            SCREEN_SET_PIN -> "Enter PIN"
-            SCREEN_CHANGE_PIN -> "Enter PIN"
-            SCREEN_SET_ADMIN_PIN -> "Enter Admin PIN"
-            SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> "Current Admin PIN"
-            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> "New Admin PIN"
-            else -> "PIN"
+            SCREEN_ENTER_PIN -> {
+                if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                    getString(R.string.pin_label_admin)
+                } else {
+                    getString(R.string.pin_label_pin)
+                }
+            }
+
+            SCREEN_SET_PIN -> getString(R.string.pin_hint_enter)
+            SCREEN_CHANGE_PIN -> getString(R.string.pin_hint_enter)
+            SCREEN_SET_ADMIN_PIN -> getString(R.string.pin_hint_enter_admin)
+            SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> getString(R.string.pin_hint_current_admin)
+            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> getString(R.string.pin_hint_new_admin)
+            else -> getString(R.string.pin_label_pin)
         }
     }
 
     private fun secondRowLabel(): String {
         return when (currentScreen) {
-            SCREEN_SET_PIN -> "Confirm PIN"
-            SCREEN_CHANGE_PIN -> "Confirm PIN"
-            SCREEN_SET_ADMIN_PIN -> "Confirm Admin PIN"
-            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> "Confirm Admin PIN"
-            else -> "Confirm PIN"
+            SCREEN_SET_PIN -> getString(R.string.pin_hint_confirm)
+            SCREEN_CHANGE_PIN -> getString(R.string.pin_hint_confirm)
+            SCREEN_SET_ADMIN_PIN -> getString(R.string.pin_hint_confirm_admin)
+            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> getString(R.string.pin_hint_confirm_admin)
+            else -> getString(R.string.pin_hint_confirm)
         }
     }
 

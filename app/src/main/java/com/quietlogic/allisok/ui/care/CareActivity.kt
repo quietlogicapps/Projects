@@ -39,7 +39,7 @@ class CareActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_care)
-        title = "CARE"
+        title = getString(R.string.home_care)
 
         updateAdminIndicator()
 
@@ -98,7 +98,7 @@ class CareActivity : AppCompatActivity() {
                         .first()
 
                     val timesText = if (times.isEmpty()) {
-                        "—"
+                        getString(R.string.care_times_dash)
                     } else {
                         times
                             .map { it.time.format(timeFormatter) }
@@ -111,8 +111,11 @@ class CareActivity : AppCompatActivity() {
                         "${item.startDate.format(currentDateFormatter)} → ${item.endDate.format(currentDateFormatter)}"
 
                     val repeatText = when {
-                        item.repeatType == "DAILY" -> "Daily"
-                        item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", ", ")
+                        item.repeatType == "DAILY" -> getString(R.string.care_repeat_daily)
+                        item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:")
+                            .split(",")
+                            .joinToString(", ") { mapDayCodeToLabel(it) }
+
                         else -> item.repeatType
                     }
 
@@ -159,7 +162,7 @@ class CareActivity : AppCompatActivity() {
                 val times = db.careTimeDao().getByItemId(item.id).first()
 
                 val timesText = if (times.isEmpty()) {
-                    "—"
+                    getString(R.string.care_times_dash)
                 } else {
                     times.map { it.time.format(timeFormatter) }.sorted().joinToString(", ")
                 }
@@ -167,8 +170,11 @@ class CareActivity : AppCompatActivity() {
                 val dateRange = "${item.startDate.format(dateFormatter)} → ${item.endDate.format(dateFormatter)}"
 
                 val repeatText = when {
-                    item.repeatType == "DAILY" -> "Daily"
-                    item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:").replace(",", ", ")
+                    item.repeatType == "DAILY" -> getString(R.string.care_repeat_daily)
+                    item.repeatType.startsWith("DAYS:") -> item.repeatType.removePrefix("DAYS:")
+                        .split(",")
+                        .joinToString(", ") { mapDayCodeToLabel(it) }
+
                     else -> item.repeatType
                 }
 
@@ -205,13 +211,26 @@ class CareActivity : AppCompatActivity() {
         lines.add(dateRange)
         lines.add(timesText)
 
-        if (instruction != "None") {
+        if (instruction != getString(R.string.care_instruction_none)) {
             lines.add(instruction)
         }
 
         lines.add(repeatText)
 
         return lines.joinToString("\n")
+    }
+
+    private fun mapDayCodeToLabel(code: String): String {
+        return when (code.trim()) {
+            "MON" -> getString(R.string.care_day_mon)
+            "TUE" -> getString(R.string.care_day_tue)
+            "WED" -> getString(R.string.care_day_wed)
+            "THU" -> getString(R.string.care_day_thu)
+            "FRI" -> getString(R.string.care_day_fri)
+            "SAT" -> getString(R.string.care_day_sat)
+            "SUN" -> getString(R.string.care_day_sun)
+            else -> code
+        }
     }
 
     private fun updateAdminIndicator() {

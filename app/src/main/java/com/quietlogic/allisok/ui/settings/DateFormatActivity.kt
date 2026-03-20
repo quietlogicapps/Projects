@@ -16,7 +16,7 @@ class DateFormatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_date_format)
 
-        title = "Date Format"
+        title = getString(R.string.date_format_title)
 
         val db = DatabaseProvider.getDatabase(applicationContext)
         val repository = SettingsRepository(db.appSettingsDao())

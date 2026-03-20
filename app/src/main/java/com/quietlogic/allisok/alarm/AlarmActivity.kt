@@ -58,7 +58,7 @@ class AlarmActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_alarm)
 
-        val timeText = intent.getStringExtra(EXTRA_TIME_TEXT) ?: "--:--"
+        val timeText = intent.getStringExtra(EXTRA_TIME_TEXT) ?: getString(R.string.alarm_time_default)
         val careName = intent.getStringExtra(EXTRA_CARE_NAME) ?: ""
         val instruction = intent.getStringExtra(EXTRA_INSTRUCTION) ?: ""
         val requestCode = intent.getIntExtra(EXTRA_REQUEST_CODE, 0)
@@ -85,9 +85,9 @@ class AlarmActivity : AppCompatActivity() {
                     careItemNames.size == careItemIds.size
 
         if (hasGroupedItems) {
-            textCareName.text = "${careItemIds!!.size} reminders"
+            textCareName.text = getString(R.string.alarm_multiple_items, careItemIds!!.size)
             textInstruction.text = careItemNames!!
-                .joinToString(separator = "\n") { "• $it" }
+                .joinToString(separator = "\n") { getString(R.string.alarm_item_bullet, it) }
         } else {
             textCareName.text = careName
             textInstruction.text = instruction
@@ -198,10 +198,6 @@ class AlarmActivity : AppCompatActivity() {
         handler.postDelayed({ startRingtone() }, 120)
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
     override fun onStop() {
         stopRingtone()
         super.onStop()
@@ -213,22 +209,11 @@ class AlarmActivity : AppCompatActivity() {
     }
 
     private fun startRingtone() {
-
         if (ringtone?.isPlaying == true) return
 
-        val shouldPlayAudio: Boolean =
-            if (audioAcquired) {
-                true
-            } else {
-                try {
-                    AlarmAudioSession.tryAcquire(audioKey).also { acquired ->
-                        audioAcquired = acquired
-                    }
-                } catch (_: Throwable) {
-                    // Fail-safe: never allow an exception in the guard to cause a silent alarm.
-                    true
-                }
-            }
+        val shouldPlayAudio =
+            if (audioAcquired) true
+            else AlarmAudioSession.tryAcquire(audioKey).also { audioAcquired = it }
 
         if (!shouldPlayAudio) return
 
@@ -250,26 +235,18 @@ class AlarmActivity : AppCompatActivity() {
 
         try {
             rt.play()
-        } catch (_: Throwable) {
-        }
+        } catch (_: Throwable) {}
     }
 
     private fun stopRingtone() {
-
         handler.removeCallbacksAndMessages(null)
 
         try {
             ringtone?.stop()
-        } catch (_: Throwable) {
-        }
+        } catch (_: Throwable) {}
 
         ringtone = null
-        if (audioAcquired) {
-            AlarmAudioSession.release(audioKey)
-        } else {
-            // Safe even if we never acquired; release() is ownership-checked.
-            AlarmAudioSession.release(audioKey)
-        }
+        AlarmAudioSession.release(audioKey)
         audioAcquired = false
     }
 
@@ -280,30 +257,25 @@ class AlarmActivity : AppCompatActivity() {
         careName: String,
         instruction: String
     ) {
-
         val triggerAtMillis =
             System.currentTimeMillis() + minutes * 60_000L
 
-        Log.d(
-            "AllIsOK",
-            "AlarmActivity.snoozeMinutesSingle rc=$requestCode careItemId=$careItemId " +
-                    "minutes=$minutes triggerAt=$triggerAtMillis"
-        )
+        Log.d("AllIsOK", "AlarmActivity.snoozeMinutesSingle rc=$requestCode careItemId=$careItemId minutes=$minutes triggerAt=$triggerAtMillis")
 
         SnoozeStore(this).saveSingle(
             requestCode = requestCode,
             triggerAtMillis = triggerAtMillis,
             careItemId = careItemId,
-            title = careName.ifBlank { "Reminder" },
-            text = instruction.ifBlank { "Care reminder" }
+            title = careName.ifBlank { getString(R.string.alarm_default_title) },
+            text = instruction.ifBlank { getString(R.string.alarm_scheduler_default_text) }
         )
 
         AlarmScheduler(this).scheduleExact(
             triggerAtMillis = triggerAtMillis,
             careItemId = careItemId,
             requestCode = requestCode,
-            title = careName.ifBlank { "Reminder" },
-            text = instruction.ifBlank { "Care reminder" }
+            title = careName.ifBlank { getString(R.string.alarm_default_title) },
+            text = instruction.ifBlank { getString(R.string.alarm_scheduler_default_text) }
         )
 
         finish()
@@ -316,15 +288,10 @@ class AlarmActivity : AppCompatActivity() {
         careItemNames: Array<String>,
         careItemInstructions: Array<String>
     ) {
-
         val triggerAtMillis =
             System.currentTimeMillis() + minutes * 60_000L
 
-        Log.d(
-            "AllIsOK",
-            "AlarmActivity.snoozeMinutesGrouped rc=$requestCode minutes=$minutes " +
-                    "triggerAt=$triggerAtMillis ids=${careItemIds.joinToString()}"
-        )
+        Log.d("AllIsOK", "AlarmActivity.snoozeMinutesGrouped rc=$requestCode minutes=$minutes triggerAt=$triggerAtMillis ids=${careItemIds.joinToString()}")
 
         SnoozeStore(this).saveGrouped(
             requestCode = requestCode,
@@ -351,10 +318,8 @@ class AlarmActivity : AppCompatActivity() {
         logDate: String,
         logTime: String
     ) {
-
         sendBroadcast(
             Intent(this, AlarmTakenReceiver::class.java).apply {
-
                 putExtra(EXTRA_REQUEST_CODE, requestCode)
                 putExtra(AlarmTakenReceiver.EXTRA_CARE_ITEM_ID, careItemId)
                 putExtra(AlarmTakenReceiver.EXTRA_LOG_DATE, logDate)

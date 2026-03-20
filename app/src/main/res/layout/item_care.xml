@@ -10,14 +10,14 @@
         android:id="@+id/textName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="@string/care_item_name_placeholder"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Times"
+        android:text="@string/care_item_times_placeholder"
         android:textSize="14sp" />
 
 </LinearLayout>

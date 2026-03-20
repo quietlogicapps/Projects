@@ -165,7 +165,7 @@ class ContactsActivity : AppCompatActivity() {
             if (granted) {
                 pendingCallNumber?.let { startDirectCall(it) }
             } else {
-                Toast.makeText(this, "Call permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.call_permission_denied), Toast.LENGTH_SHORT).show()
             }
 
             pendingCallNumber = null
@@ -186,8 +186,13 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun showContactActionsDialog(buttonId: Int) {
         AlertDialog.Builder(this)
-            .setTitle("Contact options")
-            .setItems(arrayOf("Choose from phone contacts", "Delete contact")) { _, which ->
+            .setTitle(getString(R.string.contact_options_title))
+            .setItems(
+                arrayOf(
+                    getString(R.string.contact_option_pick),
+                    getString(R.string.contact_option_delete)
+                )
+            ) { _, which ->
                 when (which) {
                     0 -> {
                         val intent = Intent(this, ContactEditActivity::class.java)
@@ -200,7 +205,7 @@ class ContactsActivity : AppCompatActivity() {
                     }
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.dialog_cancel), null)
             .show()
     }
 
@@ -235,7 +240,7 @@ class ContactsActivity : AppCompatActivity() {
             .orEmpty()
 
         if (phoneNumber.isBlank()) {
-            Toast.makeText(this, "Contact not configured", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.contact_not_configured), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -265,16 +270,20 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun applyContacts(contacts: List<ContactSlotEntity>) {
         buttonRelative.text =
-            contacts.firstOrNull { it.slotId == 1 }?.label?.takeIf { it.isNotBlank() } ?: "CLOSE ONE"
+            contacts.firstOrNull { it.slotId == 1 }?.label?.takeIf { it.isNotBlank() }
+                ?: getString(R.string.contact_relative)
 
         buttonDoctor.text =
-            contacts.firstOrNull { it.slotId == 2 }?.label?.takeIf { it.isNotBlank() } ?: "FAMILY"
+            contacts.firstOrNull { it.slotId == 2 }?.label?.takeIf { it.isNotBlank() }
+                ?: getString(R.string.contact_doctor)
 
         buttonContact3.text =
-            contacts.firstOrNull { it.slotId == 3 }?.label?.takeIf { it.isNotBlank() } ?: "DOCTOR"
+            contacts.firstOrNull { it.slotId == 3 }?.label?.takeIf { it.isNotBlank() }
+                ?: getString(R.string.contact_3)
 
         buttonEmergency.text =
-            contacts.firstOrNull { it.slotId == 4 }?.label?.takeIf { it.isNotBlank() } ?: "EMERGENCY"
+            contacts.firstOrNull { it.slotId == 4 }?.label?.takeIf { it.isNotBlank() }
+                ?: getString(R.string.contact_emergency)
     }
 
     private fun updateAdminIndicator() {

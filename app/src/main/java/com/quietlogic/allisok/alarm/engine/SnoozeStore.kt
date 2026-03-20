@@ -3,6 +3,7 @@ package com.quietlogic.allisok.alarm.engine
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.quietlogic.allisok.R
 import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Instant
@@ -30,8 +31,7 @@ class SnoozeStore(private val context: Context) {
 
         Log.d(
             "AllIsOK",
-            "SnoozeStore.saveSingle rc=$requestCode triggerAt=$triggerAtMillis " +
-                    "ldt=$localDateTime careItemId=$careItemId title='$title'"
+            "SnoozeStore.saveSingle rc=$requestCode triggerAt=$triggerAtMillis ldt=$localDateTime careItemId=$careItemId title=$title"
         )
         val obj = JSONObject()
             .put("v", 2)
@@ -59,8 +59,7 @@ class SnoozeStore(private val context: Context) {
 
         Log.d(
             "AllIsOK",
-            "SnoozeStore.saveGrouped rc=$requestCode triggerAt=$triggerAtMillis " +
-                    "ldt=$localDateTime ids=${careItemIds.toList()}"
+            "SnoozeStore.saveGrouped rc=$requestCode triggerAt=$triggerAtMillis ldt=$localDateTime ids=${careItemIds.toList()}"
         )
         val obj = JSONObject()
             .put("v", 2)
@@ -78,7 +77,10 @@ class SnoozeStore(private val context: Context) {
     }
 
     fun clear(requestCode: Int) {
-        Log.d("AllIsOK", "SnoozeStore.clear rc=$requestCode")
+        Log.d(
+            "AllIsOK",
+            "SnoozeStore.clear rc=$requestCode"
+        )
         prefs().edit().remove(key(requestCode)).apply()
     }
 
@@ -88,7 +90,10 @@ class SnoozeStore(private val context: Context) {
      */
     fun rescheduleAllActive(): Int {
         val now = System.currentTimeMillis()
-        Log.d("AllIsOK", "SnoozeStore.rescheduleAllActive start now=$now")
+        Log.d(
+            "AllIsOK",
+            "SnoozeStore.rescheduleAllActive start now=$now"
+        )
         val p = prefs()
         val scheduler = AlarmScheduler(context)
 
@@ -106,9 +111,7 @@ class SnoozeStore(private val context: Context) {
 
             Log.d(
                 "AllIsOK",
-                "SnoozeStore.restore prefKey=$prefKey " +
-                        "storedMillis=${obj.optLong("triggerAtMillis", -1L)} " +
-                        "recomputedMillis=$triggerAtMillis now=$now"
+                "SnoozeStore.restore prefKey=$prefKey storedMillis=${obj.optLong("triggerAtMillis", -1L)} recomputedMillis=$triggerAtMillis now=$now"
             )
             if (triggerAtMillis <= now + 500L) {
                 Log.d(
@@ -132,13 +135,18 @@ class SnoozeStore(private val context: Context) {
             when (obj.optString("type", "")) {
                 "single" -> {
                     val careItemId = obj.optLong("careItemId", -1L)
-                    val title = obj.optString("title", "Reminder")
-                    val text = obj.optString("text", "Care reminder")
+                    val title = obj.optString(
+                        "title",
+                        context.getString(R.string.alarm_default_title)
+                    )
+                    val text = obj.optString(
+                        "text",
+                        context.getString(R.string.alarm_scheduler_default_text)
+                    )
                     if (careItemId > 0L) {
                         Log.d(
                             "AllIsOK",
-                            "SnoozeStore.restore single rc=$requestCode careItemId=$careItemId " +
-                                    "triggerAt=$triggerAtMillis"
+                            "SnoozeStore.restore single rc=$requestCode careItemId=$careItemId triggerAt=$triggerAtMillis"
                         )
                         scheduler.scheduleExact(
                             triggerAtMillis = triggerAtMillis,
@@ -175,8 +183,7 @@ class SnoozeStore(private val context: Context) {
                     ) {
                         Log.d(
                             "AllIsOK",
-                            "SnoozeStore.restore grouped rc=$requestCode " +
-                                    "triggerAt=$triggerAtMillis ids=${careItemIds.toList()}"
+                            "SnoozeStore.restore grouped rc=$requestCode triggerAt=$triggerAtMillis ids=${careItemIds.toList()}"
                         )
                         scheduler.scheduleExactGrouped(
                             triggerAtMillis = triggerAtMillis,
@@ -204,14 +211,15 @@ class SnoozeStore(private val context: Context) {
                 }
             }
 
-            // Keep stored millis in sync with the current timezone so future logic
-            // (and any UI that reads triggerAtMillis) remains consistent.
             obj.put("triggerAtMillis", triggerAtMillis)
             editor.putString(prefKey, obj.toString())
         }
 
         editor.apply()
-        Log.d("AllIsOK", "SnoozeStore.rescheduleAllActive done restored=$restored")
+        Log.d(
+            "AllIsOK",
+            "SnoozeStore.rescheduleAllActive done restored=$restored"
+        )
         return restored
     }
 
@@ -258,4 +266,3 @@ class SnoozeStore(private val context: Context) {
         private const val KEY_PREFIX = "snooze_"
     }
 }
-

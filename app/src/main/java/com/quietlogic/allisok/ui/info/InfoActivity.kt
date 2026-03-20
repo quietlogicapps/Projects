@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.entity.RecentTakenItem
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.repository.CareLogRepository
@@ -30,7 +31,7 @@ class InfoActivity : AppCompatActivity() {
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        title = "INFO"
+        title = getString(R.string.home_info)
 
         updateAdminIndicator()
 
@@ -77,10 +78,22 @@ class InfoActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             infoRepository.getInfo().collect { info ->
-                binding.textBloodType.text = "Blood Type: ${info?.bloodType?.takeIf { it.isNotBlank() } ?: "-"}"
-                binding.textAllergies.text = "Allergies: ${info?.allergies?.takeIf { it.isNotBlank() } ?: "-"}"
-                binding.textConditions.text = "Conditions: ${info?.conditions?.takeIf { it.isNotBlank() } ?: "-"}"
-                binding.textNotes.text = "Notes: ${info?.notes?.takeIf { it.isNotBlank() } ?: "-"}"
+                binding.textBloodType.text = getString(
+                    R.string.blood_type_value,
+                    info?.bloodType?.takeIf { it.isNotBlank() } ?: "-"
+                )
+                binding.textAllergies.text = getString(
+                    R.string.allergies_value,
+                    info?.allergies?.takeIf { it.isNotBlank() } ?: "-"
+                )
+                binding.textConditions.text = getString(
+                    R.string.conditions_value,
+                    info?.conditions?.takeIf { it.isNotBlank() } ?: "-"
+                )
+                binding.textNotes.text = getString(
+                    R.string.notes_value,
+                    info?.notes?.takeIf { it.isNotBlank() } ?: "-"
+                )
             }
         }
     }

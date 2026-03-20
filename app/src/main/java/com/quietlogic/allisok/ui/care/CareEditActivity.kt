@@ -44,11 +44,10 @@ class CareEditActivity : AppCompatActivity() {
 
     private val selectedDays: MutableList<String> = mutableListOf()
 
-    private val days = arrayOf(
-        "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"
-    )
+    private lateinit var dayCodes: Array<String>
+    private lateinit var dayLabels: Array<String>
 
-    private val checkedDays = BooleanArray(days.size)
+    private lateinit var checkedDays: BooleanArray
 
     private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -62,9 +61,21 @@ class CareEditActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_care_edit)
 
-        title = "Add Care Item"
+        title = getString(R.string.care_edit_title)
 
         db = DatabaseProvider.getDatabase(applicationContext)
+
+        dayCodes = arrayOf("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
+        dayLabels = arrayOf(
+            getString(R.string.care_day_mon),
+            getString(R.string.care_day_tue),
+            getString(R.string.care_day_wed),
+            getString(R.string.care_day_thu),
+            getString(R.string.care_day_fri),
+            getString(R.string.care_day_sat),
+            getString(R.string.care_day_sun)
+        )
+        checkedDays = BooleanArray(dayCodes.size)
 
         val nameInput = findViewById<EditText>(R.id.inputName)
 
@@ -106,7 +117,7 @@ class CareEditActivity : AppCompatActivity() {
 
             if (checkedId == R.id.radioDaily) {
                 btnPickDays.visibility = View.GONE
-                textRepeatDays.text = "Days: Daily"
+                textRepeatDays.text = getString(R.string.care_days_daily)
                 selectedDays.clear()
 
                 for (i in checkedDays.indices) {
@@ -127,8 +138,8 @@ class CareEditActivity : AppCompatActivity() {
 
                 startDate = null
                 endDate = null
-                textStart.text = "Start: not set"
-                textEnd.text = "End: not set"
+                textStart.text = getString(R.string.care_start_not_set)
+                textEnd.text = getString(R.string.care_end_not_set)
 
                 updateDateButtonsState(
                     groupRepeat = groupRepeat,
@@ -151,7 +162,7 @@ class CareEditActivity : AppCompatActivity() {
 
             openDatePicker { date ->
                 startDate = date
-                textStart.text = "Start: ${date.format(dateFormatter)}"
+                textStart.text = getString(R.string.care_start_value, date.format(dateFormatter))
             }
         }
 
@@ -162,7 +173,7 @@ class CareEditActivity : AppCompatActivity() {
 
             openDatePicker { date ->
                 endDate = date
-                textEnd.text = "End: ${date.format(dateFormatter)}"
+                textEnd.text = getString(R.string.care_end_value, date.format(dateFormatter))
             }
         }
 
@@ -178,12 +189,12 @@ class CareEditActivity : AppCompatActivity() {
             val name = nameInput.text.toString().trim()
 
             if (name.isEmpty()) {
-                Toast.makeText(this, "Name required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.care_name_required), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (times.isEmpty()) {
-                Toast.makeText(this, "Add at least one time", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.care_add_at_least_one_time), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -202,16 +213,16 @@ class CareEditActivity : AppCompatActivity() {
             }
 
             val instruction = when (groupInstruction.checkedRadioButtonId) {
-                R.id.radioBefore -> "Before food"
-                R.id.radioAfter -> "After food"
-                else -> "None"
+                R.id.radioBefore -> getString(R.string.care_instruction_before_food)
+                R.id.radioAfter -> getString(R.string.care_instruction_after_food)
+                else -> getString(R.string.care_instruction_none)
             }
 
             val repeatType = if (isDaily) {
                 "DAILY"
             } else {
                 if (selectedDays.isEmpty()) {
-                    Toast.makeText(this, "Select days", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.care_select_days), Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
                 "DAYS:" + selectedDays.joinToString(",")
@@ -259,7 +270,7 @@ class CareEditActivity : AppCompatActivity() {
                     }
                 }
 
-                Toast.makeText(this@CareEditActivity, "Saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CareEditActivity, getString(R.string.care_saved), Toast.LENGTH_SHORT).show()
 
                 finish()
             }
@@ -283,15 +294,15 @@ class CareEditActivity : AppCompatActivity() {
 
         if (isDaily) {
             if (startDate == null) {
-                textStart.text = "Start: not set"
+                textStart.text = getString(R.string.care_start_not_set)
             } else {
-                textStart.text = "Start: ${startDate!!.format(dateFormatter)}"
+                textStart.text = getString(R.string.care_start_value, startDate!!.format(dateFormatter))
             }
 
             if (endDate == null) {
-                textEnd.text = "End: not set"
+                textEnd.text = getString(R.string.care_end_not_set)
             } else {
-                textEnd.text = "End: ${endDate!!.format(dateFormatter)}"
+                textEnd.text = getString(R.string.care_end_value, endDate!!.format(dateFormatter))
             }
         }
     }
@@ -299,32 +310,37 @@ class CareEditActivity : AppCompatActivity() {
     private fun openDaysDialog(textRepeatDays: TextView) {
 
         AlertDialog.Builder(this)
-            .setTitle("Select days")
-            .setMultiChoiceItems(days, checkedDays) { _, which, isChecked ->
+            .setTitle(getString(R.string.care_select_days))
+            .setMultiChoiceItems(dayLabels, checkedDays) { _, which, isChecked ->
                 checkedDays[which] = isChecked
             }
-            .setPositiveButton("OK") { _, _ ->
+            .setPositiveButton(getString(R.string.dialog_ok)) { _, _ ->
 
                 selectedDays.clear()
 
-                for (i in days.indices) {
+                for (i in dayCodes.indices) {
                     if (checkedDays[i]) {
-                        selectedDays.add(days[i])
+                        selectedDays.add(dayCodes[i])
                     }
                 }
 
                 if (selectedDays.isEmpty()) {
-                    textRepeatDays.text = "Days: Not selected"
+                    textRepeatDays.text = getString(R.string.care_days_not_selected)
                 } else {
-                    textRepeatDays.text = "Days: " + selectedDays.joinToString(", ")
+                    val selectedDayLabels = selectedDays.map { code -> mapDayCodeToLabel(code) }
+
+                    textRepeatDays.text = getString(
+                        R.string.care_days_selected,
+                        selectedDayLabels.joinToString(", ")
+                    )
                 }
             }
-            .setNegativeButton("Cancel") { _, _ ->
+            .setNegativeButton(getString(R.string.dialog_cancel)) { _, _ ->
                 if (
                     selectedDays.isEmpty() &&
                     findViewById<RadioGroup>(R.id.groupRepeat).checkedRadioButtonId == R.id.radioSpecific
                 ) {
-                    textRepeatDays.text = "Days: Not selected"
+                    textRepeatDays.text = getString(R.string.care_days_not_selected)
                 }
             }
             .show()
@@ -379,7 +395,7 @@ class CareEditActivity : AppCompatActivity() {
             }
 
             val deleteBtn = TextView(this).apply {
-                text = "X"
+                text = getString(R.string.care_delete_time)
                 textSize = 18f
                 setPadding(dpToPx(12), dpToPx(4), dpToPx(4), dpToPx(4))
 
@@ -398,12 +414,12 @@ class CareEditActivity : AppCompatActivity() {
 
     private fun updateAddTimeUi(btnAddTime: Button, textNoTimes: TextView) {
         if (times.isEmpty()) {
-            btnAddTime.text = "ADD TIME"
-            textNoTimes.text = "No times added"
+            btnAddTime.text = getString(R.string.care_add_time)
+            textNoTimes.text = getString(R.string.care_no_times_added)
             textNoTimes.visibility = View.VISIBLE
         } else {
-            btnAddTime.text = "ADD ANOTHER TIME"
-            textNoTimes.text = "Add another time"
+            btnAddTime.text = getString(R.string.care_add_another_time)
+            textNoTimes.text = getString(R.string.care_add_another_time_hint)
             textNoTimes.visibility = View.VISIBLE
         }
     }
@@ -423,7 +439,7 @@ class CareEditActivity : AppCompatActivity() {
                 val picked = LocalTime.of(hourOfDay, minute)
 
                 if (times.contains(picked)) {
-                    Toast.makeText(this, "Time already added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.care_time_already_added), Toast.LENGTH_SHORT).show()
                 } else {
                     times.add(picked)
                     times.sort()
@@ -435,7 +451,10 @@ class CareEditActivity : AppCompatActivity() {
             true
         )
 
-        dialog.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel") { dialogInterface, _ ->
+        dialog.setButton(
+            TimePickerDialog.BUTTON_NEGATIVE,
+            getString(R.string.dialog_cancel)
+        ) { dialogInterface, _ ->
             dialogInterface.dismiss()
         }
 
@@ -471,6 +490,19 @@ class CareEditActivity : AppCompatActivity() {
             .atZone(ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
+    }
+
+    private fun mapDayCodeToLabel(code: String): String {
+        return when (code.trim()) {
+            "MON" -> getString(R.string.care_day_mon)
+            "TUE" -> getString(R.string.care_day_tue)
+            "WED" -> getString(R.string.care_day_wed)
+            "THU" -> getString(R.string.care_day_thu)
+            "FRI" -> getString(R.string.care_day_fri)
+            "SAT" -> getString(R.string.care_day_sat)
+            "SUN" -> getString(R.string.care_day_sun)
+            else -> code
+        }
     }
 
     private fun hideKeyboardAndClearFocus(view: View) {

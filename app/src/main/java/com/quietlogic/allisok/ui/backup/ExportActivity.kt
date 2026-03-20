@@ -21,7 +21,7 @@ class ExportActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_export)
 
-        title = "EXPORT DATA"
+        title = getString(R.string.export_title)
 
         val buttonGenerateExport = findViewById<Button>(R.id.buttonGenerateExport)
         val textExportJson = findViewById<TextView>(R.id.textExportJson)
@@ -30,7 +30,7 @@ class ExportActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
 
-                textExportJson.text = "Generating..."
+                textExportJson.text = getString(R.string.export_generating)
 
                 val json = withContext(Dispatchers.IO) {
 
@@ -51,7 +51,7 @@ class ExportActivity : AppCompatActivity() {
 
                     Toast.makeText(
                         this@ExportActivity,
-                        "Backup saved:\n$path",
+                        getString(R.string.export_saved, path),
                         Toast.LENGTH_LONG
                     ).show()
                 }

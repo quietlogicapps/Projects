@@ -50,7 +50,10 @@ class AlarmRescheduler(private val context: Context) {
         Log.d("AllIsOK", "AlarmRescheduler.rescheduleAfterTimezoneChanged begin")
         rescheduleAll()
         val restored = SnoozeStore(context.applicationContext).rescheduleAllActive()
-        Log.d("AllIsOK", "AlarmRescheduler.rescheduleAfterTimezoneChanged done restored=$restored")
+        Log.d(
+            "AllIsOK",
+            "AlarmRescheduler.rescheduleAfterTimezoneChanged done restored=$restored"
+        )
     }
 
     private fun findNextTriggerAtMillis(

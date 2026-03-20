@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.quietlogic.allisok.R
 
 class CareAdapter(
     private val onDeleteClick: (Long) -> Unit
@@ -81,7 +82,7 @@ class CareAdapter(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            text = "X"
+            text = context.getString(R.string.care_delete_time)
             textSize = 22f
             setTextColor(Color.RED)
             setPadding(dp(context, 16), dp(context, 8), dp(context, 8), dp(context, 8))

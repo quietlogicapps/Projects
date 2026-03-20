@@ -46,7 +46,7 @@ class SecurityActivity : AppCompatActivity() {
 
             if (isChecked) {
                 val intent = Intent(this, PinActivity::class.java)
-                intent.putExtra("PIN_TITLE", "Change PIN")
+                intent.putExtra("PIN_TITLE", getString(R.string.pin_title_change_pin))
                 startActivity(intent)
             } else {
                 pinPrefs.disableUserPin()
@@ -56,7 +56,7 @@ class SecurityActivity : AppCompatActivity() {
 
         buttonUserChangePin.setOnClickListener {
             val intent = Intent(this, PinActivity::class.java)
-            intent.putExtra("PIN_TITLE", "Change PIN")
+            intent.putExtra("PIN_TITLE", getString(R.string.pin_title_change_pin))
             startActivity(intent)
         }
 
@@ -67,13 +67,13 @@ class SecurityActivity : AppCompatActivity() {
 
         buttonAdminPin.setOnClickListener {
             val intent = Intent(this, PinActivity::class.java)
-            intent.putExtra("PIN_TITLE", "Set Admin PIN")
+            intent.putExtra("PIN_TITLE", getString(R.string.pin_title_set_admin_pin))
             startActivity(intent)
         }
 
         buttonAdminChangePin.setOnClickListener {
             val intent = Intent(this, PinActivity::class.java)
-            intent.putExtra("PIN_TITLE", "Change Admin PIN")
+            intent.putExtra("PIN_TITLE", getString(R.string.pin_title_change_admin_pin))
             startActivity(intent)
         }
     }
@@ -92,9 +92,9 @@ class SecurityActivity : AppCompatActivity() {
         isUpdatingUi = false
 
         if (enabled) {
-            textPinStatus.text = "App PIN enabled"
+            textPinStatus.text = getString(R.string.pin_status_enabled)
         } else {
-            textPinStatus.text = "App opens without PIN"
+            textPinStatus.text = getString(R.string.pin_status_disabled)
         }
     }
 }

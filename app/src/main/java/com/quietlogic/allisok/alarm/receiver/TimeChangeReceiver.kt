@@ -10,10 +10,7 @@ class TimeChangeReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        Log.d(
-            "AllIsOK",
-            "Time or timezone changed — alarm reschedule will run here later"
-        )
+        Log.d("AllIsOK", "Time or timezone changed — alarm reschedule will run here later")
 
         if (intent.action == Intent.ACTION_TIMEZONE_CHANGED) {
             AlarmRescheduler(context).rescheduleAfterTimezoneChanged()

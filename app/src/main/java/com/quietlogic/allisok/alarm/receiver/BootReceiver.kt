@@ -12,10 +12,7 @@ class BootReceiver : BroadcastReceiver() {
 
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
 
-            Log.d(
-                "AllIsOK",
-                "Boot completed — alarm reschedule will run here later"
-            )
+            Log.d("AllIsOK", "Boot completed — alarm reschedule will run here later")
 
             AlarmRescheduler(context).rescheduleAll()
 

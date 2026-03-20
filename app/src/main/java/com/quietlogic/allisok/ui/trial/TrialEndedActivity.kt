@@ -13,16 +13,23 @@ class TrialEndedActivity : AppCompatActivity() {
         setContentView(R.layout.activity_trial_ended)
 
         findViewById<Button>(R.id.btnBuy).setOnClickListener {
-            Toast.makeText(this, "Purchase coming soon", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.trial_purchase_soon),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         findViewById<Button>(R.id.btnRestore).setOnClickListener {
-            Toast.makeText(this, "Restore coming soon", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.trial_restore_soon),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     override fun onBackPressed() {
-        // Block back button - user must buy or restore
+        // Block back button
     }
 }
-

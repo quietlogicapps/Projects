@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,7 +13,7 @@
         android:id="@+id/textDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2026-03-06"
+        android:text="@string/recent_taken_date_placeholder"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -21,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="08:30"
+        android:text="@string/recent_taken_time_placeholder"
         android:textSize="15sp" />
 
     <TextView
@@ -29,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="Taken"
+        android:text="@string/recent_taken_status_taken"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -38,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Paracetamol"
+        android:text="@string/recent_taken_name_placeholder"
         android:textSize="15sp" />
 
     <View

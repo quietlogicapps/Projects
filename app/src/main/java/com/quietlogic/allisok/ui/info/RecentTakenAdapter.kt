@@ -3,6 +3,7 @@ package com.quietlogic.allisok.ui.info
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.entity.RecentTakenItem
 import com.quietlogic.allisok.databinding.ItemRecentTakenBinding
 
@@ -27,13 +28,11 @@ class RecentTakenAdapter : RecyclerView.Adapter<RecentTakenAdapter.ViewHolder>()
 
             binding.textDate.text = item.date
 
-            // комбинираме TIME + NAME на един ред
             binding.textTime.text = "${item.scheduledTime}  ${item.careItemName}"
 
-            // махаме отделния ред за име
             binding.textCareName.text = ""
 
-            binding.textStatus.text = "Taken"
+            binding.textStatus.text = binding.root.context.getString(R.string.alarm_taken)
         }
     }
 

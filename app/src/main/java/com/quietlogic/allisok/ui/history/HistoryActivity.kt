@@ -26,7 +26,7 @@ class HistoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
 
-        title = "History"
+        title = getString(R.string.history_title)
 
         db = DatabaseProvider.getDatabase(applicationContext)
 

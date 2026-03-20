@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Trial ended"
+        android:text="@string/trial_title"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -19,7 +19,7 @@
         android:id="@+id/btnBuy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Buy"
+        android:text="@string/trial_buy"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="24dp"
@@ -29,7 +29,7 @@
         android:id="@+id/btnRestore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Restore"
+        android:text="@string/trial_restore"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="24dp" />

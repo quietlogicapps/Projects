@@ -136,15 +136,15 @@ class PermissionSetupActivity : AppCompatActivity() {
         val lines = mutableListOf<String>()
 
         if (needsNotif) {
-            lines.add("• Notifications: NOT ENABLED")
+            lines.add(getString(R.string.permission_status_notifications_not_enabled))
         } else {
-            lines.add("• Notifications: OK")
+            lines.add(getString(R.string.permission_status_notifications_ok))
         }
 
         if (needsExact) {
-            lines.add("• Exact alarms: NOT ENABLED")
+            lines.add(getString(R.string.permission_status_exact_alarms_not_enabled))
         } else {
-            lines.add("• Exact alarms: OK")
+            lines.add(getString(R.string.permission_status_exact_alarms_ok))
         }
 
         statusText.text = lines.joinToString("\n")
@@ -205,13 +205,13 @@ class PermissionSetupActivity : AppCompatActivity() {
         }
 
         val title = TextView(this).apply {
-            text = "Setup required"
+            text = getString(R.string.permission_setup_title)
             textSize = 22f
             gravity = Gravity.CENTER_HORIZONTAL
         }
 
         val subtitle = TextView(this).apply {
-            text = "To use the app, enable notifications and exact alarms."
+            text = getString(R.string.permission_setup_subtitle)
             textSize = 16f
             gravity = Gravity.CENTER_HORIZONTAL
         }
@@ -222,15 +222,15 @@ class PermissionSetupActivity : AppCompatActivity() {
         }
 
         btnNotifications = Button(this).apply {
-            text = "Enable notifications"
+            text = getString(R.string.permission_enable_notifications)
         }
 
         btnExactAlarms = Button(this).apply {
-            text = "Enable exact alarms"
+            text = getString(R.string.permission_enable_exact_alarms)
         }
 
         btnContinue = Button(this).apply {
-            text = "Continue"
+            text = getString(R.string.permission_continue)
             visibility = View.GONE
         }
 

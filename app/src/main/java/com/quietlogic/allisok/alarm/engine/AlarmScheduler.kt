@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.receiver.AlarmReceiver
 import java.util.Calendar
 import java.util.Locale
@@ -19,8 +20,8 @@ class AlarmScheduler(private val context: Context) {
         triggerAtMillis: Long,
         careItemId: Long,
         requestCode: Int,
-        title: String = "Reminder",
-        text: String = "Care reminder"
+        title: String = context.getString(R.string.alarm_default_title),
+        text: String = context.getString(R.string.alarm_scheduler_default_text)
     ): Boolean {
 
         if (!PermissionGate.hasExactAlarmPermission(context)) {
@@ -82,8 +83,8 @@ class AlarmScheduler(private val context: Context) {
         careItemIds: LongArray,
         careItemNames: Array<String>,
         careItemInstructions: Array<String>,
-        title: String = "Reminder",
-        text: String = "Care reminder"
+        title: String = context.getString(R.string.alarm_default_title),
+        text: String = context.getString(R.string.alarm_scheduler_default_text)
     ): Boolean {
 
         if (!PermissionGate.hasExactAlarmPermission(context)) {
@@ -146,10 +147,13 @@ class AlarmScheduler(private val context: Context) {
             triggerAtMillis = 0L,
             careItemId = -1L,
             requestCode = requestCode,
-            title = "x",
-            text = "x"
+            title = "",
+            text = ""
         )
-        Log.d("AllIsOK", "AlarmScheduler.cancel rc=$requestCode")
+        Log.d(
+            "AllIsOK",
+            "AlarmScheduler.cancel rc=$requestCode"
+        )
         alarmManager.cancel(pendingIntent)
     }
 
@@ -219,7 +223,7 @@ class AlarmScheduler(private val context: Context) {
     }
 
     private fun formatTime(timeMillis: Long): String {
-        if (timeMillis <= 0L) return "--:--"
+        if (timeMillis <= 0L) return context.getString(R.string.alarm_time_default)
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timeMillis

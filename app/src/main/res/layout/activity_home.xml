@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="All Is OK"
+            android:text="@string/app_name"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -30,7 +30,7 @@
         android:layout_height="28dp"
         android:background="@android:color/holo_red_dark"
         android:gravity="center"
-        android:text="ADMIN MODE ACTIVE"
+        android:text="@string/admin_mode_active"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginBottom="24dp"
-            android:text="CONTACTS"
+            android:text="@string/home_contacts"
             android:textSize="20sp" />
 
         <Button
@@ -56,14 +56,14 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginBottom="24dp"
-            android:text="CARE"
+            android:text="@string/home_care"
             android:textSize="20sp" />
 
         <Button
             android:id="@+id/buttonInfo"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="INFO"
+            android:text="@string/home_info"
             android:textSize="20sp" />
 
     </LinearLayout>

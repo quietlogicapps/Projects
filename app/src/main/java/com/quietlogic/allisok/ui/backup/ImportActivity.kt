@@ -22,7 +22,7 @@ class ImportActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_import)
 
-        title = "IMPORT DATA"
+        title = getString(R.string.import_title)
 
         val buttonLoadBackup = findViewById<Button>(R.id.buttonLoadBackup)
         val textImportPreview = findViewById<TextView>(R.id.textImportPreview)
@@ -35,7 +35,7 @@ class ImportActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Backup file not found",
+                    getString(R.string.import_file_not_found),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -59,7 +59,7 @@ class ImportActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this@ImportActivity,
-                    "Backup restored",
+                    getString(R.string.import_restored),
                     Toast.LENGTH_SHORT
                 ).show()
             }

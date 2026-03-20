@@ -12,7 +12,7 @@
         android:layout_height="28dp"
         android:background="@android:color/holo_red_dark"
         android:gravity="center"
-        android:text="ADMIN MODE ACTIVE"
+        android:text="@string/admin_mode_active"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -22,14 +22,14 @@
         android:id="@+id/btnAddCare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADD"
+        android:text="@string/care_add"
         android:layout_marginBottom="16dp"/>
 
     <TextView
         android:id="@+id/textEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No care items yet"
+        android:text="@string/care_empty"
         android:textSize="18sp"
         android:gravity="center"
         android:layout_marginTop="40dp"/>

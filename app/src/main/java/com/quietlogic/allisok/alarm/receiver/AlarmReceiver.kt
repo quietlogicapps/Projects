@@ -36,12 +36,12 @@ class AlarmReceiver : BroadcastReceiver() {
 
         Log.d(
             "AllIsOK",
-            "AlarmReceiver.onReceive action=${intent.action} rc=$requestCode " +
-                    "timeText=$timeTextRaw careItemId=$careItemIdRaw"
+            "AlarmReceiver.onReceive action=${intent.action} rc=$requestCode timeText=$timeTextRaw careItemId=$careItemIdRaw"
         )
 
-        val timeText = timeTextRaw ?: "--:--"
-        val baseCareName = intent.getStringExtra(AlarmScheduler.EXTRA_TITLE) ?: "Reminder"
+        val timeText = timeTextRaw ?: context.getString(R.string.alarm_time_default)
+        val baseCareName = intent.getStringExtra(AlarmScheduler.EXTRA_TITLE)
+            ?: context.getString(R.string.alarm_default_title)
         val baseInstruction = intent.getStringExtra(AlarmScheduler.EXTRA_TEXT) ?: ""
 
         if (requestCode != 0) {
@@ -65,7 +65,6 @@ class AlarmReceiver : BroadcastReceiver() {
         }.getOrNull()
 
         val logDate = LocalDate.now().toString()
-
         val logTime = (parsedTime ?: LocalTime.now()).toString()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -152,13 +151,18 @@ class AlarmReceiver : BroadcastReceiver() {
             val careNameForUi = when {
                 effectiveItems.isEmpty() -> baseCareName
                 effectiveItems.size == 1 -> primary?.name ?: baseCareName
-                else -> "${effectiveItems.size} reminders"
+                else -> context.getString(
+                    R.string.alarm_multiple_items,
+                    effectiveItems.size
+                )
             }
 
             val instructionForUi = when {
                 effectiveItems.isEmpty() -> baseInstruction
                 effectiveItems.size == 1 -> primary?.instruction ?: baseInstruction
-                else -> effectiveItems.joinToString(separator = "\n") { "• ${it.name}" }
+                else -> effectiveItems.joinToString(separator = "\n") {
+                    context.getString(R.string.alarm_item_bullet, it.name)
+                }
             }
 
             val activityIntent = Intent(context, AlarmActivity::class.java).apply {
@@ -207,7 +211,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 ContextCompat.getSystemService(context, NotificationManager::class.java)
                     ?: return@launch
 
-            ensureChannel(nm)
+            ensureChannel(context, nm)
 
             val notificationId =
                 if (requestCode != 0)
@@ -218,7 +222,11 @@ class AlarmReceiver : BroadcastReceiver() {
             val notification = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(careNameForUi)
-                .setContentText(instructionForUi.ifBlank { "Alarm" })
+                .setContentText(
+                    instructionForUi.ifBlank {
+                        context.getString(R.string.alarm_notification_fallback)
+                    }
+                )
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -236,7 +244,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun ensureChannel(nm: NotificationManager) {
+    private fun ensureChannel(context: Context, nm: NotificationManager) {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
@@ -245,11 +253,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Alarms (vibrate only)",
+            context.getString(R.string.alarm_channel_name),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
 
-            description = "Care alarms (sound played by alarm UI; channel is vibrate-only)"
+            description = context.getString(R.string.alarm_channel_description)
             setSound(null, null)
             enableVibration(true)
             vibrationPattern = longArrayOf(0, 500, 300, 500, 300, 800)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,7 +10,7 @@
         android:id="@+id/textHistoryName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item name"
+        android:text="@string/history_item_name_placeholder"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -17,7 +18,7 @@
         android:id="@+id/textHistoryDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="End date"
+        android:text="@string/history_item_date_placeholder"
         android:textSize="14sp"
         android:layout_marginTop="4dp" />
 

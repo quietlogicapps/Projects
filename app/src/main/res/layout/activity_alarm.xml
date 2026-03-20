@@ -11,7 +11,7 @@
         android:id="@+id/textAlarmTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="08:00"
+        android:text="@string/alarm_time_preview"
         android:textSize="48sp"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -21,7 +21,7 @@
         android:id="@+id/textCareName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Medicine Name"
+        android:text="@string/alarm_care_name_preview"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -31,7 +31,7 @@
         android:id="@+id/textInstruction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Take after food"
+        android:text="@string/alarm_instruction_preview"
         android:textSize="18sp"
         android:textColor="#444444"
         android:layout_marginBottom="40dp"/>
@@ -40,7 +40,7 @@
         android:id="@+id/buttonTaken"
         android:layout_width="220dp"
         android:layout_height="60dp"
-        android:text="TAKEN"
+        android:text="@string/alarm_taken"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"/>
@@ -55,21 +55,21 @@
             android:id="@+id/buttonSnooze5"
             android:layout_width="90dp"
             android:layout_height="50dp"
-            android:text="5 min"
+            android:text="@string/alarm_snooze_5"
             android:layout_margin="6dp"/>
 
         <Button
             android:id="@+id/buttonSnooze10"
             android:layout_width="90dp"
             android:layout_height="50dp"
-            android:text="10 min"
+            android:text="@string/alarm_snooze_10"
             android:layout_margin="6dp"/>
 
         <Button
             android:id="@+id/buttonSnooze15"
             android:layout_width="90dp"
             android:layout_height="50dp"
-            android:text="15 min"
+            android:text="@string/alarm_snooze_15"
             android:layout_margin="6dp"/>
 
     </LinearLayout>

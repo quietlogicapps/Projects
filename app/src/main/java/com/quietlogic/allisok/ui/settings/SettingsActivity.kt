@@ -15,23 +15,17 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        title = "SETTINGS TEST"
+        title = getString(R.string.settings_title)
 
         val buttonExport = findViewById<Button>(R.id.buttonExport)
         val buttonImport = findViewById<Button>(R.id.buttonImport)
         val buttonMoreApps = findViewById<Button>(R.id.buttonMoreApps)
         val buttonHistory = findViewById<Button>(R.id.buttonHistory)
 
-        Toast.makeText(
-            this,
-            "History btn found = ${buttonHistory != null}",
-            Toast.LENGTH_SHORT
-        ).show()
-
         buttonHistory.setOnClickListener {
             Toast.makeText(
                 this,
-                "Opening History",
+                getString(R.string.settings_history_opening),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -52,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
         buttonExport.setOnClickListener {
             Toast.makeText(
                 this,
-                "Export button pressed",
+                getString(R.string.settings_export_pressed),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -60,7 +54,7 @@ class SettingsActivity : AppCompatActivity() {
         buttonImport.setOnClickListener {
             Toast.makeText(
                 this,
-                "Import button pressed",
+                getString(R.string.settings_import_pressed),
                 Toast.LENGTH_SHORT
             ).show()
         }

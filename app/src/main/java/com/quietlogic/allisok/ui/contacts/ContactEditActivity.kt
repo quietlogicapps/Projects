@@ -27,7 +27,7 @@ class ContactEditActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_contact_edit)
-        title = "EDIT CONTACT"
+        title = getString(R.string.contact_edit_title)
 
         buttonId = intent.getIntExtra("buttonId", View.NO_ID)
 

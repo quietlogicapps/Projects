@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.local.entity.EmergencyInfoEntity
 import com.quietlogic.allisok.data.repository.InfoRepository
@@ -28,7 +29,7 @@ class EmergencyInfoEditActivity : AppCompatActivity() {
         binding = ActivityEmergencyInfoEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        title = "EDIT EMERGENCY INFO"
+        title = getString(R.string.edit_emergency_title)
 
         val database = DatabaseProvider.getDatabase(this)
         repository = InfoRepository(database.emergencyInfoDao())
@@ -64,7 +65,7 @@ class EmergencyInfoEditActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this@EmergencyInfoEditActivity,
-                    "Emergency info saved",
+                    getString(R.string.emergency_info_saved),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -77,7 +78,7 @@ class EmergencyInfoEditActivity : AppCompatActivity() {
                 repository.clear()
                 Toast.makeText(
                     this@EmergencyInfoEditActivity,
-                    "Emergency info cleared",
+                    getString(R.string.emergency_info_cleared),
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()

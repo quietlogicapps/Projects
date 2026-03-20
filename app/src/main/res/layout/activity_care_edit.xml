@@ -12,20 +12,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Care Item Name"
+            android:text="@string/care_edit_name_label"
             android:textSize="16sp" />
 
         <EditText
             android:id="@+id/inputName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Example: Blood pressure medicine"
+            android:hint="@string/care_edit_name_hint"
             android:layout_marginBottom="24dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Instruction"
+            android:text="@string/care_edit_instruction_label"
             android:textSize="16sp" />
 
         <RadioGroup
@@ -39,7 +39,7 @@
                 android:id="@+id/radioNone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="None"
+                android:text="@string/care_instruction_none"
                 android:checked="true" />
 
             <RadioButton
@@ -47,21 +47,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Before food" />
+                android:text="@string/care_instruction_before_food" />
 
             <RadioButton
                 android:id="@+id/radioAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="After food" />
+                android:text="@string/care_instruction_after_food" />
 
         </RadioGroup>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Repeat"
+            android:text="@string/care_edit_repeat_label"
             android:textSize="16sp" />
 
         <RadioGroup
@@ -75,7 +75,7 @@
                 android:id="@+id/radioDaily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Daily"
+                android:text="@string/care_repeat_daily"
                 android:checked="true" />
 
             <RadioButton
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Specific days" />
+                android:text="@string/care_repeat_specific_days" />
 
         </RadioGroup>
 
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="PICK DAYS"
+            android:text="@string/care_pick_days"
             android:visibility="gone" />
 
         <TextView
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Days: Daily"
+            android:text="@string/care_days_daily"
             android:textSize="16sp" />
 
         <!-- START + END grouped -->
@@ -121,13 +121,13 @@
                     android:id="@+id/btnPickStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="START DATE" />
+                    android:text="@string/care_start_date" />
 
                 <TextView
                     android:id="@+id/textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Start: not set"
+                    android:text="@string/care_start_not_set"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp" />
 
@@ -148,13 +148,13 @@
                     android:id="@+id/btnPickEnd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="END DATE" />
+                    android:text="@string/care_end_date" />
 
                 <TextView
                     android:id="@+id/textEnd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="End: not set"
+                    android:text="@string/care_end_not_set"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp" />
 
@@ -167,7 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="ADD TIME" />
+            android:text="@string/care_add_time" />
 
         <LinearLayout
             android:id="@+id/layoutTimes"
@@ -181,14 +181,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="No times added"
+            android:text="@string/care_no_times_added"
             android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnSaveCare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SAVE" />
+            android:text="@string/save" />
 
     </LinearLayout>
 
