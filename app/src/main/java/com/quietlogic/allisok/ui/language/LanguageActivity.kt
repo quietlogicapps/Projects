@@ -46,8 +46,32 @@ class LanguageActivity : AppCompatActivity() {
             setLanguage("es")
         }
 
+        findViewById<Button>(R.id.buttonLanguagePortuguese).setOnClickListener {
+            setLanguage("pt-BR")
+        }
+
         findViewById<Button>(R.id.buttonLanguageGerman).setOnClickListener {
             setLanguage("de")
+        }
+
+        findViewById<Button>(R.id.buttonLanguageFrench).setOnClickListener {
+            setLanguage("fr")
+        }
+
+        findViewById<Button>(R.id.buttonLanguageItalian).setOnClickListener {
+            setLanguage("it")
+        }
+
+        findViewById<Button>(R.id.buttonLanguageTurkish).setOnClickListener {
+            setLanguage("tr")
+        }
+
+        findViewById<Button>(R.id.buttonLanguagePolish).setOnClickListener {
+            setLanguage("pl")
+        }
+
+        findViewById<Button>(R.id.buttonLanguageRussian).setOnClickListener {
+            setLanguage("ru")
         }
     }
 

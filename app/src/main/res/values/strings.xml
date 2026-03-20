@@ -28,6 +28,17 @@
 
     <string name="language_screen_title">Language screen</string>
 
+    <!-- LANGUAGE BUTTONS (FIXED ORDER) -->
+    <string name="lang_english">English</string>
+    <string name="lang_spanish">Spanish</string>
+    <string name="lang_portuguese">Portuguese (Brazil)</string>
+    <string name="lang_german">German</string>
+    <string name="lang_french">French</string>
+    <string name="lang_italian">Italian</string>
+    <string name="lang_turkish">Turkish</string>
+    <string name="lang_polish">Polish</string>
+    <string name="lang_russian">Russian</string>
+
     <string name="security_title">Security</string>
     <string name="pin_enable">Enable PIN</string>
     <string name="pin_status_disabled">App opens without PIN</string>

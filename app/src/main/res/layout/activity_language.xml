@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="English"
+        android:text="@string/lang_english"
         android:textAllCaps="false" />
 
     <Button
@@ -26,7 +26,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Spanish"
+        android:text="@string/lang_spanish"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/buttonLanguagePortuguese"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/lang_portuguese"
         android:textAllCaps="false" />
 
     <Button
@@ -34,7 +42,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="German"
+        android:text="@string/lang_german"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/buttonLanguageFrench"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/lang_french"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/buttonLanguageItalian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/lang_italian"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/buttonLanguageTurkish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/lang_turkish"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/buttonLanguagePolish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/lang_polish"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/buttonLanguageRussian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/lang_russian"
         android:textAllCaps="false" />
 
 </LinearLayout>
