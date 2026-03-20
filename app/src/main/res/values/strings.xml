@@ -51,4 +51,16 @@
     <string name="import_load">Load backup file</string>
     <string name="import_empty">No file loaded</string>
 
+    <!-- INFO -->
+    <string name="admin_mode_active">ADMIN MODE ACTIVE</string>
+    <string name="emergency_info_title">Emergency Info</string>
+    <string name="edit">Edit</string>
+
+    <string name="blood_type">Blood type: -</string>
+    <string name="allergies">Allergies: -</string>
+    <string name="conditions">Conditions: -</string>
+    <string name="notes">Notes: -</string>
+
+    <string name="recent_taken_title">Recent Taken (72H)</string>
+
 </resources>
