@@ -13,7 +13,7 @@
             android:id="@+id/textEditEmergencyTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Emergency Info"
+            android:text="@string/edit_emergency_title"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Blood type"
+            android:hint="@string/hint_blood_type"
             android:inputType="textCapWords" />
 
         <EditText
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Allergies"
+            android:hint="@string/hint_allergies"
             android:inputType="textMultiLine"
             android:minLines="3"
             android:gravity="top|start" />
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Conditions"
+            android:hint="@string/hint_conditions"
             android:inputType="textMultiLine"
             android:minLines="3"
             android:gravity="top|start" />
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Notes"
+            android:hint="@string/hint_notes"
             android:inputType="textMultiLine"
             android:minLines="4"
             android:gravity="top|start" />
@@ -60,14 +60,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Save" />
+            android:text="@string/save" />
 
         <Button
             android:id="@+id/buttonClearEmergencyInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Clear" />
+            android:text="@string/clear" />
 
     </LinearLayout>
 
