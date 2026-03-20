@@ -24,4 +24,6 @@
     <string name="settings_privacy_button">Privacy policy</string>
     <string name="settings_more_apps_button">More apps from QuietLogic</string>
 
+    <string name="language_screen_title">Language screen</string>
+
 </resources>
