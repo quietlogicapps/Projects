@@ -9,7 +9,7 @@
         android:id="@+id/textImportTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Import Data"
+        android:text="@string/import_title"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Load backup file" />
+        android:text="@string/import_load" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:id="@+id/textImportPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No file loaded"
+            android:text="@string/import_empty"
             android:textIsSelectable="true"
             android:textSize="14sp" />
     </ScrollView>

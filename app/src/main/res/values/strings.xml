@@ -46,4 +46,9 @@
     <string name="export_generate">Generate export JSON</string>
     <string name="export_empty">No export generated yet</string>
 
+    <!-- IMPORT -->
+    <string name="import_title">Import Data</string>
+    <string name="import_load">Load backup file</string>
+    <string name="import_empty">No file loaded</string>
+
 </resources>
