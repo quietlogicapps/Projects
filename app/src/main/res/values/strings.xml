@@ -70,4 +70,10 @@
     <string name="save">Save</string>
     <string name="clear">Clear</string>
 
+    <!-- CONTACTS -->
+    <string name="contact_relative">RELATIVE</string>
+    <string name="contact_doctor">DOCTOR</string>
+    <string name="contact_3">CONTACT 3</string>
+    <string name="contact_emergency">EMERGENCY</string>
+
 </resources>

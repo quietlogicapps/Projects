@@ -11,7 +11,7 @@
         android:layout_height="28dp"
         android:background="@android:color/holo_red_dark"
         android:gravity="center"
-        android:text="ADMIN MODE ACTIVE"
+        android:text="@string/admin_mode_active"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -28,7 +28,7 @@
             android:id="@+id/buttonRelative"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="RELATIVE"
+            android:text="@string/contact_relative"
             android:textSize="20sp"
             android:layout_marginBottom="16dp"/>
 
@@ -36,7 +36,7 @@
             android:id="@+id/buttonDoctor"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="DOCTOR"
+            android:text="@string/contact_doctor"
             android:textSize="20sp"
             android:layout_marginBottom="16dp"/>
 
@@ -44,7 +44,7 @@
             android:id="@+id/buttonContact3"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="CONTACT 3"
+            android:text="@string/contact_3"
             android:textSize="20sp"
             android:layout_marginBottom="16dp"/>
 
@@ -52,7 +52,7 @@
             android:id="@+id/buttonEmergency"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="EMERGENCY"
+            android:text="@string/contact_emergency"
             android:textSize="20sp"/>
 
     </LinearLayout>
