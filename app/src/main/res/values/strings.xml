@@ -38,4 +38,7 @@
 
     <string name="date_format_title">Date Format</string>
 
+    <string name="history_title">History</string>
+    <string name="history_empty">No archived care items</string>
+
 </resources>

@@ -9,35 +9,35 @@
         android:id="@+id/textHistoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="History"
+        android:text="@string/history_title"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textHistoryEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No archived care items"
+        android:text="@string/history_empty"
         android:textSize="18sp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/textHistoryTitle"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textHistoryTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingTop="16dp"
-        android:scrollbars="vertical"
         android:fadeScrollbars="false"
+        android:paddingTop="16dp"
         android:scrollbarStyle="insideInset"
-        app:layout_constraintTop_toBottomOf="@id/textHistoryTitle"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textHistoryTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
