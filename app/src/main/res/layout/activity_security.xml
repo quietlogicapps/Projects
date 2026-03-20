@@ -18,7 +18,7 @@
             android:id="@+id/textSecurityTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Security"
+            android:text="@string/security_title"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
@@ -39,7 +39,7 @@
                     android:id="@+id/textEnablePin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enable PIN"
+                    android:text="@string/pin_enable"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="App opens without PIN"
+                    android:text="@string/pin_status_disabled"
                     android:textColor="#7A7A7A"
                     android:textSize="15sp" />
 
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="28dp"
-            android:text="User Change PIN"
+            android:text="@string/user_change_pin"
             android:textAllCaps="false" />
 
         <Button
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="18dp"
-            android:text="User Disable PIN"
+            android:text="@string/user_disable_pin"
             android:textAllCaps="false" />
 
         <TextView
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
-            android:text="Admin"
+            android:text="@string/admin_title"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="28dp"
-            android:text="Admin PIN"
+            android:text="@string/admin_pin"
             android:textAllCaps="false" />
 
         <Button
@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="18dp"
-            android:text="Admin Change PIN"
+            android:text="@string/admin_change_pin"
             android:textAllCaps="false" />
 
     </LinearLayout>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">All Is OK</string>
@@ -25,5 +26,16 @@
     <string name="settings_more_apps_button">More apps from QuietLogic</string>
 
     <string name="language_screen_title">Language screen</string>
+
+    <string name="security_title">Security</string>
+    <string name="pin_enable">Enable PIN</string>
+    <string name="pin_status_disabled">App opens without PIN</string>
+    <string name="user_change_pin">User Change PIN</string>
+    <string name="user_disable_pin">User Disable PIN</string>
+    <string name="admin_title">Admin</string>
+    <string name="admin_pin">Admin PIN</string>
+    <string name="admin_change_pin">Admin Change PIN</string>
+
+    <string name="date_format_title">Date Format</string>
 
 </resources>
