@@ -15,7 +15,7 @@
             android:id="@+id/textSecurityTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Security"
+            android:text="@string/settings_security_title"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -23,8 +23,8 @@
             android:id="@+id/buttonSecurity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Security settings"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_security_button" />
 
         <!-- LANGUAGE -->
 
@@ -32,17 +32,17 @@
             android:id="@+id/textLanguageTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Language"
+            android:layout_marginTop="24dp"
+            android:text="@string/settings_language_title"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonLanguage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change language"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_language_button" />
 
         <!-- BACKUP -->
 
@@ -50,24 +50,24 @@
             android:id="@+id/textBackupTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Backup"
+            android:layout_marginTop="24dp"
+            android:text="@string/settings_backup_title"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonExport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Export data"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_export_button" />
 
         <Button
             android:id="@+id/buttonImport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Import data"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_import_button" />
 
         <!-- HISTORY -->
 
@@ -75,17 +75,17 @@
             android:id="@+id/textHistoryTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="History"
+            android:layout_marginTop="24dp"
+            android:text="@string/settings_history_title"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Archived care items"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_history_button" />
 
         <!-- ABOUT -->
 
@@ -93,24 +93,24 @@
             android:id="@+id/textAboutTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="About"
+            android:layout_marginTop="24dp"
+            android:text="@string/settings_about_title"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonPrivacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Privacy policy"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_privacy_button" />
 
         <Button
             android:id="@+id/buttonMoreApps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="More apps from QuietLogic"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_more_apps_button" />
 
     </LinearLayout>
 

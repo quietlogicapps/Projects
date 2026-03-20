@@ -1,3 +1,27 @@
 <resources>
+
     <string name="app_name">All Is OK</string>
+
+    <string name="menu_security">Security</string>
+    <string name="menu_language">Language</string>
+    <string name="menu_date_format">Date Format</string>
+    <string name="menu_export">Export</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_history">History</string>
+    <string name="menu_more_apps">More from QuietLogic</string>
+    <string name="menu_enter_admin">Enter with Admin PIN</string>
+
+    <string name="settings_security_title">Security</string>
+    <string name="settings_security_button">Security settings</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_button">Change language</string>
+    <string name="settings_backup_title">Backup</string>
+    <string name="settings_export_button">Export data</string>
+    <string name="settings_import_button">Import data</string>
+    <string name="settings_history_title">History</string>
+    <string name="settings_history_button">Archived care items</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_privacy_button">Privacy policy</string>
+    <string name="settings_more_apps_button">More apps from QuietLogic</string>
+
 </resources>

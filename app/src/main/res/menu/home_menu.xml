@@ -3,35 +3,35 @@
 
     <item
         android:id="@+id/menu_security"
-        android:title="Security" />
+        android:title="@string/menu_security" />
 
     <item
         android:id="@+id/menu_language"
-        android:title="Language" />
+        android:title="@string/menu_language" />
 
     <item
         android:id="@+id/menu_date_format"
-        android:title="Date Format" />
+        android:title="@string/menu_date_format" />
 
     <item
         android:id="@+id/menu_export"
-        android:title="Export" />
+        android:title="@string/menu_export" />
 
     <item
         android:id="@+id/menu_import"
-        android:title="Import" />
+        android:title="@string/menu_import" />
 
     <item
         android:id="@+id/menu_history"
-        android:title="History" />
+        android:title="@string/menu_history" />
 
     <item
         android:id="@+id/menu_more_apps"
-        android:title="More from QuietLogic" />
+        android:title="@string/menu_more_apps" />
 
     <item
         android:id="@+id/menu_exit_admin"
-        android:title="Enter with Admin PIN"
+        android:title="@string/menu_enter_admin"
         android:showAsAction="never" />
 
 </menu>
