@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">All Is OK</string>
@@ -10,5 +11,67 @@
     <string name="menu_history">Historial</string>
     <string name="menu_more_apps">Más de QuietLogic</string>
     <string name="menu_enter_admin">Entrar con PIN de administrador</string>
+
+    <string name="settings_security_title">Seguridad</string>
+    <string name="settings_security_button">Configuración de seguridad</string>
+    <string name="settings_language_title">Idioma</string>
+    <string name="settings_language_button">Cambiar idioma</string>
+    <string name="settings_backup_title">Copia de seguridad</string>
+    <string name="settings_export_button">Exportar datos</string>
+    <string name="settings_import_button">Importar datos</string>
+    <string name="settings_history_title">Historial</string>
+    <string name="settings_history_button">Elementos archivados</string>
+    <string name="settings_about_title">Acerca de</string>
+    <string name="settings_privacy_button">Política de privacidad</string>
+    <string name="settings_more_apps_button">Más aplicaciones de QuietLogic</string>
+
+    <string name="language_screen_title">Idioma</string>
+
+    <string name="security_title">Seguridad</string>
+    <string name="pin_enable">Activar PIN</string>
+    <string name="pin_status_disabled">La app se abre sin PIN</string>
+    <string name="user_change_pin">Cambiar PIN de usuario</string>
+    <string name="user_disable_pin">Desactivar PIN de usuario</string>
+    <string name="admin_title">Administrador</string>
+    <string name="admin_pin">PIN de administrador</string>
+    <string name="admin_change_pin">Cambiar PIN de administrador</string>
+
+    <string name="date_format_title">Formato de fecha</string>
+
+    <string name="history_title">Historial</string>
+    <string name="history_empty">No hay elementos archivados</string>
+
+    <string name="export_title">Exportar datos</string>
+    <string name="export_generate">Generar JSON de exportación</string>
+    <string name="export_empty">Aún no se ha generado ninguna exportación</string>
+
+    <string name="import_title">Importar datos</string>
+    <string name="import_load">Cargar archivo de copia de seguridad</string>
+    <string name="import_empty">No se ha cargado ningún archivo</string>
+
+    <string name="admin_mode_active">MODO ADMINISTRADOR ACTIVO</string>
+    <string name="emergency_info_title">Información de emergencia</string>
+    <string name="edit">Editar</string>
+    <string name="blood_type">Grupo sanguíneo: -</string>
+    <string name="allergies">Alergias: -</string>
+    <string name="conditions">Condiciones: -</string>
+    <string name="notes">Notas: -</string>
+    <string name="recent_taken_title">Tomados recientemente (72 h)</string>
+
+    <string name="edit_emergency_title">Editar información de emergencia</string>
+    <string name="hint_blood_type">Grupo sanguíneo</string>
+    <string name="hint_allergies">Alergias</string>
+    <string name="hint_conditions">Condiciones</string>
+    <string name="hint_notes">Notas</string>
+    <string name="save">Guardar</string>
+    <string name="clear">Borrar</string>
+
+    <string name="contact_relative">PERSONA CERCANA</string>
+    <string name="contact_doctor">FAMILIA</string>
+    <string name="contact_3">MÉDICO</string>
+    <string name="contact_emergency">EMERGENCIA</string>
+
+    <string name="edit_contact_title">EDITAR CONTACTO</string>
+    <string name="select_contact">SELECCIONAR DE LOS CONTACTOS DEL TELÉFONO</string>
 
 </resources>

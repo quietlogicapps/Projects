@@ -1,6 +1,8 @@
 package com.quietlogic.allisok.ui.home
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -20,13 +22,28 @@ import com.quietlogic.allisok.ui.contacts.ContactsActivity
 import com.quietlogic.allisok.ui.history.HistoryActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
 import com.quietlogic.allisok.ui.language.LanguageActivity
-import com.quietlogic.allisok.ui.settings.DateFormatActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
+import com.quietlogic.allisok.ui.settings.DateFormatActivity
+import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
 
     private var skipUserUnlockOnce = false
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
+        val languageCode = prefs.getString("app_language", "en") ?: "en"
+
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val configuration = Configuration(newBase.resources.configuration)
+        configuration.setLocale(locale)
+
+        val context = newBase.createConfigurationContext(configuration)
+        super.attachBaseContext(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,43 +110,36 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-
         menuInflater.inflate(R.menu.home_menu, menu)
 
         val adminItem = menu.findItem(R.id.menu_exit_admin)
 
         adminItem?.title =
-            if (AdminSession.isActive()) "Exit Admin Mode"
-            else "Enter with Admin PIN"
+            if (AdminSession.isActive()) getString(R.string.menu_exit_admin_mode)
+            else getString(R.string.menu_enter_admin)
 
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-
         val adminItem = menu.findItem(R.id.menu_exit_admin)
 
         adminItem?.title =
-            if (AdminSession.isActive()) "Exit Admin Mode"
-            else "Enter with Admin PIN"
+            if (AdminSession.isActive()) getString(R.string.menu_exit_admin_mode)
+            else getString(R.string.menu_enter_admin)
 
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
 
             R.id.menu_exit_admin -> {
-
                 if (AdminSession.isActive()) {
-
                     AdminSession.stop()
                     updateAdminIndicator()
                     invalidateOptionsMenu()
-
                 } else {
-
                     val intent = Intent(this, PinActivity::class.java)
                     intent.putExtra("mode", LockGate.MODE_ADMIN_UNLOCK)
                     startActivity(intent)
@@ -179,9 +189,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun updateAdminIndicator() {
-
         val indicator = findViewById<View>(R.id.viewAdminIndicator)
-
         indicator.visibility =
             if (AdminSession.isActive()) View.VISIBLE else View.GONE
     }

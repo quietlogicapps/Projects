@@ -1,7 +1,9 @@
 package com.quietlogic.allisok
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +22,7 @@ import com.quietlogic.allisok.security.TrialManager
 import com.quietlogic.allisok.ui.home.HomeActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.trial.TrialEndedActivity
+import java.util.Locale
 
 class PermissionSetupActivity : AppCompatActivity() {
 
@@ -27,6 +30,20 @@ class PermissionSetupActivity : AppCompatActivity() {
     private lateinit var btnNotifications: Button
     private lateinit var btnExactAlarms: Button
     private lateinit var btnContinue: Button
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
+        val languageCode = prefs.getString("app_language", "en") ?: "en"
+
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val configuration = Configuration(newBase.resources.configuration)
+        configuration.setLocale(locale)
+
+        val context = newBase.createConfigurationContext(configuration)
+        super.attachBaseContext(context)
+    }
 
     private val requestPostNotifications = registerForActivityResult(
         ActivityResultContracts.RequestPermission()

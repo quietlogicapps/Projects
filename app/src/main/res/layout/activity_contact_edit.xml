@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EDIT CONTACT"
+        android:text="@string/edit_contact_title"
         android:textSize="24sp"
         android:layout_marginBottom="24dp"/>
 
@@ -16,6 +16,6 @@
         android:id="@+id/buttonPickContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SELECT FROM PHONE CONTACTS"/>
+        android:text="@string/select_contact"/>
 
 </LinearLayout>

@@ -11,6 +11,7 @@
     <string name="menu_history">History</string>
     <string name="menu_more_apps">More from QuietLogic</string>
     <string name="menu_enter_admin">Enter with Admin PIN</string>
+    <string name="menu_exit_admin_mode">Exit Admin Mode</string>
 
     <string name="settings_security_title">Security</string>
     <string name="settings_security_button">Security settings</string>
@@ -41,17 +42,14 @@
     <string name="history_title">History</string>
     <string name="history_empty">No archived care items</string>
 
-    <!-- EXPORT -->
     <string name="export_title">Export Data</string>
     <string name="export_generate">Generate export JSON</string>
     <string name="export_empty">No export generated yet</string>
 
-    <!-- IMPORT -->
     <string name="import_title">Import Data</string>
     <string name="import_load">Load backup file</string>
     <string name="import_empty">No file loaded</string>
 
-    <!-- INFO -->
     <string name="admin_mode_active">ADMIN MODE ACTIVE</string>
     <string name="emergency_info_title">Emergency Info</string>
     <string name="edit">Edit</string>
@@ -61,7 +59,6 @@
     <string name="notes">Notes: -</string>
     <string name="recent_taken_title">Recent Taken (72H)</string>
 
-    <!-- EMERGENCY EDIT -->
     <string name="edit_emergency_title">Edit Emergency Info</string>
     <string name="hint_blood_type">Blood type</string>
     <string name="hint_allergies">Allergies</string>
@@ -70,10 +67,12 @@
     <string name="save">Save</string>
     <string name="clear">Clear</string>
 
-    <!-- CONTACTS -->
-    <string name="contact_relative">RELATIVE</string>
-    <string name="contact_doctor">DOCTOR</string>
-    <string name="contact_3">CONTACT 3</string>
-    <string name="contact_emergency">EMERGENCY</string>
+    <string name="contact_relative">Close One</string>
+    <string name="contact_doctor">Family</string>
+    <string name="contact_3">Doctor</string>
+    <string name="contact_emergency">Emergency</string>
+
+    <string name="edit_contact_title">EDIT CONTACT</string>
+    <string name="select_contact">SELECT FROM PHONE CONTACTS</string>
 
 </resources>
