@@ -41,4 +41,9 @@
     <string name="history_title">History</string>
     <string name="history_empty">No archived care items</string>
 
+    <!-- EXPORT -->
+    <string name="export_title">Export Data</string>
+    <string name="export_generate">Generate export JSON</string>
+    <string name="export_empty">No export generated yet</string>
+
 </resources>

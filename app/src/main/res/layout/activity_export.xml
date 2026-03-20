@@ -9,7 +9,7 @@
         android:id="@+id/textExportTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Export Data"
+        android:text="@string/export_title"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Generate export JSON" />
+        android:text="@string/export_generate" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:id="@+id/textExportJson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No export generated yet"
+            android:text="@string/export_empty"
             android:textIsSelectable="true"
             android:textSize="14sp" />
     </ScrollView>
