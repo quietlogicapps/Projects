@@ -119,10 +119,17 @@ class CareActivity : AppCompatActivity() {
                         else -> item.repeatType
                     }
 
+                    val instructionText = when(item.instruction) {
+                        "None" -> getString(R.string.care_instruction_none)
+                        "Before food" -> getString(R.string.care_instruction_before_food)
+                        "After food" -> getString(R.string.care_instruction_after_food)
+                        else -> item.instruction
+                    }
+
                     val subtitle = buildSubtitle(
                         dateRange = dateRange,
                         timesText = timesText,
-                        instruction = item.instruction,
+                        instruction = instructionText,
                         repeatText = repeatText
                     )
 
@@ -178,10 +185,17 @@ class CareActivity : AppCompatActivity() {
                     else -> item.repeatType
                 }
 
+                val instructionText = when(item.instruction) {
+                    "None" -> getString(R.string.care_instruction_none)
+                    "Before food" -> getString(R.string.care_instruction_before_food)
+                    "After food" -> getString(R.string.care_instruction_after_food)
+                    else -> item.instruction
+                }
+
                 val subtitle = buildSubtitle(
                     dateRange = dateRange,
                     timesText = timesText,
-                    instruction = item.instruction,
+                    instruction = instructionText,
                     repeatText = repeatText
                 )
 

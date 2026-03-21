@@ -2,6 +2,7 @@ package com.quietlogic.allisok.security
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
+import com.quietlogic.allisok.R
 
 object AdminGate {
 
@@ -13,9 +14,9 @@ object AdminGate {
 
         if (!state.adminPinEnabled) {
             AlertDialog.Builder(context)
-                .setTitle("Admin required")
-                .setMessage("Admin PIN is not set yet.")
-                .setPositiveButton("OK", null)
+                .setTitle(context.getString(R.string.admin_required_title))
+                .setMessage(context.getString(R.string.admin_required_message))
+                .setPositiveButton(context.getString(R.string.dialog_ok), null)
                 .show()
             return
         }
