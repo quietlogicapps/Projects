@@ -1,2 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="app_name">All Is OK</string>
+    <string name="main_placeholder">Hello World!</string>
+
+    <string name="menu_security">Güvenlik</string>
+    <string name="menu_language">Dil</string>
+    <string name="menu_date_format">Tarih formatı</string>
+    <string name="menu_export">Dışa aktar</string>
+    <string name="menu_import">İçe aktar</string>
+    <string name="menu_history">Geçmiş</string>
+    <string name="menu_more_apps">QuietLogic\'ten daha fazlası</string>
+    <string name="menu_enter_admin">Yönetici PIN\'i ile giriş</string>
+    <string name="menu_exit_admin_mode">Yönetici modundan çık</string>
+
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_security_title">Güvenlik</string>
+    <string name="settings_security_button">Güvenlik ayarları</string>
+    <string name="settings_language_title">Dil</string>
+    <string name="settings_language_button">Dili değiştir</string>
+    <string name="settings_backup_title">Yedekleme</string>
+    <string name="settings_export_button">Verileri dışa aktar</string>
+    <string name="settings_import_button">Verileri içe aktar</string>
+    <string name="settings_history_title">Geçmiş</string>
+    <string name="settings_history_button">Arşivlenen öğeler</string>
+    <string name="settings_about_title">Hakkında</string>
+    <string name="settings_privacy_button">Gizlilik politikası</string>
+    <string name="settings_more_apps_button">QuietLogic\'in diğer uygulamaları</string>
+
+    <string name="settings_history_opening">Geçmiş açılıyor</string>
+    <string name="settings_export_pressed">Dışa aktar tıklandı</string>
+    <string name="settings_import_pressed">İçe aktar tıklandı</string>
+
+    <string name="language_screen_title">Dil</string>
+
+    <string name="lang_english">İngilizce</string>
+    <string name="lang_spanish">İspanyolca</string>
+    <string name="lang_portuguese">Portekizce (Brezilya)</string>
+    <string name="lang_german">Almanca</string>
+    <string name="lang_french">Fransızca</string>
+    <string name="lang_italian">İtalyanca</string>
+    <string name="lang_turkish">Türkçe</string>
+    <string name="lang_polish">Lehçe</string>
+    <string name="lang_russian">Rusça</string>
+
+    <string name="home_contacts">KİŞİLER</string>
+    <string name="home_care">BAKIM</string>
+    <string name="home_info">BİLGİ</string>
+
+    <string name="care_add">EKLE</string>
+    <string name="care_empty">Henüz öğe yok</string>
+    <string name="care_times_dash">—</string>
+
+    <string name="care_edit_title">Öğe ekle</string>
+    <string name="care_edit_name_label">Öğe adı</string>
+    <string name="care_edit_name_hint">Örnek: Tansiyon ilacı</string>
+    <string name="care_edit_instruction_label">Talimat</string>
+    <string name="care_instruction_none">Yok</string>
+    <string name="care_instruction_before_food">Yemekten önce</string>
+    <string name="care_instruction_after_food">Yemekten sonra</string>
+    <string name="care_edit_repeat_label">Tekrarla</string>
+    <string name="care_repeat_daily">Günlük</string>
+    <string name="care_repeat_specific_days">Belirli günler</string>
+
+    <string name="care_day_mon">PAZ</string>
+    <string name="care_day_tue">SAL</string>
+    <string name="care_day_wed">ÇAR</string>
+    <string name="care_day_thu">PER</string>
+    <string name="care_day_fri">CUM</string>
+    <string name="care_day_sat">CMT</string>
+    <string name="care_day_sun">PAZ</string>
+
+    <string name="care_pick_days">GÜN SEÇ</string>
+    <string name="care_days_daily">Günler: Günlük</string>
+    <string name="care_days_not_selected">Günler: Seçilmedi</string>
+    <string name="care_days_selected">Günler: %1$s</string>
+
+    <string name="care_start_date">BAŞLANGIÇ TARİHİ</string>
+    <string name="care_start_not_set">Başlangıç: ayarlanmadı</string>
+    <string name="care_start_value">Başlangıç: %1$s</string>
+    <string name="care_end_date">BİTİŞ TARİHİ</string>
+    <string name="care_end_not_set">Bitiş: ayarlanmadı</string>
+    <string name="care_end_value">Bitiş: %1$s</string>
+
+    <string name="care_add_time">SAAT EKLE</string>
+    <string name="care_add_another_time">BAŞKA SAAT EKLE</string>
+    <string name="care_add_another_time_hint">Başka saat ekle</string>
+    <string name="care_no_times_added">Saat eklenmedi</string>
+    <string name="care_time_already_added">Saat zaten eklendi</string>
+    <string name="care_delete_time">X</string>
+    <string name="care_name_required">Ad gerekli</string>
+    <string name="care_add_at_least_one_time">En az bir saat ekleyin</string>
+    <string name="care_select_days">Gün seçin</string>
+    <string name="care_saved">Kaydedildi</string>
+    <string name="care_item_name_placeholder">Ad</string>
+    <string name="care_item_times_placeholder">Saatler</string>
+
+    <string name="dialog_ok">Tamam</string>
+    <string name="dialog_cancel">İptal</string>
+
+    <string name="contact_options_title">Kişi seçenekleri</string>
+    <string name="contact_option_pick">Kişilerden seç</string>
+    <string name="contact_option_delete">Kişiyi sil</string>
+    <string name="contact_not_configured">Kişi yapılandırılmadı</string>
+    <string name="call_permission_denied">Arama izni reddedildi</string>
+
+    <string name="permission_setup_title">Kurulum gerekli</string>
+    <string name="permission_setup_subtitle">Bildirimleri ve kesin alarmlara izin verin.</string>
+    <string name="permission_status_notifications_not_enabled">• Bildirimler: ETKİN DEĞİL</string>
+    <string name="permission_status_notifications_ok">• Bildirimler: Tamam</string>
+    <string name="permission_status_exact_alarms_not_enabled">• Kesin alarmlar: ETKİN DEĞİL</string>
+    <string name="permission_status_exact_alarms_ok">• Kesin alarmlar: Tamam</string>
+    <string name="permission_enable_notifications">Bildirimleri etkinleştir</string>
+    <string name="permission_enable_exact_alarms">Kesin alarmlara izin ver</string>
+    <string name="permission_continue">Devam et</string>
+
+    <string name="security_title">Güvenlik</string>
+    <string name="pin_enable">PIN\'i etkinleştir</string>
+    <string name="pin_status_enabled">Uygulama PIN\'i etkin</string>
+    <string name="pin_status_disabled">Uygulama PIN\'siz açılır</string>
+    <string name="pin_title_change_pin">PIN\'i değiştir</string>
+    <string name="pin_title_set_admin_pin">Yönetici PIN\'i ayarla</string>
+    <string name="pin_title_change_admin_pin">Yönetici PIN\'i değiştir</string>
+    <string name="user_change_pin">Kullanıcı PIN\'ini değiştir</string>
+    <string name="user_disable_pin">Kullanıcı PIN\'ini devre dışı bırak</string>
+    <string name="admin_title">Yönetici</string>
+    <string name="admin_pin">Yönetici PIN\'i</string>
+    <string name="admin_change_pin">Yönetici PIN\'ini değiştir</string>
+
+    <string name="pin_enter">PIN girin</string>
+    <string name="pin_enter_admin">Yönetici PIN\'i girin</string>
+    <string name="pin_unlock">Kilidi aç</string>
+    <string name="pin_enter_button">Giriş</string>
+    <string name="pin_emergency_info">Acil durum bilgileri</string>
+    <string name="pin_set">PIN ayarla</string>
+    <string name="pin_save">PIN\'i kaydet</string>
+    <string name="pin_save_admin">Yönetici PIN\'ini kaydet</string>
+    <string name="pin_continue">Devam et</string>
+    <string name="pin_forgot_admin">Yönetici PIN\'ini mi unuttunuz? Uygulamayı sıfırlayın</string>
+    <string name="pin_error_wrong">Yanlış PIN</string>
+    <string name="pin_error_wrong_admin">Yanlış yönetici PIN\'i</string>
+    <string name="pin_error_format">PIN 4 rakamdan oluşmalıdır</string>
+    <string name="pin_error_format_admin">Yönetici PIN\'i 4 rakamdan oluşmalıdır</string>
+    <string name="pin_error_mismatch">PIN\'ler eşleşmiyor</string>
+    <string name="pin_error_same">PIN farklı olmalıdır</string>
+    <string name="pin_hint_enter">PIN girin</string>
+    <string name="pin_hint_confirm">PIN\'i onaylayın</string>
+    <string name="pin_hint_enter_admin">Yönetici PIN\'i girin</string>
+    <string name="pin_hint_confirm_admin">Yönetici PIN\'ini onaylayın</string>
+    <string name="pin_hint_current_admin">Mevcut yönetici PIN\'i</string>
+    <string name="pin_hint_new_admin">Yeni yönetici PIN\'i</string>
+    <string name="pin_label_pin">PIN</string>
+    <string name="pin_label_admin">Yönetici PIN\'i</string>
+
+    <string name="date_format_title">Tarih formatı</string>
+    <string name="date_format_eu">EU&#10;DD/MM/YYYY</string>
+    <string name="date_format_us">US&#10;MM/DD/YYYY</string>
+
+    <string name="history_title">Geçmiş</string>
+    <string name="history_empty">Arşivlenen öğe yok</string>
+    <string name="history_item_name_placeholder">Öğe adı</string>
+    <string name="history_item_date_placeholder">Bitiş tarihi</string>
+
+    <string name="export_title">Verileri dışa aktar</string>
+    <string name="export_generate">Dışa aktarma JSON\'ı oluştur</string>
+    <string name="export_empty">Henüz dışa aktarma oluşturulmadı</string>
+    <string name="export_generating">Oluşturuluyor…</string>
+    <string name="export_saved">Yedek kaydedildi:\n%1$s</string>
+
+    <string name="import_title">Verileri içe aktar</string>
+    <string name="import_load">Yedek dosyasını yükle</string>
+    <string name="import_empty">Dosya yüklenmedi</string>
+    <string name="import_file_not_found">Yedek dosyası bulunamadı</string>
+    <string name="import_restored">Yedek geri yüklendi</string>
+
+    <string name="trial_title">Deneme süresi sona erdi</string>
+    <string name="trial_buy">Satın al</string>
+    <string name="trial_restore">Geri yükle</string>
+    <string name="trial_purchase_soon">Satın alma yakında kullanılabilir</string>
+    <string name="trial_restore_soon">Geri yükleme yakında kullanılabilir</string>
+
+    <string name="admin_mode_active">YÖNETİCİ MODU ETKİN</string>
+
+    <string name="emergency_info_title">Acil durum bilgileri</string>
+    <string name="edit">Düzenle</string>
+    <string name="blood_type">Kan grubu: -</string>
+    <string name="allergies">Alerjiler: -</string>
+    <string name="conditions">Durumlar: -</string>
+    <string name="notes">Notlar: -</string>
+    <string name="recent_taken_title">Son alınanlar (72 sa)</string>
+
+    <string name="edit_emergency_title">Acil durum bilgilerini düzenle</string>
+    <string name="hint_blood_type">Kan grubu</string>
+    <string name="hint_allergies">Alerjiler</string>
+    <string name="hint_conditions">Durumlar</string>
+    <string name="hint_notes">Notlar</string>
+    <string name="save">Kaydet</string>
+    <string name="clear">Temizle</string>
+
+    <string name="emergency_info_saved">Acil durum bilgileri kaydedildi</string>
+    <string name="emergency_info_cleared">Acil durum bilgileri temizlendi</string>
+
+    <string name="blood_type_value">Kan grubu: %1$s</string>
+    <string name="allergies_value">Alerjiler: %1$s</string>
+    <string name="conditions_value">Durumlar: %1$s</string>
+    <string name="notes_value">Notlar: %1$s</string>
+
+    <string name="contact_relative">Yakın Kişi</string>
+    <string name="contact_doctor">Aile</string>
+    <string name="contact_3">Doktor</string>
+    <string name="contact_emergency">Acil Durum</string>
+
+    <string name="contact_edit_title">KİŞİYİ DÜZENLE</string>
+    <string name="edit_contact_title">KİŞİYİ DÜZENLE</string>
+    <string name="select_contact">KİŞİLERDEN SEÇ</string>
+
+    <string name="alarm_time_preview">08:00</string>
+    <string name="alarm_care_name_preview">İlaç adı</string>
+    <string name="alarm_instruction_preview">Yemekten sonra alın</string>
+
+    <string name="alarm_taken">ALINDI</string>
+    <string name="alarm_snooze_5">5 dk</string>
+    <string name="alarm_snooze_10">10 dk</string>
+    <string name="alarm_snooze_15">15 dk</string>
+
+    <string name="alarm_time_default">--:--</string>
+    <string name="alarm_default_title">Hatırlatıcı</string>
+    <string name="alarm_multiple_items">%1$d hatırlatıcı</string>
+    <string name="alarm_notification_fallback">Alarm</string>
+    <string name="alarm_item_bullet">• %1$s</string>
+    <string name="alarm_channel_name">Alarmlar (yalnızca titreşim)</string>
+    <string name="alarm_channel_description">Bakım alarmlari (ses alarm UI\'da; kanal yalnızca titreşim)</string>
+
+    <string name="notification_channel_name">Bakım alarmlari</string>
+    <string name="alarm_scheduler_default_text">Bakım hatırlatıcısı</string>
+
+    <string name="recent_taken_date_placeholder">2026-03-06</string>
+    <string name="recent_taken_time_placeholder">08:30</string>
+    <string name="recent_taken_status_taken">Alındı</string>
+    <string name="recent_taken_name_placeholder">Parasetamol</string>
+
+    <string name="admin_required_title">Yönetici gerekli</string>
+    <string name="admin_required_message">Yönetici PIN\'i henüz ayarlanmadı.</string>
+
+</resources>
