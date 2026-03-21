@@ -1,6 +1,7 @@
 package com.quietlogic.allisok.alarm
 
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.Ringtone
@@ -38,6 +39,17 @@ class AlarmActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var audioKey: String = ""
     private var audioAcquired: Boolean = false
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
+        val languageCode = prefs.getString("app_language", "en") ?: "en"
+        val locale = java.util.Locale(languageCode)
+        java.util.Locale.setDefault(locale)
+        val configuration = android.content.res.Configuration(newBase.resources.configuration)
+        configuration.setLocale(locale)
+        val context = newBase.createConfigurationContext(configuration)
+        super.attachBaseContext(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
