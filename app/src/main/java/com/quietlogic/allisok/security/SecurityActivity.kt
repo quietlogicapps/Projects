@@ -1,5 +1,6 @@
 package com.quietlogic.allisok.ui.security
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -22,6 +23,17 @@ class SecurityActivity : AppCompatActivity() {
     private lateinit var pinPrefs: PinPrefs
 
     private var isUpdatingUi = false
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
+        val languageCode = prefs.getString("app_language", "en") ?: "en"
+        val locale = java.util.Locale(languageCode)
+        java.util.Locale.setDefault(locale)
+        val configuration = android.content.res.Configuration(newBase.resources.configuration)
+        configuration.setLocale(locale)
+        val context = newBase.createConfigurationContext(configuration)
+        super.attachBaseContext(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

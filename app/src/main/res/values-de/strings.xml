@@ -154,8 +154,8 @@
     <string name="pin_label_admin">Admin-PIN</string>
 
     <string name="date_format_title">Datumsformat</string>
-    <string name="date_format_eu">EU&#10;TT/MM/JJJJ</string>
-    <string name="date_format_us">US&#10;MM/TT/JJJJ</string>
+<string name="date_format_eu">EU&#10;DD/MM/YYYY</string>
+<string name="date_format_us">US&#10;MM/DD/YYYY</string>
 
     <string name="history_title">Verlauf</string>
     <string name="history_empty">Keine archivierten Einträge</string>
