@@ -1,2 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="app_name">All Is OK</string>
+    <string name="main_placeholder">Hello World!</string>
+
+    <string name="menu_security">Bezpieczeństwo</string>
+    <string name="menu_language">Język</string>
+    <string name="menu_date_format">Format daty</string>
+    <string name="menu_export">Eksportuj</string>
+    <string name="menu_import">Importuj</string>
+    <string name="menu_history">Historia</string>
+    <string name="menu_more_apps">Więcej od QuietLogic</string>
+    <string name="menu_enter_admin">Zaloguj się jako administrator</string>
+    <string name="menu_exit_admin_mode">Wyjdź z trybu administratora</string>
+
+    <string name="settings_title">Ustawienia</string>
+    <string name="settings_security_title">Bezpieczeństwo</string>
+    <string name="settings_security_button">Ustawienia bezpieczeństwa</string>
+    <string name="settings_language_title">Język</string>
+    <string name="settings_language_button">Zmień język</string>
+    <string name="settings_backup_title">Kopia zapasowa</string>
+    <string name="settings_export_button">Eksportuj dane</string>
+    <string name="settings_import_button">Importuj dane</string>
+    <string name="settings_history_title">Historia</string>
+    <string name="settings_history_button">Zarchiwizowane elementy</string>
+    <string name="settings_about_title">O aplikacji</string>
+    <string name="settings_privacy_button">Polityka prywatności</string>
+    <string name="settings_more_apps_button">Więcej aplikacji QuietLogic</string>
+
+    <string name="settings_history_opening">Otwieranie historii</string>
+    <string name="settings_export_pressed">Eksport naciśnięty</string>
+    <string name="settings_import_pressed">Import naciśnięty</string>
+
+    <string name="language_screen_title">Język</string>
+
+    <string name="lang_english">Angielski</string>
+    <string name="lang_spanish">Hiszpański</string>
+    <string name="lang_portuguese">Portugalski (Brazylia)</string>
+    <string name="lang_german">Niemiecki</string>
+    <string name="lang_french">Francuski</string>
+    <string name="lang_italian">Włoski</string>
+    <string name="lang_turkish">Turecki</string>
+    <string name="lang_polish">Polski</string>
+    <string name="lang_russian">Rosyjski</string>
+
+    <string name="home_contacts">KONTAKTY</string>
+    <string name="home_care">OPIEKA</string>
+    <string name="home_info">INFO</string>
+
+    <string name="care_add">DODAJ</string>
+    <string name="care_empty">Brak elementów</string>
+    <string name="care_times_dash">—</string>
+
+    <string name="care_edit_title">Dodaj element</string>
+    <string name="care_edit_name_label">Nazwa elementu</string>
+    <string name="care_edit_name_hint">Przykład: Lek na ciśnienie</string>
+    <string name="care_edit_instruction_label">Instrukcja</string>
+    <string name="care_instruction_none">Brak</string>
+    <string name="care_instruction_before_food">Przed jedzeniem</string>
+    <string name="care_instruction_after_food">Po jedzeniu</string>
+    <string name="care_edit_repeat_label">Powtarzaj</string>
+    <string name="care_repeat_daily">Codziennie</string>
+    <string name="care_repeat_specific_days">Określone dni</string>
+
+    <string name="care_day_mon">PON</string>
+    <string name="care_day_tue">WTO</string>
+    <string name="care_day_wed">ŚRO</string>
+    <string name="care_day_thu">CZW</string>
+    <string name="care_day_fri">PIĄ</string>
+    <string name="care_day_sat">SOB</string>
+    <string name="care_day_sun">NIE</string>
+
+    <string name="care_pick_days">WYBIERZ DNI</string>
+    <string name="care_days_daily">Dni: Codziennie</string>
+    <string name="care_days_not_selected">Dni: Nie wybrano</string>
+    <string name="care_days_selected">Dni: %1$s</string>
+
+    <string name="care_start_date">DATA ROZPOCZĘCIA</string>
+    <string name="care_start_not_set">Początek: nie ustawiono</string>
+    <string name="care_start_value">Początek: %1$s</string>
+    <string name="care_end_date">DATA ZAKOŃCZENIA</string>
+    <string name="care_end_not_set">Koniec: nie ustawiono</string>
+    <string name="care_end_value">Koniec: %1$s</string>
+
+    <string name="care_add_time">DODAJ GODZINĘ</string>
+    <string name="care_add_another_time">DODAJ KOLEJNĄ GODZINĘ</string>
+    <string name="care_add_another_time_hint">Dodaj kolejną godzinę</string>
+    <string name="care_no_times_added">Nie dodano godzin</string>
+    <string name="care_time_already_added">Godzina już dodana</string>
+    <string name="care_delete_time">X</string>
+    <string name="care_name_required">Nazwa wymagana</string>
+    <string name="care_add_at_least_one_time">Dodaj przynajmniej jedną godzinę</string>
+    <string name="care_select_days">Wybierz dni</string>
+    <string name="care_saved">Zapisano</string>
+    <string name="care_item_name_placeholder">Nazwa</string>
+    <string name="care_item_times_placeholder">Godziny</string>
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Anuluj</string>
+
+    <string name="contact_options_title">Opcje kontaktu</string>
+    <string name="contact_option_pick">Wybierz z kontaktów</string>
+    <string name="contact_option_delete">Usuń kontakt</string>
+    <string name="contact_not_configured">Kontakt nie skonfigurowany</string>
+    <string name="call_permission_denied">Odmówiono uprawnień do połączeń</string>
+
+    <string name="permission_setup_title">Wymagana konfiguracja</string>
+    <string name="permission_setup_subtitle">Włącz powiadomienia i dokładne alarmy.</string>
+    <string name="permission_status_notifications_not_enabled">• Powiadomienia: NIEAKTYWNE</string>
+    <string name="permission_status_notifications_ok">• Powiadomienia: OK</string>
+    <string name="permission_status_exact_alarms_not_enabled">• Dokładne alarmy: NIEAKTYWNE</string>
+    <string name="permission_status_exact_alarms_ok">• Dokładne alarmy: OK</string>
+    <string name="permission_enable_notifications">Włącz powiadomienia</string>
+    <string name="permission_enable_exact_alarms">Włącz dokładne alarmy</string>
+    <string name="permission_continue">Kontynuuj</string>
+
+    <string name="security_title">Bezpieczeństwo</string>
+    <string name="pin_enable">Włącz PIN</string>
+    <string name="pin_status_enabled">PIN aplikacji włączony</string>
+    <string name="pin_status_disabled">Aplikacja otwiera się bez PIN</string>
+    <string name="pin_title_change_pin">Zmień PIN</string>
+    <string name="pin_title_set_admin_pin">Ustaw PIN administratora</string>
+    <string name="pin_title_change_admin_pin">Zmień PIN administratora</string>
+    <string name="user_change_pin">Zmień PIN użytkownika</string>
+    <string name="user_disable_pin">Wyłącz PIN użytkownika</string>
+    <string name="admin_title">Administrator</string>
+    <string name="admin_pin">PIN administratora</string>
+    <string name="admin_change_pin">Zmień PIN administratora</string>
+
+    <string name="pin_enter">Wprowadź PIN</string>
+    <string name="pin_enter_admin">Wprowadź PIN administratora</string>
+    <string name="pin_unlock">Odblokuj</string>
+    <string name="pin_enter_button">Wejdź</string>
+    <string name="pin_emergency_info">Informacje ratunkowe</string>
+    <string name="pin_set">Ustaw PIN</string>
+    <string name="pin_save">Zapisz PIN</string>
+    <string name="pin_save_admin">Zapisz PIN administratora</string>
+    <string name="pin_continue">Kontynuuj</string>
+    <string name="pin_forgot_admin">Zapomniałeś PIN administratora? Zresetuj aplikację</string>
+    <string name="pin_error_wrong">Nieprawidłowy PIN</string>
+    <string name="pin_error_wrong_admin">Nieprawidłowy PIN administratora</string>
+    <string name="pin_error_format">PIN musi mieć 4 cyfry</string>
+    <string name="pin_error_format_admin">PIN administratora musi mieć 4 cyfry</string>
+    <string name="pin_error_mismatch">PINy nie są zgodne</string>
+    <string name="pin_error_same">PIN musi być inny</string>
+    <string name="pin_hint_enter">Wprowadź PIN</string>
+    <string name="pin_hint_confirm">Potwierdź PIN</string>
+    <string name="pin_hint_enter_admin">Wprowadź PIN administratora</string>
+    <string name="pin_hint_confirm_admin">Potwierdź PIN administratora</string>
+    <string name="pin_hint_current_admin">Aktualny PIN administratora</string>
+    <string name="pin_hint_new_admin">Nowy PIN administratora</string>
+    <string name="pin_label_pin">PIN</string>
+    <string name="pin_label_admin">PIN administratora</string>
+
+    <string name="date_format_title">Format daty</string>
+    <string name="date_format_eu">EU&#10;DD/MM/YYYY</string>
+    <string name="date_format_us">US&#10;MM/DD/YYYY</string>
+
+    <string name="history_title">Historia</string>
+    <string name="history_empty">Brak zarchiwizowanych elementów</string>
+    <string name="history_item_name_placeholder">Nazwa elementu</string>
+    <string name="history_item_date_placeholder">Data zakończenia</string>
+
+    <string name="export_title">Eksportuj dane</string>
+    <string name="export_generate">Generuj JSON eksportu</string>
+    <string name="export_empty">Nie wygenerowano jeszcze eksportu</string>
+    <string name="export_generating">Generowanie…</string>
+    <string name="export_saved">Kopia zapisana:\n%1$s</string>
+
+    <string name="import_title">Importuj dane</string>
+    <string name="import_load">Wczytaj plik kopii zapasowej</string>
+    <string name="import_empty">Nie wczytano pliku</string>
+    <string name="import_file_not_found">Plik kopii zapasowej nie znaleziony</string>
+    <string name="import_restored">Kopia przywrócona</string>
+
+    <string name="trial_title">Okres próbny zakończony</string>
+    <string name="trial_buy">Kup</string>
+    <string name="trial_restore">Przywróć</string>
+    <string name="trial_purchase_soon">Zakup wkrótce dostępny</string>
+    <string name="trial_restore_soon">Przywracanie wkrótce dostępne</string>
+
+    <string name="admin_mode_active">TRYB ADMINISTRATORA AKTYWNY</string>
+
+    <string name="emergency_info_title">Informacje ratunkowe</string>
+    <string name="edit">Edytuj</string>
+    <string name="blood_type">Grupa krwi: -</string>
+    <string name="allergies">Alergie: -</string>
+    <string name="conditions">Schorzenia: -</string>
+    <string name="notes">Notatki: -</string>
+    <string name="recent_taken_title">Ostatnio przyjęte (72 godz.)</string>
+
+    <string name="edit_emergency_title">Edytuj informacje ratunkowe</string>
+    <string name="hint_blood_type">Grupa krwi</string>
+    <string name="hint_allergies">Alergie</string>
+    <string name="hint_conditions">Schorzenia</string>
+    <string name="hint_notes">Notatki</string>
+    <string name="save">Zapisz</string>
+    <string name="clear">Wyczyść</string>
+
+    <string name="emergency_info_saved">Informacje ratunkowe zapisane</string>
+    <string name="emergency_info_cleared">Informacje ratunkowe wyczyszczone</string>
+
+    <string name="blood_type_value">Grupa krwi: %1$s</string>
+    <string name="allergies_value">Alergie: %1$s</string>
+    <string name="conditions_value">Schorzenia: %1$s</string>
+    <string name="notes_value">Notatki: %1$s</string>
+
+    <string name="contact_relative">Bliska osoba</string>
+    <string name="contact_doctor">Rodzina</string>
+    <string name="contact_3">Lekarz</string>
+    <string name="contact_emergency">Nagły wypadek</string>
+
+    <string name="contact_edit_title">EDYTUJ KONTAKT</string>
+    <string name="edit_contact_title">EDYTUJ KONTAKT</string>
+    <string name="select_contact">WYBIERZ Z KONTAKTÓW</string>
+
+    <string name="alarm_time_preview">08:00</string>
+    <string name="alarm_care_name_preview">Nazwa leku</string>
+    <string name="alarm_instruction_preview">Przyjmować po jedzeniu</string>
+
+    <string name="alarm_taken">PRZYJĘTO</string>
+    <string name="alarm_snooze_5">5 min</string>
+    <string name="alarm_snooze_10">10 min</string>
+    <string name="alarm_snooze_15">15 min</string>
+
+    <string name="alarm_time_default">--:--</string>
+    <string name="alarm_default_title">Przypomnienie</string>
+    <string name="alarm_multiple_items">%1$d przypomnień</string>
+    <string name="alarm_notification_fallback">Alarm</string>
+    <string name="alarm_item_bullet">• %1$s</string>
+    <string name="alarm_channel_name">Alarmy (tylko wibracja)</string>
+    <string name="alarm_channel_description">Alarmy opieki (dźwięk w UI; kanał tylko wibracja)</string>
+
+    <string name="notification_channel_name">Alarmy opieki</string>
+    <string name="alarm_scheduler_default_text">Przypomnienie o opiece</string>
+
+    <string name="recent_taken_date_placeholder">2026-03-06</string>
+    <string name="recent_taken_time_placeholder">08:30</string>
+    <string name="recent_taken_status_taken">Przyjęto</string>
+    <string name="recent_taken_name_placeholder">Paracetamol</string>
+
+    <string name="admin_required_title">Wymagany administrator</string>
+    <string name="admin_required_message">PIN administratora nie został jeszcze ustawiony.</string>
+
+</resources>
