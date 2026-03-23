@@ -216,9 +216,9 @@
     <string name="conditions_value">Conditions: %1$s</string>
     <string name="notes_value">Notes: %1$s</string>
 
-    <string name="contact_relative">Relative</string>
-    <string name="contact_doctor">Doctor</string>
-    <string name="contact_3">Contact 3</string>
+    <string name="contact_relative">Close one</string>
+    <string name="contact_doctor">Family</string>
+    <string name="contact_3">Doctor</string>
     <string name="contact_emergency">Emergency</string>
 
     <string name="contact_edit_title">EDIT CONTACT</string>
