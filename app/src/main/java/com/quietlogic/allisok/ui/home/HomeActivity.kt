@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.quietlogic.allisok.R
@@ -61,9 +62,13 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.overflowIcon?.setTint(Color.WHITE)
 
-        val contactsButton = findViewById<Button>(R.id.buttonContacts)
-        val careButton = findViewById<Button>(R.id.buttonCare)
-        val infoButton = findViewById<Button>(R.id.buttonInfo)
+        val contactsButton = findViewById<MaterialButton>(R.id.buttonContacts)
+        val careButton = findViewById<MaterialButton>(R.id.buttonCare)
+        val infoButton = findViewById<MaterialButton>(R.id.buttonInfo)
+
+        Button3D.apply(contactsButton, cornerDp = 16f, depthDp = 6f)
+        Button3D.apply(careButton, cornerDp = 16f, depthDp = 6f)
+        Button3D.apply(infoButton, cornerDp = 16f, depthDp = 6f)
 
         contactsButton.setOnClickListener {
             startActivity(Intent(this, ContactsActivity::class.java))

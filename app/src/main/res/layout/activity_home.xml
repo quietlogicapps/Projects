@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/bg_home_gradient">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarHome"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#374151">
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/expirely_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/textToolbarTitle"
@@ -19,15 +21,14 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textColor="@color/expirely_onPrimary"
+            android:textSize="22sp"
             android:textStyle="bold" />
-
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/viewAdminIndicator"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="28dp"
         android:background="@android:color/holo_red_dark"
         android:gravity="center"
@@ -35,38 +36,75 @@
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbarHome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="24dp">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonContacts"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="48dp"
+        android:letterSpacing="0.05"
+        android:text="@string/home_contacts"
+        android:textAllCaps="false"
+        android:textColor="@color/expirely_onPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/expirely_primary"
+        app:cornerRadius="16dp"
+        app:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonCare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewAdminIndicator" />
 
-        <Button
-            android:id="@+id/buttonContacts"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginBottom="24dp"
-            android:text="@string/home_contacts"
-            android:textSize="20sp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonInfo"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="48dp"
+        android:letterSpacing="0.05"
+        android:text="@string/home_info"
+        android:textAllCaps="false"
+        android:textColor="@color/expirely_onPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/expirely_primary"
+        app:cornerRadius="16dp"
+        app:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonCare" />
 
-        <Button
-            android:id="@+id/buttonCare"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginBottom="24dp"
-            android:text="@string/home_care"
-            android:textSize="20sp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonCare"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="48dp"
+        android:letterSpacing="0.05"
+        android:text="@string/home_care"
+        android:textAllCaps="false"
+        android:textColor="@color/expirely_onPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/expirely_primary"
+        app:cornerRadius="16dp"
+        app:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonContacts" />
 
-        <Button
-            android:id="@+id/buttonInfo"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:text="@string/home_info"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
