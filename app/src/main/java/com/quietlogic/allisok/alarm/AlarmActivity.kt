@@ -73,6 +73,9 @@ class AlarmActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+        val nm = getSystemService(NotificationManager::class.java)
+        nm?.cancel(intent.getIntExtra(EXTRA_REQUEST_CODE, 0))
+
         setContentView(R.layout.activity_alarm)
 
         val timeText = intent.getStringExtra(EXTRA_TIME_TEXT) ?: getString(R.string.alarm_time_default)

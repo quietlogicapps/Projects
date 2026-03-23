@@ -114,6 +114,9 @@
     <string name="permission_enable_notifications">Ativar notificações</string>
     <string name="permission_enable_exact_alarms">Ativar alarmes exatos</string>
     <string name="permission_continue">Continuar</string>
+    <string name="permission_status_overlay_not_enabled">• Exibir sobre outros apps: NÃO ATIVADO</string>
+    <string name="permission_status_overlay_ok">• Exibir sobre outros apps: OK</string>
+    <string name="permission_enable_overlay">Ativar exibição sobre outros apps</string>
 
     <string name="security_title">Segurança</string>
     <string name="pin_enable">Ativar PIN</string>

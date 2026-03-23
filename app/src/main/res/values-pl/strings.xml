@@ -114,6 +114,9 @@
     <string name="permission_enable_notifications">Włącz powiadomienia</string>
     <string name="permission_enable_exact_alarms">Włącz dokładne alarmy</string>
     <string name="permission_continue">Kontynuuj</string>
+    <string name="permission_status_overlay_not_enabled">• Wyświetlanie nad innymi aplikacjami: NIEAKTYWNE</string>
+    <string name="permission_status_overlay_ok">• Wyświetlanie nad innymi aplikacjami: OK</string>
+    <string name="permission_enable_overlay">Włącz wyświetlanie nad innymi aplikacjami</string>
 
     <string name="security_title">Bezpieczeństwo</string>
     <string name="pin_enable">Włącz PIN</string>

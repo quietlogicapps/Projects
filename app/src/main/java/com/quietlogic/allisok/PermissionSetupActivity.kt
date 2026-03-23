@@ -30,6 +30,7 @@ class PermissionSetupActivity : AppCompatActivity() {
     private lateinit var btnNotifications: Button
     private lateinit var btnExactAlarms: Button
     private lateinit var btnContinue: Button
+    private lateinit var btnOverlay: Button
 
     override fun attachBaseContext(newBase: Context) {
         val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
@@ -69,6 +70,7 @@ class PermissionSetupActivity : AppCompatActivity() {
         btnNotifications.setOnClickListener { onEnableNotificationsClicked() }
         btnExactAlarms.setOnClickListener { onEnableExactAlarmsClicked() }
         btnContinue.setOnClickListener { proceedIfReady(force = true) }
+        btnOverlay.setOnClickListener { onEnableOverlayClicked() }
     }
 
     override fun onResume() {
@@ -137,6 +139,7 @@ class PermissionSetupActivity : AppCompatActivity() {
     private fun refreshUi() {
         val needsNotif = PermissionGate.needsNotificationPermission(this)
         val needsExact = PermissionGate.needsExactAlarmPermission(this)
+        val needsOverlay = PermissionGate.needsOverlayPermission(this)
 
         val lines = mutableListOf<String>()
 
@@ -152,11 +155,18 @@ class PermissionSetupActivity : AppCompatActivity() {
             lines.add(getString(R.string.permission_status_exact_alarms_ok))
         }
 
+        if (needsOverlay) {
+            lines.add(getString(R.string.permission_status_overlay_not_enabled))
+        } else {
+            lines.add(getString(R.string.permission_status_overlay_ok))
+        }
+
         statusText.text = lines.joinToString("\n")
 
         btnNotifications.isEnabled = needsNotif
         btnExactAlarms.isEnabled = needsExact
-        btnContinue.visibility = if (needsNotif || needsExact) View.GONE else View.VISIBLE
+        btnOverlay.isEnabled = needsOverlay
+        btnContinue.visibility = if (needsNotif || needsExact || needsOverlay) View.GONE else View.VISIBLE
     }
 
     private fun onEnableNotificationsClicked() {
@@ -182,6 +192,14 @@ class PermissionSetupActivity : AppCompatActivity() {
         } catch (_: Exception) {
             openAppDetailsSettings()
         }
+    }
+
+    private fun onEnableOverlayClicked() {
+        val intent = Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package:$packageName")
+        )
+        startActivity(intent)
     }
 
     private fun openAppNotificationSettings() {
@@ -239,11 +257,16 @@ class PermissionSetupActivity : AppCompatActivity() {
             visibility = View.GONE
         }
 
+        btnOverlay = Button(this).apply {
+            text = getString(R.string.permission_enable_overlay)
+        }
+
         root.addView(title, lpMatchWrap())
         root.addView(subtitle, lpMatchWrap().apply { topMargin = dp(10) })
         root.addView(statusText, lpMatchWrap())
         root.addView(btnNotifications, lpMatchWrap().apply { topMargin = dp(10) })
         root.addView(btnExactAlarms, lpMatchWrap().apply { topMargin = dp(10) })
+        root.addView(btnOverlay, lpMatchWrap().apply { topMargin = dp(10) })
         root.addView(btnContinue, lpMatchWrap().apply { topMargin = dp(16) })
 
         return root

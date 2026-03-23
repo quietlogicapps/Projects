@@ -3,6 +3,7 @@ package com.quietlogic.allisok.alarm.engine
 import android.app.AlarmManager
 import android.content.Context
 import android.os.Build
+import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
 
 object PermissionGate {
@@ -20,10 +21,23 @@ object PermissionGate {
         return alarmManager.canScheduleExactAlarms()
     }
 
+    fun hasOverlayPermission(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(context)
+        } else {
+            true
+        }
+    }
+
+    fun needsOverlayPermission(context: Context): Boolean {
+        return !hasOverlayPermission(context)
+    }
+
     fun isFullyGranted(context: Context): Boolean {
         val notifications = hasNotificationPermission(context)
         val exactAlarms = hasExactAlarmPermission(context)
-        return notifications && exactAlarms
+        val overlay = hasOverlayPermission(context)
+        return notifications && exactAlarms && overlay
     }
 
     fun needsNotificationPermission(context: Context): Boolean {

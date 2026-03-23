@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -237,10 +238,11 @@ class AlarmReceiver : BroadcastReceiver() {
                 .build()
 
             nm.notify(notificationId, notification)
-
-            try {
-                context.startActivity(activityIntent)
-            } catch (_: Throwable) {}
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)) {
+                try {
+                    context.startActivity(activityIntent)
+                } catch (_: Throwable) {}
+            }
         }
     }
 
@@ -254,11 +256,9 @@ class AlarmReceiver : BroadcastReceiver() {
         val channel = NotificationChannel(
             CHANNEL_ID,
             context.getString(R.string.alarm_channel_name),
-            NotificationManager.IMPORTANCE_HIGH
+            NotificationManager.IMPORTANCE_MAX
         ).apply {
-
             description = context.getString(R.string.alarm_channel_description)
-            setSound(null, null)
             enableVibration(true)
             vibrationPattern = longArrayOf(0, 500, 300, 500, 300, 800)
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC

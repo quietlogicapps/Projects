@@ -124,6 +124,9 @@
     <string name="permission_enable_notifications">Enable notifications</string>
     <string name="permission_enable_exact_alarms">Enable exact alarms</string>
     <string name="permission_continue">Continue</string>
+    <string name="permission_status_overlay_not_enabled">• Display over other apps: NOT ENABLED</string>
+    <string name="permission_status_overlay_ok">• Display over other apps: OK</string>
+    <string name="permission_enable_overlay">Enable display over other apps</string>
 
     <string name="security_title">Security</string>
     <string name="pin_enable">Enable PIN</string>

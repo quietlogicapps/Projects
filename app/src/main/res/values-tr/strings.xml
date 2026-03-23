@@ -114,6 +114,9 @@
     <string name="permission_enable_notifications">Bildirimleri etkinleştir</string>
     <string name="permission_enable_exact_alarms">Kesin alarmlara izin ver</string>
     <string name="permission_continue">Devam et</string>
+    <string name="permission_status_overlay_not_enabled">• Diğer uygulamaların üzerinde göster: ETKİN DEĞİL</string>
+    <string name="permission_status_overlay_ok">• Diğer uygulamaların üzerinde göster: OK</string>
+    <string name="permission_enable_overlay">Diğer uygulamaların üzerinde göstermeyi etkinleştir</string>
 
     <string name="security_title">Güvenlik</string>
     <string name="pin_enable">PIN\'i etkinleştir</string>
