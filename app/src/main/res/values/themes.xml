@@ -5,5 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.AllIsOK" parent="Base.Theme.AllIsOK" />
+    <style name="Theme.AllIsOK" parent="Base.Theme.AllIsOK">
+        <item name="colorPrimary">@color/expirely_primary</item>
+        <item name="colorOnPrimary">@color/expirely_onPrimary</item>
+        <item name="android:statusBarColor">@color/expirely_primary</item>
+    </style>
 </resources>
