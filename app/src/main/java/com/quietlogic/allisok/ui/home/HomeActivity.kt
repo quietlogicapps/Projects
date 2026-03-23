@@ -35,7 +35,12 @@ class HomeActivity : AppCompatActivity() {
         val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
         val languageCode = prefs.getString("app_language", "en") ?: "en"
 
-        val locale = Locale(languageCode)
+        val locale = if (languageCode.contains("-")) {
+            val parts = languageCode.split("-")
+            Locale(parts[0], parts[1])
+        } else {
+            Locale(languageCode)
+        }
         Locale.setDefault(locale)
 
         val configuration = Configuration(newBase.resources.configuration)
