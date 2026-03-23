@@ -78,6 +78,42 @@ class LanguageActivity : AppCompatActivity() {
         findViewById<Button>(R.id.buttonLanguageRussian).setOnClickListener {
             setLanguage("ru")
         }
+
+        updateCheckmarks()
+    }
+
+    private fun updateCheckmarks() {
+        val currentLang = prefs.getString("app_language", "en") ?: "en"
+
+        val buttons = mapOf(
+            "en" to R.id.buttonLanguageEnglish,
+            "es" to R.id.buttonLanguageSpanish,
+            "pt-BR" to R.id.buttonLanguagePortuguese,
+            "de" to R.id.buttonLanguageGerman,
+            "fr" to R.id.buttonLanguageFrench,
+            "it" to R.id.buttonLanguageItalian,
+            "tr" to R.id.buttonLanguageTurkish,
+            "pl" to R.id.buttonLanguagePolish,
+            "ru" to R.id.buttonLanguageRussian
+        )
+
+        val labels = mapOf(
+            "en" to getString(R.string.lang_english),
+            "es" to getString(R.string.lang_spanish),
+            "pt-BR" to getString(R.string.lang_portuguese),
+            "de" to getString(R.string.lang_german),
+            "fr" to getString(R.string.lang_french),
+            "it" to getString(R.string.lang_italian),
+            "tr" to getString(R.string.lang_turkish),
+            "pl" to getString(R.string.lang_polish),
+            "ru" to getString(R.string.lang_russian)
+        )
+
+        for ((code, btnId) in buttons) {
+            val btn = findViewById<Button>(btnId)
+            val label = labels[code] ?: ""
+            btn.text = if (code == currentLang) "$label  ✓" else label
+        }
     }
 
     private fun setLanguage(langCode: String) {
