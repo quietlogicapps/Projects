@@ -16,6 +16,7 @@ import com.quietlogic.allisok.data.repository.SettingsRepository
 import com.quietlogic.allisok.databinding.ActivityInfoBinding
 import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
+import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -47,6 +48,8 @@ class InfoActivity : AppCompatActivity() {
 
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        Button3D.apply(binding.buttonEditEmergencyInfo, 18f)
 
         title = getString(R.string.home_info)
 
