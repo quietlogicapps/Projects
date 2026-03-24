@@ -13,6 +13,7 @@ import com.quietlogic.allisok.data.repository.InfoRepository
 import com.quietlogic.allisok.databinding.ActivityEmergencyInfoEditBinding
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
+import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.launch
 
 class EmergencyInfoEditActivity : AppCompatActivity() {
@@ -45,6 +46,9 @@ class EmergencyInfoEditActivity : AppCompatActivity() {
 
         binding = ActivityEmergencyInfoEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        Button3D.apply(binding.buttonSaveEmergencyInfo, 16f)
+        Button3D.apply(binding.buttonClearEmergencyInfo, 16f)
 
         title = getString(R.string.edit_emergency_title)
 
