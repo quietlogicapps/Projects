@@ -49,7 +49,7 @@ class InfoActivity : AppCompatActivity() {
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Button3D.apply(binding.buttonEditEmergencyInfo, 18f)
+        Button3D.apply(binding.buttonEditEmergencyInfo, 12f)
 
         title = getString(R.string.home_info)
 
