@@ -9,8 +9,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
+import com.google.android.material.button.MaterialButton
+import com.quietlogic.allisok.ui.contacts.Button3DContacts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -36,10 +37,10 @@ class ContactsActivity : AppCompatActivity() {
     private var pendingCallNumber: String? = null
     private var currentContacts: List<ContactSlotEntity> = emptyList()
 
-    private lateinit var buttonRelative: Button
-    private lateinit var buttonDoctor: Button
-    private lateinit var buttonContact3: Button
-    private lateinit var buttonEmergency: Button
+    private lateinit var buttonRelative: MaterialButton
+    private lateinit var buttonDoctor: MaterialButton
+    private lateinit var buttonContact3: MaterialButton
+    private lateinit var buttonEmergency: MaterialButton
 
     private lateinit var repository: ContactsRepository
 
@@ -71,6 +72,11 @@ class ContactsActivity : AppCompatActivity() {
         buttonDoctor = findViewById(R.id.buttonDoctor)
         buttonContact3 = findViewById(R.id.buttonContact3)
         buttonEmergency = findViewById(R.id.buttonEmergency)
+
+        Button3DContacts.apply(buttonRelative, cornerDp = 18f, cutCorner = CutCorner.BOTTOM_RIGHT)
+        Button3DContacts.apply(buttonDoctor, cornerDp = 18f, cutCorner = CutCorner.BOTTOM_LEFT)
+        Button3DContacts.apply(buttonContact3, cornerDp = 18f, cutCorner = CutCorner.TOP_RIGHT)
+        Button3DContacts.apply(buttonEmergency, cornerDp = 18f, cutCorner = CutCorner.TOP_LEFT)
 
         buttonRelative.setOnClickListener {
             handleContactTap(1)
