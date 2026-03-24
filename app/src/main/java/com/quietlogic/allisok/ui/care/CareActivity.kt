@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.AppDatabase
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
@@ -19,6 +19,7 @@ import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.ui.care.adapter.CareAdapter
+import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -70,7 +71,9 @@ class CareActivity : AppCompatActivity() {
 
         val recycler = findViewById<RecyclerView>(R.id.recyclerCare)
         val empty = findViewById<TextView>(R.id.textEmpty)
-        val btnAdd = findViewById<Button>(R.id.btnAddCare)
+        val btnAdd = findViewById<MaterialButton>(R.id.btnAddCare)
+
+        Button3D.apply(btnAdd, 16f)
 
         adapter = CareAdapter { itemId ->
             if (!AdminSession.isActive()) return@CareAdapter
@@ -136,7 +139,7 @@ class CareActivity : AppCompatActivity() {
                         else -> item.repeatType
                     }
 
-                    val instructionText = when(item.instruction) {
+                    val instructionText = when (item.instruction) {
                         "None" -> getString(R.string.care_instruction_none)
                         "Before food" -> getString(R.string.care_instruction_before_food)
                         "After food" -> getString(R.string.care_instruction_after_food)
@@ -202,7 +205,7 @@ class CareActivity : AppCompatActivity() {
                     else -> item.repeatType
                 }
 
-                val instructionText = when(item.instruction) {
+                val instructionText = when (item.instruction) {
                     "None" -> getString(R.string.care_instruction_none)
                     "Before food" -> getString(R.string.care_instruction_before_food)
                     "After food" -> getString(R.string.care_instruction_after_food)
