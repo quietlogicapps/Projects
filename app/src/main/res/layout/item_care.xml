@@ -11,13 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/care_item_name_placeholder"
-        android:textSize="18sp" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:lineSpacingExtra="2dp" />
 
     <TextView
         android:id="@+id/textSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/care_item_times_placeholder"
-        android:textSize="14sp" />
+        android:textSize="13sp"
+        android:textColor="#80000000"
+        android:lineSpacingExtra="2dp"
+        android:layout_marginTop="4dp" />
 
 </LinearLayout>
