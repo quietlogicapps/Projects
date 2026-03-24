@@ -67,9 +67,8 @@ class CareAdapter(
         }
 
         val name = TextView(context).apply {
-            textSize = 22f
+            textSize = 18f
             setTextColor(Color.BLACK)
-            setTypeface(null, android.graphics.Typeface.BOLD)
         }
 
         val subtitle = TextView(context).apply {
