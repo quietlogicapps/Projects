@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RadioGroup
@@ -16,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 import com.quietlogic.allisok.data.local.db.AppDatabase
@@ -24,6 +24,7 @@ import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareTimeEntity
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
+import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -98,20 +99,26 @@ class CareEditActivity : AppCompatActivity() {
         val groupInstruction = findViewById<RadioGroup>(R.id.groupInstruction)
         val groupRepeat = findViewById<RadioGroup>(R.id.groupRepeat)
 
-        val btnPickDays = findViewById<Button>(R.id.btnPickDays)
+        val btnPickDays = findViewById<MaterialButton>(R.id.btnPickDays)
         val textRepeatDays = findViewById<TextView>(R.id.textRepeatDays)
 
-        val btnPickStart = findViewById<Button>(R.id.btnPickStart)
-        val btnPickEnd = findViewById<Button>(R.id.btnPickEnd)
+        val btnPickStart = findViewById<MaterialButton>(R.id.btnPickStart)
+        val btnPickEnd = findViewById<MaterialButton>(R.id.btnPickEnd)
 
         val textStart = findViewById<TextView>(R.id.textStart)
         val textEnd = findViewById<TextView>(R.id.textEnd)
 
-        val btnAddTime = findViewById<Button>(R.id.btnAddTime)
+        val btnAddTime = findViewById<MaterialButton>(R.id.btnAddTime)
         val layoutTimes = findViewById<LinearLayout>(R.id.layoutTimes)
         val textNoTimes = findViewById<TextView>(R.id.textNoTimes)
 
-        val btnSave = findViewById<Button>(R.id.btnSaveCare)
+        val btnSave = findViewById<MaterialButton>(R.id.btnSaveCare)
+
+        Button3D.apply(btnPickDays, 12f)
+        Button3D.apply(btnPickStart, 12f)
+        Button3D.apply(btnPickEnd, 12f)
+        Button3D.apply(btnAddTime, 12f)
+        Button3D.apply(btnSave, 12f)
 
         btnPickDays.visibility = View.GONE
         updateDateButtonsState(
@@ -295,8 +302,8 @@ class CareEditActivity : AppCompatActivity() {
 
     private fun updateDateButtonsState(
         groupRepeat: RadioGroup,
-        btnPickStart: Button,
-        btnPickEnd: Button,
+        btnPickStart: MaterialButton,
+        btnPickEnd: MaterialButton,
         textStart: TextView,
         textEnd: TextView
     ) {
@@ -376,7 +383,7 @@ class CareEditActivity : AppCompatActivity() {
     private fun renderTimes(
         layoutTimes: LinearLayout,
         textNoTimes: TextView,
-        btnAddTime: Button
+        btnAddTime: MaterialButton
     ) {
 
         layoutTimes.removeAllViews()
@@ -428,7 +435,7 @@ class CareEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateAddTimeUi(btnAddTime: Button, textNoTimes: TextView) {
+    private fun updateAddTimeUi(btnAddTime: MaterialButton, textNoTimes: TextView) {
         if (times.isEmpty()) {
             btnAddTime.text = getString(R.string.care_add_time)
             textNoTimes.text = getString(R.string.care_no_times_added)
@@ -443,7 +450,7 @@ class CareEditActivity : AppCompatActivity() {
     private fun openTimePicker(
         layoutTimes: LinearLayout,
         textNoTimes: TextView,
-        btnAddTime: Button
+        btnAddTime: MaterialButton
     ) {
 
         val now = LocalTime.now()

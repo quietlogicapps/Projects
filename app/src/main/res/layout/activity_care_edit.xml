@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_home_gradient">
@@ -20,8 +21,8 @@
             android:id="@+id/inputName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/care_edit_name_hint"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:hint="@string/care_edit_name_hint" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,15 +34,15 @@
             android:id="@+id/groupInstruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radioNone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/care_instruction_none"
-                android:checked="true" />
+                android:checked="true"
+                android:text="@string/care_instruction_none" />
 
             <RadioButton
                 android:id="@+id/radioBefore"
@@ -69,15 +70,15 @@
             android:id="@+id/groupRepeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radioDaily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/care_repeat_daily"
-                android:checked="true" />
+                android:checked="true"
+                android:text="@string/care_repeat_daily" />
 
             <RadioButton
                 android:id="@+id/radioSpecific"
@@ -88,13 +89,14 @@
 
         </RadioGroup>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPickDays"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_marginBottom="8dp"
             android:text="@string/care_pick_days"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:backgroundTint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/textRepeatDays"
@@ -104,33 +106,32 @@
             android:text="@string/care_days_daily"
             android:textSize="16sp" />
 
-        <!-- START + END grouped -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal">
 
-            <!-- START -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickStart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/care_start_date" />
+                    android:layout_height="64dp"
+                    android:text="@string/care_start_date"
+                    app:backgroundTint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="@string/care_start_not_set"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -138,37 +139,38 @@
                 android:layout_width="8dp"
                 android:layout_height="wrap_content" />
 
-            <!-- END -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickEnd"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/care_end_date" />
+                    android:layout_height="64dp"
+                    android:text="@string/care_end_date"
+                    app:backgroundTint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/textEnd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="@string/care_end_not_set"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddTime"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_marginBottom="12dp"
-            android:text="@string/care_add_time" />
+            android:text="@string/care_add_time"
+            app:backgroundTint="?attr/colorPrimary" />
 
         <LinearLayout
             android:id="@+id/layoutTimes"
@@ -185,11 +187,13 @@
             android:text="@string/care_no_times_added"
             android:textSize="16sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveCare"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/save" />
+            android:layout_height="64dp"
+            android:text="@string/save"
+            android:textAllCaps="true"
+            app:backgroundTint="?attr/colorPrimary" />
 
     </LinearLayout>
 
