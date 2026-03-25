@@ -9,54 +9,74 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="14dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/care_edit_name_label"
-            android:textSize="16sp" />
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/inputName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:hint="@string/care_edit_name_hint" />
+            android:layout_marginBottom="16dp"
+            android:hint="@string/care_edit_name_hint"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorSecondary"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/care_edit_instruction_label"
-            android:textSize="16sp" />
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/groupInstruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/radioNone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/care_instruction_none" />
+                android:text="@string/care_instruction_none"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
 
             <RadioButton
                 android:id="@+id/radioBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/care_instruction_before_food" />
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="40dp"
+                android:text="@string/care_instruction_before_food"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
 
             <RadioButton
                 android:id="@+id/radioAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/care_instruction_after_food" />
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="80dp"
+                android:text="@string/care_instruction_after_food"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
 
         </RadioGroup>
 
@@ -64,13 +84,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/care_edit_repeat_label"
-            android:textSize="16sp" />
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/groupRepeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
             <RadioButton
@@ -78,14 +101,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/care_repeat_daily" />
+                android:text="@string/care_repeat_daily"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
 
             <RadioButton
                 android:id="@+id/radioSpecific"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@string/care_repeat_specific_days" />
+                android:text="@string/care_repeat_specific_days"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
 
         </RadioGroup>
 
@@ -93,8 +120,11 @@
             android:id="@+id/btnPickDays"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/care_pick_days"
+            android:textAllCaps="true"
+            android:textSize="17sp"
+            android:textStyle="bold"
             android:visibility="gone"
             app:backgroundTint="?attr/colorPrimary" />
 
@@ -102,14 +132,16 @@
             android:id="@+id/textRepeatDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/care_days_daily"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -123,15 +155,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:text="@string/care_start_date"
+                    android:textAllCaps="true"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
                     app:backgroundTint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/textStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="3dp"
                     android:text="@string/care_start_not_set"
-                    android:textSize="14sp" />
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -150,15 +187,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:text="@string/care_end_date"
+                    android:textAllCaps="true"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
                     app:backgroundTint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/textEnd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="3dp"
                     android:text="@string/care_end_not_set"
-                    android:textSize="14sp" />
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -168,23 +210,45 @@
             android:id="@+id/btnAddTime"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/care_add_time"
+            android:textAllCaps="true"
+            android:textSize="17sp"
+            android:textStyle="bold"
             app:backgroundTint="?attr/colorPrimary" />
 
+        <!-- TWO COLUMN TIMES -->
         <LinearLayout
             android:id="@+id/layoutTimes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="vertical" />
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/leftColumn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/rightColumn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textNoTimes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="14dp"
             android:text="@string/care_no_times_added"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="16sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -193,6 +257,8 @@
             android:layout_height="64dp"
             android:text="@string/save"
             android:textAllCaps="true"
+            android:textSize="17sp"
+            android:textStyle="bold"
             app:backgroundTint="?attr/colorPrimary" />
 
     </LinearLayout>

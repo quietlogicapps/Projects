@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -14,6 +15,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.R
@@ -387,6 +389,7 @@ class CareEditActivity : AppCompatActivity() {
     ) {
 
         layoutTimes.removeAllViews()
+        layoutTimes.orientation = LinearLayout.VERTICAL
 
         if (times.isEmpty()) {
             updateAddTimeUi(btnAddTime, textNoTimes)
@@ -395,7 +398,9 @@ class CareEditActivity : AppCompatActivity() {
 
         updateAddTimeUi(btnAddTime, textNoTimes)
 
-        times.forEach { time ->
+        var index = 0
+
+        while (index < times.size) {
 
             val row = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
@@ -407,7 +412,61 @@ class CareEditActivity : AppCompatActivity() {
                 }
             }
 
-            val timeText = TextView(this).apply {
+            val leftCell = createTimeCell(
+                time = times[index],
+                layoutTimes = layoutTimes,
+                textNoTimes = textNoTimes,
+                btnAddTime = btnAddTime
+            )
+
+            row.addView(leftCell)
+
+            if (index + 1 < times.size) {
+                val rightCell = createTimeCell(
+                    time = times[index + 1],
+                    layoutTimes = layoutTimes,
+                    textNoTimes = textNoTimes,
+                    btnAddTime = btnAddTime,
+                    addInnerStartPadding = true
+                )
+                row.addView(rightCell)
+            } else {
+                val emptyCell = LinearLayout(this).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1f
+                    )
+                }
+                row.addView(emptyCell)
+            }
+
+            layoutTimes.addView(row)
+            index += 2
+        }
+    }
+
+    private fun createTimeCell(
+        time: LocalTime,
+        layoutTimes: LinearLayout,
+        textNoTimes: TextView,
+        btnAddTime: MaterialButton,
+        addInnerStartPadding: Boolean = false
+    ): LinearLayout {
+        return LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+
+            if (addInnerStartPadding) {
+                setPadding(dpToPx(28), 0, 0, 0)
+            }
+
+            val timeText = TextView(this@CareEditActivity).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -415,11 +474,13 @@ class CareEditActivity : AppCompatActivity() {
                 )
                 text = time.format(timeFormatter)
                 textSize = 18f
+                setTextColor(ContextCompat.getColor(this@CareEditActivity, android.R.color.black))
             }
 
-            val deleteBtn = TextView(this).apply {
+            val deleteBtn = TextView(this@CareEditActivity).apply {
                 text = getString(R.string.care_delete_time)
                 textSize = 18f
+                setTextColor(ContextCompat.getColor(this@CareEditActivity, android.R.color.holo_red_dark))
                 setPadding(dpToPx(12), dpToPx(4), dpToPx(4), dpToPx(4))
 
                 setOnClickListener {
@@ -428,10 +489,8 @@ class CareEditActivity : AppCompatActivity() {
                 }
             }
 
-            row.addView(timeText)
-            row.addView(deleteBtn)
-
-            layoutTimes.addView(row)
+            addView(timeText)
+            addView(deleteBtn)
         }
     }
 
