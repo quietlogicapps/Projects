@@ -56,7 +56,13 @@ class PinActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pin)
+        val intentMode = intent.getStringExtra("mode")
+        val intentTitle = intent.getStringExtra("PIN_TITLE")
+        if (intentMode == LockGate.MODE_USER_UNLOCK && intentTitle.isNullOrEmpty()) {
+            setContentView(R.layout.activity_pin_enter)
+        } else {
+            setContentView(R.layout.activity_pin)
+        }
 
         pinPrefs = PinPrefs(this)
 
@@ -70,9 +76,9 @@ class PinActivity : AppCompatActivity() {
         Button3D.apply(buttonPrimary, cornerDp = 18f)
         Button3D.apply(buttonSecondary, cornerDp = 18f)
 
-        unlockMode = intent.getStringExtra("mode") ?: LockGate.MODE_USER_UNLOCK
+        unlockMode = intentMode ?: LockGate.MODE_USER_UNLOCK
 
-        val titleFromIntent = intent.getStringExtra("PIN_TITLE").orEmpty()
+        val titleFromIntent = intentTitle.orEmpty()
 
         currentScreen = when (titleFromIntent) {
             getString(R.string.pin_title_change_pin) -> {
@@ -177,7 +183,7 @@ class PinActivity : AppCompatActivity() {
                     if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
                         getString(R.string.menu_enter_admin)
                     } else {
-                        getString(R.string.pin_enter)
+                        "Enter"
                     }
 
                 editPin.visibility = View.VISIBLE

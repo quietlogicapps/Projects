@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@drawable/bg_home_gradient">
+
+    <LinearLayout
+        android:id="@+id/cardPin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_form_card"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:text="Enter PIN"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/expirely_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp" />
+
+        <EditText
+            android:id="@+id/editPin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pin_label_pin"
+            android:inputType="numberPassword"
+            android:maxLength="4"
+            android:gravity="center"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editPinSecond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:hint="@string/pin_hint_confirm"
+            android:inputType="numberPassword"
+            android:maxLength="4"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textForgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="@string/pin_forgot_admin"
+            android:textColor="#5F5F5F"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text=""
+            android:textColor="#C62828"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/pin_unlock"
+            android:textAllCaps="false"
+            android:textColor="@color/expirely_onPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/expirely_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/pin_emergency_info"
+            android:textAllCaps="false"
+            android:textColor="@color/expirely_onPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:backgroundTint="@color/expirely_primary" />
+
+    </LinearLayout>
+
+</LinearLayout>
