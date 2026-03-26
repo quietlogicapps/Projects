@@ -3,7 +3,8 @@ package com.quietlogic.allisok.ui.security
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import com.google.android.material.button.MaterialButton
+import com.quietlogic.allisok.ui.home.Button3D
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,10 +16,10 @@ class SecurityActivity : AppCompatActivity() {
 
     private lateinit var switchEnablePin: Switch
     private lateinit var textPinStatus: TextView
-    private lateinit var buttonUserChangePin: Button
-    private lateinit var buttonUserDisablePin: Button
-    private lateinit var buttonAdminPin: Button
-    private lateinit var buttonAdminChangePin: Button
+    private lateinit var buttonUserChangePin: MaterialButton
+    private lateinit var buttonUserDisablePin: MaterialButton
+    private lateinit var buttonAdminPin: MaterialButton
+    private lateinit var buttonAdminChangePin: MaterialButton
 
     private lateinit var pinPrefs: PinPrefs
 
@@ -52,6 +53,11 @@ class SecurityActivity : AppCompatActivity() {
         buttonUserDisablePin = findViewById(R.id.buttonUserDisablePin)
         buttonAdminPin = findViewById(R.id.buttonAdminPin)
         buttonAdminChangePin = findViewById(R.id.buttonAdminChangePin)
+
+        Button3D.apply(buttonUserChangePin, cornerDp = 16f, depthDp = 6f)
+        Button3D.apply(buttonUserDisablePin, cornerDp = 16f, depthDp = 6f)
+        Button3D.apply(buttonAdminPin, cornerDp = 16f, depthDp = 6f)
+        Button3D.apply(buttonAdminChangePin, cornerDp = 16f, depthDp = 6f)
 
         updateState()
 

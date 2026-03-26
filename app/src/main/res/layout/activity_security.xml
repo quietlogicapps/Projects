@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:text="@string/security_title"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,8 +50,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/pin_status_disabled"
-                    android:textColor="#7A7A7A"
-                    android:textSize="15sp" />
+                    android:textColor="#374151"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -67,15 +69,19 @@
             android:layout_height="64dp"
             android:layout_marginTop="28dp"
             android:text="@string/user_change_pin"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonUserDisablePin"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="44dp"
             android:text="@string/user_disable_pin"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textAdminTitle"
@@ -92,15 +98,19 @@
             android:layout_height="64dp"
             android:layout_marginTop="28dp"
             android:text="@string/admin_pin"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonAdminChangePin"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="44dp"
             android:text="@string/admin_change_pin"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
