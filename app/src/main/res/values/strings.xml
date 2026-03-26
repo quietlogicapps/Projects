@@ -32,7 +32,7 @@
     <string name="settings_export_pressed">Export button pressed</string>
     <string name="settings_import_pressed">Import button pressed</string>
 
-    <string name="language_screen_title">Language screen</string>
+    <string name="language_screen_title">Language</string>
 
     <string name="lang_english">English</string>
     <string name="lang_spanish">Spanish</string>

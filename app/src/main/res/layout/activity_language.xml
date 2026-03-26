@@ -1,89 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="@drawable/bg_home_gradient">
 
-    <TextView
-        android:id="@+id/textLanguage"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/language_screen_title"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/buttonLanguageEnglish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/lang_english"
-        android:textAllCaps="false" />
+        <TextView
+            android:id="@+id/textLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_screen_title"
+            android:textColor="@color/allisok_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/buttonLanguageSpanish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_spanish"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguageEnglish"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/lang_english"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-    <Button
-        android:id="@+id/buttonLanguagePortuguese"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_portuguese"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguageSpanish"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_spanish"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-    <Button
-        android:id="@+id/buttonLanguageGerman"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_german"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguagePortuguese"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_portuguese"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-    <Button
-        android:id="@+id/buttonLanguageFrench"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_french"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguageGerman"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_german"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-    <Button
-        android:id="@+id/buttonLanguageItalian"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_italian"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguageFrench"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_french"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-    <Button
-        android:id="@+id/buttonLanguageTurkish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_turkish"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguageItalian"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_italian"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-    <Button
-        android:id="@+id/buttonLanguagePolish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_polish"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguageTurkish"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_turkish"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-    <Button
-        android:id="@+id/buttonLanguageRussian"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/lang_russian"
-        android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguagePolish"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_polish"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
 
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLanguageRussian"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/lang_russian"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/allisok_primary" />
+
+    </LinearLayout>
+
+</ScrollView>

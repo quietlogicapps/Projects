@@ -5,10 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.Button
+import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.PermissionSetupActivity
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.ui.home.Button3D
 import java.util.Locale
 
 class LanguageActivity : AppCompatActivity() {
@@ -43,41 +44,35 @@ class LanguageActivity : AppCompatActivity() {
 
         prefs = getSharedPreferences("app_settings", MODE_PRIVATE)
 
-        findViewById<Button>(R.id.buttonLanguageEnglish).setOnClickListener {
-            setLanguage("en")
-        }
+        val buttonEnglish = findViewById<MaterialButton>(R.id.buttonLanguageEnglish)
+        val buttonSpanish = findViewById<MaterialButton>(R.id.buttonLanguageSpanish)
+        val buttonPortuguese = findViewById<MaterialButton>(R.id.buttonLanguagePortuguese)
+        val buttonGerman = findViewById<MaterialButton>(R.id.buttonLanguageGerman)
+        val buttonFrench = findViewById<MaterialButton>(R.id.buttonLanguageFrench)
+        val buttonItalian = findViewById<MaterialButton>(R.id.buttonLanguageItalian)
+        val buttonTurkish = findViewById<MaterialButton>(R.id.buttonLanguageTurkish)
+        val buttonPolish = findViewById<MaterialButton>(R.id.buttonLanguagePolish)
+        val buttonRussian = findViewById<MaterialButton>(R.id.buttonLanguageRussian)
 
-        findViewById<Button>(R.id.buttonLanguageSpanish).setOnClickListener {
-            setLanguage("es")
-        }
+        Button3D.apply(buttonEnglish, 16f, 6f)
+        Button3D.apply(buttonSpanish, 16f, 6f)
+        Button3D.apply(buttonPortuguese, 16f, 6f)
+        Button3D.apply(buttonGerman, 16f, 6f)
+        Button3D.apply(buttonFrench, 16f, 6f)
+        Button3D.apply(buttonItalian, 16f, 6f)
+        Button3D.apply(buttonTurkish, 16f, 6f)
+        Button3D.apply(buttonPolish, 16f, 6f)
+        Button3D.apply(buttonRussian, 16f, 6f)
 
-        findViewById<Button>(R.id.buttonLanguagePortuguese).setOnClickListener {
-            setLanguage("pt-BR")
-        }
-
-        findViewById<Button>(R.id.buttonLanguageGerman).setOnClickListener {
-            setLanguage("de")
-        }
-
-        findViewById<Button>(R.id.buttonLanguageFrench).setOnClickListener {
-            setLanguage("fr")
-        }
-
-        findViewById<Button>(R.id.buttonLanguageItalian).setOnClickListener {
-            setLanguage("it")
-        }
-
-        findViewById<Button>(R.id.buttonLanguageTurkish).setOnClickListener {
-            setLanguage("tr")
-        }
-
-        findViewById<Button>(R.id.buttonLanguagePolish).setOnClickListener {
-            setLanguage("pl")
-        }
-
-        findViewById<Button>(R.id.buttonLanguageRussian).setOnClickListener {
-            setLanguage("ru")
-        }
+        buttonEnglish.setOnClickListener { setLanguage("en") }
+        buttonSpanish.setOnClickListener { setLanguage("es") }
+        buttonPortuguese.setOnClickListener { setLanguage("pt-BR") }
+        buttonGerman.setOnClickListener { setLanguage("de") }
+        buttonFrench.setOnClickListener { setLanguage("fr") }
+        buttonItalian.setOnClickListener { setLanguage("it") }
+        buttonTurkish.setOnClickListener { setLanguage("tr") }
+        buttonPolish.setOnClickListener { setLanguage("pl") }
+        buttonRussian.setOnClickListener { setLanguage("ru") }
 
         updateCheckmarks()
     }
@@ -110,7 +105,7 @@ class LanguageActivity : AppCompatActivity() {
         )
 
         for ((code, btnId) in buttons) {
-            val btn = findViewById<Button>(btnId)
+            val btn = findViewById<MaterialButton>(btnId)
             val label = labels[code] ?: ""
             btn.text = if (code == currentLang) "$label  ✓" else label
         }
