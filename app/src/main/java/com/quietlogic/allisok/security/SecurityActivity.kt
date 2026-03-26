@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.ui.home.Button3D
-import android.widget.Switch
+import com.google.android.material.switchmaterial.SwitchMaterial
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
@@ -14,7 +14,7 @@ import com.quietlogic.allisok.ui.pin.PinActivity
 
 class SecurityActivity : AppCompatActivity() {
 
-    private lateinit var switchEnablePin: Switch
+    private lateinit var switchEnablePin: SwitchMaterial
     private lateinit var textPinStatus: TextView
     private lateinit var buttonUserChangePin: MaterialButton
     private lateinit var buttonUserDisablePin: MaterialButton

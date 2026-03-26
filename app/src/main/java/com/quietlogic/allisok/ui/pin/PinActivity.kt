@@ -9,7 +9,8 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
+import com.google.android.material.button.MaterialButton
+import com.quietlogic.allisok.ui.home.Button3D
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,8 +30,8 @@ class PinActivity : AppCompatActivity() {
     private lateinit var editPinSecond: EditText
     private lateinit var textForgot: TextView
     private lateinit var textError: TextView
-    private lateinit var buttonPrimary: Button
-    private lateinit var buttonSecondary: Button
+    private lateinit var buttonPrimary: MaterialButton
+    private lateinit var buttonSecondary: MaterialButton
 
     private lateinit var pinPrefs: PinPrefs
 
@@ -66,6 +67,8 @@ class PinActivity : AppCompatActivity() {
         textError = findViewById(R.id.textError)
         buttonPrimary = findViewById(R.id.buttonPrimary)
         buttonSecondary = findViewById(R.id.buttonSecondary)
+        Button3D.apply(buttonPrimary, cornerDp = 18f)
+        Button3D.apply(buttonSecondary, cornerDp = 18f)
 
         unlockMode = intent.getStringExtra("mode") ?: LockGate.MODE_USER_UNLOCK
 
@@ -442,7 +445,7 @@ class PinActivity : AppCompatActivity() {
     }
 
     private fun updateFieldHint(field: EditText, label: String, hasFocus: Boolean) {
-        field.hint = if (hasFocus && field.text.isNullOrEmpty()) "- - - -" else label
+        field.hint = if (hasFocus && field.text.isNullOrEmpty()) "— — — —" else label
     }
 
     private fun firstRowLabel(): String {
