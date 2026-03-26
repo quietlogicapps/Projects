@@ -2,14 +2,15 @@ package com.quietlogic.allisok.ui.backup
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.backup.BackupRepository
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
+import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,8 +41,10 @@ class ExportActivity : AppCompatActivity() {
 
         title = getString(R.string.export_title)
 
-        val buttonGenerateExport = findViewById<Button>(R.id.buttonGenerateExport)
+        val buttonGenerateExport = findViewById<MaterialButton>(R.id.buttonGenerateExport)
         val textExportJson = findViewById<TextView>(R.id.textExportJson)
+
+        Button3D.apply(buttonGenerateExport, 16f, 6f)
 
         buttonGenerateExport.setOnClickListener {
 
