@@ -189,8 +189,8 @@ class HomeActivity : AppCompatActivity() {
             }
 
             R.id.menu_more_apps -> {
-                val uri = Uri.parse("https://play.google.com/store/apps/dev?id=QuietLogic")
-                startActivity(Intent(Intent.ACTION_VIEW, uri))
+                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://play.google.com/store/apps/developer?id=QuietLogic"))
+                startActivity(intent)
                 return true
             }
         }
