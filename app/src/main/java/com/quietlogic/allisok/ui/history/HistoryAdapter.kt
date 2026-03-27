@@ -2,7 +2,6 @@ package com.quietlogic.allisok.ui.history
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -57,14 +56,13 @@ class HistoryAdapter(
         }
 
         val name = TextView(context).apply {
-            textSize = 22f
+            textSize = 18f
             setTextColor(Color.BLACK)
-            setTypeface(null, Typeface.BOLD)
         }
 
         val subtitle = TextView(context).apply {
             textSize = 14f
-            setTextColor(Color.DKGRAY)
+            setTextColor(Color.parseColor("#1A1A1A"))
         }
 
         val delete = TextView(context).apply {

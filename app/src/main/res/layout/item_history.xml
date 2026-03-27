@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/history_item_name_placeholder"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textHistoryDate"
@@ -20,6 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/history_item_date_placeholder"
         android:textSize="14sp"
+        android:textColor="#4A4A4A"
         android:layout_marginTop="4dp" />
 
 </LinearLayout>
