@@ -208,7 +208,7 @@ class ContactsActivity : AppCompatActivity() {
     }
 
     private fun showContactActionsDialog(buttonId: Int) {
-        AlertDialog.Builder(this)
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(this, R.style.AllIsOK_MaterialAlertDialog)
             .setTitle(getString(R.string.contact_options_title))
             .setItems(
                 arrayOf(
