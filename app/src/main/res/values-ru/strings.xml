@@ -212,7 +212,7 @@
     <string name="contact_relative">Близкий</string>
     <string name="contact_doctor">Семья</string>
     <string name="contact_3">Врач</string>
-    <string name="contact_emergency">Экстренный</string>
+    <string name="contact_emergency">Экстренно</string>
 
     <string name="contact_edit_title">РЕДАКТИРОВАТЬ КОНТАКТ</string>
     <string name="edit_contact_title">РЕДАКТИРОВАТЬ КОНТАКТ</string>

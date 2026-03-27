@@ -209,7 +209,7 @@
     <string name="conditions_value">Erkrankungen: %1$s</string>
     <string name="notes_value">Notizen: %1$s</string>
 
-    <string name="contact_relative">Nahestehend</string>
+    <string name="contact_relative">Vertrauter</string>
     <string name="contact_doctor">Familie</string>
     <string name="contact_3">Arzt</string>
     <string name="contact_emergency">Notfall</string>
