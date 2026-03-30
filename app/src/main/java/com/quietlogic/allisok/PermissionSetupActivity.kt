@@ -123,7 +123,8 @@ class PermissionSetupActivity : AppCompatActivity() {
 
         val state = PinPrefs(this).getState()
 
-        val intent = if (state.userPinEnabled && !state.userPinHash.isNullOrBlank()) {
+        val skipPin = intent.getBooleanExtra("skip_pin", false)
+        val intent = if (!skipPin && state.userPinEnabled && !state.userPinHash.isNullOrBlank()) {
             Intent(this, PinActivity::class.java).apply {
                 putExtra("mode", LockGate.MODE_USER_UNLOCK)
             }

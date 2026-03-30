@@ -116,6 +116,7 @@ class LanguageActivity : AppCompatActivity() {
 
         val intent = Intent(this, PermissionSetupActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.putExtra("skip_pin", true)
         startActivity(intent)
         finish()
     }
