@@ -20,6 +20,7 @@ import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.security.PinHasher
 import com.quietlogic.allisok.security.PinPrefs
 import com.quietlogic.allisok.security.PinValidator
+import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.ui.home.HomeActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
 
@@ -312,6 +313,7 @@ class PinActivity : AppCompatActivity() {
             }
 
             LockGate.markUserUnlocked()
+            UserSession.start(this)
 
             val homeIntent = Intent(this, HomeActivity::class.java)
             homeIntent.flags =

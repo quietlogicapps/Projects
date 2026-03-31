@@ -19,6 +19,7 @@ import com.quietlogic.allisok.alarm.engine.PermissionGate
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.security.PinPrefs
 import com.quietlogic.allisok.security.TrialManager
+import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.ui.home.HomeActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.trial.TrialEndedActivity
@@ -62,6 +63,7 @@ class PermissionSetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         resetRestoredPinDataOnFirstLaunch()
+        UserSession.stop(this)
 
         setContentView(buildContentView())
         refreshUi()
@@ -124,7 +126,7 @@ class PermissionSetupActivity : AppCompatActivity() {
         val state = PinPrefs(this).getState()
 
         val skipPin = intent.getBooleanExtra("skip_pin", false)
-        val intent = if (!skipPin && state.userPinEnabled && !state.userPinHash.isNullOrBlank()) {
+        val intent = if (!skipPin && !UserSession.isActive(this) && state.userPinEnabled && !state.userPinHash.isNullOrBlank()) {
             Intent(this, PinActivity::class.java).apply {
                 putExtra("mode", LockGate.MODE_USER_UNLOCK)
             }

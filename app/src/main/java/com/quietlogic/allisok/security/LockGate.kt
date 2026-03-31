@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.ui.pin.PinActivity
 
 object LockGate {
@@ -34,6 +35,11 @@ object LockGate {
         }
 
         if (isUserUnlockedForCurrentForeground) {
+            return
+        }
+
+        if (UserSession.isActive(activity)) {
+            markUserUnlocked()
             return
         }
 

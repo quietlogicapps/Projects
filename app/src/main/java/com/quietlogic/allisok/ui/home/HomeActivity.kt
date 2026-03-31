@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
+import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.ui.backup.ExportActivity
 import com.quietlogic.allisok.ui.backup.ImportActivity
@@ -93,6 +94,13 @@ class HomeActivity : AppCompatActivity() {
 
         if (skipUserUnlockOnce) {
             skipUserUnlockOnce = false
+            return
+        }
+
+        val homePrefs = getSharedPreferences("home_prefs", MODE_PRIVATE)
+        if (homePrefs.getBoolean("returning_from_store", false)) {
+            homePrefs.edit().putBoolean("returning_from_store", false).apply()
+            LockGate.markUserUnlocked()
             return
         }
 
@@ -189,6 +197,8 @@ class HomeActivity : AppCompatActivity() {
             }
 
             R.id.menu_more_apps -> {
+                getSharedPreferences("home_prefs", MODE_PRIVATE)
+                    .edit().putBoolean("returning_from_store", true).apply()
                 val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://play.google.com/store/apps/developer?id=QuietLogic"))
                 startActivity(intent)
                 return true
@@ -196,6 +206,14 @@ class HomeActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val homePrefs = getSharedPreferences("home_prefs", MODE_PRIVATE)
+        if (!homePrefs.getBoolean("returning_from_store", false)) {
+            UserSession.stop(this)
+        }
     }
 
     private fun updateAdminIndicator() {
