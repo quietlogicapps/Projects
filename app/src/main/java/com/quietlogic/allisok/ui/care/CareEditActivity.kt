@@ -225,6 +225,16 @@ class CareEditActivity : AppCompatActivity() {
 
             val isDaily = groupRepeat.checkedRadioButtonId == R.id.radioDaily
 
+            if (isDaily && startDate == null) {
+                Toast.makeText(this, getString(R.string.care_start_required), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (isDaily && endDate == null) {
+                Toast.makeText(this, getString(R.string.care_end_required), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val start = if (isDaily) {
                 startDate ?: LocalDate.now()
             } else {

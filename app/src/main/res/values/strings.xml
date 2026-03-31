@@ -96,6 +96,8 @@
     <string name="care_delete_time">X</string>
 
     <string name="care_name_required">Name required</string>
+    <string name="care_start_required">Start date required</string>
+    <string name="care_end_required">End date required</string>
     <string name="care_add_at_least_one_time">Add at least one time</string>
     <string name="care_select_days">Select days</string>
     <string name="care_saved">Saved</string>
