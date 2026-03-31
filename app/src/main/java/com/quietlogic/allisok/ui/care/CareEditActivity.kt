@@ -29,6 +29,7 @@ import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -53,7 +54,7 @@ class CareEditActivity : AppCompatActivity() {
     private lateinit var checkedDays: BooleanArray
 
     private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private var dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     override fun attachBaseContext(newBase: Context) {
         val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
@@ -83,6 +84,22 @@ class CareEditActivity : AppCompatActivity() {
         title = getString(R.string.care_edit_title)
 
         db = DatabaseProvider.getDatabase(applicationContext)
+
+        lifecycleScope.launch {
+            val settings = com.quietlogic.allisok.data.repository.SettingsRepository(db.appSettingsDao()).getSettings().first()
+            val pattern = if (settings?.dateFormat == "US") "MM/dd/yyyy" else "dd/MM/yyyy"
+            dateFormatter = DateTimeFormatter.ofPattern(pattern)
+
+            val textStart = findViewById<android.widget.TextView>(R.id.textStart)
+            val textEnd = findViewById<android.widget.TextView>(R.id.textEnd)
+
+            if (startDate != null) {
+                textStart.text = getString(R.string.care_start_value, startDate!!.format(dateFormatter))
+            }
+            if (endDate != null) {
+                textEnd.text = getString(R.string.care_end_value, endDate!!.format(dateFormatter))
+            }
+        }
 
         dayCodes = arrayOf("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
         dayLabels = arrayOf(
