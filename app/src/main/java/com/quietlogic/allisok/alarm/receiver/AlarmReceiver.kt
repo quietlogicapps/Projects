@@ -193,7 +193,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 putExtra(AlarmActivity.EXTRA_LOG_DATE, logDate)
                 putExtra(AlarmActivity.EXTRA_LOG_TIME, logTime)
 
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
 
             val piFlags =
