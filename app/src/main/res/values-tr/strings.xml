@@ -90,6 +90,8 @@
     <string name="care_time_already_added">Saat zaten eklendi</string>
     <string name="care_delete_time">X</string>
     <string name="care_name_required">Ad gerekli</string>
+    <string name="care_start_required">Başlangıç tarihi gerekli</string>
+    <string name="care_end_required">Bitiş tarihi gerekli</string>
     <string name="care_add_at_least_one_time">En az bir saat ekleyin</string>
     <string name="care_select_days">Gün seçin</string>
     <string name="care_saved">Kaydedildi</string>

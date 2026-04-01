@@ -90,6 +90,8 @@
     <string name="care_time_already_added">Время уже добавлено</string>
     <string name="care_delete_time">X</string>
     <string name="care_name_required">Название обязательно</string>
+    <string name="care_start_required">Дата начала обязательна</string>
+    <string name="care_end_required">Дата окончания обязательна</string>
     <string name="care_add_at_least_one_time">Добавьте хотя бы одно время</string>
     <string name="care_select_days">Выберите дни</string>
     <string name="care_saved">Сохранено</string>

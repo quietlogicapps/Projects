@@ -90,6 +90,8 @@
     <string name="care_time_already_added">Zeit bereits vorhanden</string>
     <string name="care_delete_time">X</string>
     <string name="care_name_required">Name erforderlich</string>
+    <string name="care_start_required">Startdatum erforderlich</string>
+    <string name="care_end_required">Enddatum erforderlich</string>
     <string name="care_add_at_least_one_time">Mindestens eine Zeit hinzufügen</string>
     <string name="care_select_days">Tage auswählen</string>
     <string name="care_saved">Gespeichert</string>
@@ -157,8 +159,8 @@
     <string name="pin_label_admin">Admin-PIN</string>
 
     <string name="date_format_title">Datumsformat</string>
-<string name="date_format_eu">EU&#10;DD/MM/YYYY</string>
-<string name="date_format_us">US&#10;MM/DD/YYYY</string>
+    <string name="date_format_eu">EU&#10;DD/MM/YYYY</string>
+    <string name="date_format_us">US&#10;MM/DD/YYYY</string>
 
     <string name="history_title">Verlauf</string>
     <string name="history_empty">Keine archivierten Einträge</string>

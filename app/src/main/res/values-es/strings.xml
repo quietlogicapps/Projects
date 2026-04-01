@@ -89,10 +89,15 @@
     <string name="care_no_times_added">No se han añadido horas</string>
     <string name="care_time_already_added">Hora ya añadida</string>
     <string name="care_delete_time">X</string>
+
     <string name="care_name_required">Nombre requerido</string>
+    <string name="care_start_required">Fecha de inicio requerida</string>
+    <string name="care_end_required">Fecha de fin requerida</string>
+
     <string name="care_add_at_least_one_time">Añade al menos una hora</string>
     <string name="care_select_days">Seleccionar días</string>
     <string name="care_saved">Guardado</string>
+
     <string name="care_item_name_placeholder">Nombre</string>
     <string name="care_item_times_placeholder">Horas</string>
 

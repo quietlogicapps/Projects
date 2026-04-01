@@ -90,6 +90,8 @@
     <string name="care_time_already_added">Horário já adicionado</string>
     <string name="care_delete_time">X</string>
     <string name="care_name_required">Nome obrigatório</string>
+    <string name="care_start_required">Data de início obrigatória</string>
+    <string name="care_end_required">Data de fim obrigatória</string>
     <string name="care_add_at_least_one_time">Adicione pelo menos um horário</string>
     <string name="care_select_days">Selecionar dias</string>
     <string name="care_saved">Salvo</string>
