@@ -112,8 +112,9 @@ class LanguageActivity : AppCompatActivity() {
     }
 
     private fun setLanguage(langCode: String) {
-        prefs.edit().putString("app_language", langCode).commit()
-
+        prefs.edit().putString("app_language", langCode).apply()
+        val locales = androidx.core.os.LocaleListCompat.forLanguageTags(langCode)
+        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(locales)
         val intent = Intent(this, PermissionSetupActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra("skip_pin", true)
