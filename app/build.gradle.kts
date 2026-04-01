@@ -12,8 +12,8 @@ android {
         applicationId = "com.quietlogic.allisok"
         minSdk = 28
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation("androidx.lifecycle:lifecycle-process:2.7.0")
+    implementation("com.android.billingclient:billing-ktx:8.3.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
