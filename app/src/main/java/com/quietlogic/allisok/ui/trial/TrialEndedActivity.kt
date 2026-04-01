@@ -3,6 +3,7 @@ package com.quietlogic.allisok.ui.trial
 import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.databinding.ActivityTrialEndedBinding
@@ -34,6 +35,12 @@ class TrialEndedActivity : AppCompatActivity() {
         binding = ActivityTrialEndedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Block back button
+            }
+        })
+
         Button3D.apply(binding.btnBuy, cornerDp = 16f, depthDp = 6f)
         Button3D.apply(binding.btnRestore, cornerDp = 16f, depthDp = 6f)
 
@@ -52,9 +59,5 @@ class TrialEndedActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
-
-    override fun onBackPressed() {
-        // Block back button
     }
 }
