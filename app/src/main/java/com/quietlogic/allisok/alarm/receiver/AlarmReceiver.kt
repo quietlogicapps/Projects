@@ -256,7 +256,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val channel = NotificationChannel(
             CHANNEL_ID,
             context.getString(R.string.alarm_channel_name),
-            NotificationManager.IMPORTANCE_MAX
+            NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = context.getString(R.string.alarm_channel_description)
             enableVibration(true)
