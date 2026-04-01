@@ -25,6 +25,9 @@
     <!-- Direct phone call -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!-- FIX: declare telephony not required -->
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
