@@ -23,7 +23,7 @@
     <string name="settings_export_button">Verileri dışa aktar</string>
     <string name="settings_import_button">Verileri içe aktar</string>
     <string name="settings_history_title">Geçmiş</string>
-    <string name="settings_history_button">Arşivlenen öğeler</string>
+    <string name="settings_history_button">Arşivlenen hatırlatıcılar</string>
     <string name="settings_about_title">Hakkında</string>
     <string name="settings_privacy_button">Gizlilik politikası</string>
     <string name="settings_more_apps_button">QuietLogic\'in diğer uygulamaları</string>
@@ -54,7 +54,7 @@
 
     <string name="care_edit_title">Öğe ekle</string>
     <string name="care_edit_name_label">Öğe adı</string>
-    <string name="care_edit_name_hint">Örnek: Tansiyon ilacı</string>
+    <string name="care_edit_name_hint">Örnek: Günlük görev</string>
     <string name="care_edit_instruction_label">Talimat</string>
     <string name="care_instruction_none">Yok</string>
     <string name="care_instruction_before_food">Yemekten önce</string>
@@ -137,7 +137,7 @@
     <string name="pin_enter_admin">Yönetici PIN\'i girin</string>
     <string name="pin_unlock">Kilidi aç</string>
     <string name="pin_enter_button">Giriş</string>
-    <string name="pin_emergency_info">Acil durum bilgileri</string>
+    <string name="pin_emergency_info">Kişisel Bilgiler</string>
     <string name="pin_set">PIN ayarla</string>
     <string name="pin_save">PIN\'i kaydet</string>
     <string name="pin_save_admin">Yönetici PIN\'ini kaydet</string>
@@ -163,7 +163,7 @@
     <string name="date_format_us">US&#10;MM/DD/YYYY</string>
 
     <string name="history_title">Geçmiş</string>
-    <string name="history_empty">Arşivlenen öğe yok</string>
+    <string name="history_empty">Arşivlenen hatırlatıcı yok</string>
     <string name="history_item_name_placeholder">Öğe adı</string>
     <string name="history_item_date_placeholder">Bitiş tarihi</string>
 
@@ -187,33 +187,33 @@
 
     <string name="admin_mode_active">YÖNETİCİ MODU ETKİN</string>
 
-    <string name="emergency_info_title">Acil durum bilgileri</string>
+    <string name="emergency_info_title">Kişisel Bilgiler</string>
     <string name="edit">Düzenle</string>
     <string name="blood_type">Kan grubu: -</string>
     <string name="allergies">Alerjiler: -</string>
-    <string name="conditions">Durumlar: -</string>
+    <string name="conditions">Ayrıntılar: -</string>
     <string name="notes">Notlar: -</string>
-    <string name="recent_taken_title">Son alınanlar (72 sa)</string>
+    <string name="recent_taken_title">Son aktivite (72 sa)</string>
 
-    <string name="edit_emergency_title">Acil durum bilgilerini düzenle</string>
+    <string name="edit_emergency_title">Kişisel Bilgileri Düzenle</string>
     <string name="hint_blood_type">Kan grubu</string>
     <string name="hint_allergies">Alerjiler</string>
-    <string name="hint_conditions">Durumlar</string>
+    <string name="hint_conditions">Ayrıntılar</string>
     <string name="hint_notes">Notlar</string>
     <string name="save">Kaydet</string>
     <string name="clear">Temizle</string>
 
-    <string name="emergency_info_saved">Acil durum bilgileri kaydedildi</string>
-    <string name="emergency_info_cleared">Acil durum bilgileri temizlendi</string>
+    <string name="emergency_info_saved">Kişisel bilgiler kaydedildi</string>
+    <string name="emergency_info_cleared">Kişisel bilgiler temizlendi</string>
 
     <string name="blood_type_value">Kan grubu: %1$s</string>
     <string name="allergies_value">Alerjiler: %1$s</string>
-    <string name="conditions_value">Durumlar: %1$s</string>
+    <string name="conditions_value">Ayrıntılar: %1$s</string>
     <string name="notes_value">Notlar: %1$s</string>
 
     <string name="contact_relative">Yakın Kişi</string>
     <string name="contact_doctor">Aile</string>
-    <string name="contact_3">Doktor</string>
+    <string name="contact_3">Destek</string>
     <string name="contact_emergency">Acil Durum</string>
 
     <string name="contact_edit_title">KİŞİYİ DÜZENLE</string>
@@ -224,7 +224,7 @@
     <string name="alarm_care_name_preview">İlaç adı</string>
     <string name="alarm_instruction_preview">Yemekten sonra alın</string>
 
-    <string name="alarm_taken">ALINDI</string>
+    <string name="alarm_taken">TAMAM</string>
     <string name="alarm_snooze_5">5 dk</string>
     <string name="alarm_snooze_10">10 dk</string>
     <string name="alarm_snooze_15">15 dk</string>
@@ -242,7 +242,7 @@
 
     <string name="recent_taken_date_placeholder">2026-03-06</string>
     <string name="recent_taken_time_placeholder">08:30</string>
-    <string name="recent_taken_status_taken">Alındı</string>
+    <string name="recent_taken_status_taken">Tamam</string>
     <string name="recent_taken_name_placeholder">Parasetamol</string>
 
     <string name="admin_required_title">Yönetici gerekli</string>

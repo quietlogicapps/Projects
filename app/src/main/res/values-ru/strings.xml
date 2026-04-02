@@ -23,7 +23,7 @@
     <string name="settings_export_button">Экспортировать данные</string>
     <string name="settings_import_button">Импортировать данные</string>
     <string name="settings_history_title">История</string>
-    <string name="settings_history_button">Архивированные элементы</string>
+    <string name="settings_history_button">Архивированные напоминания</string>
     <string name="settings_about_title">О приложении</string>
     <string name="settings_privacy_button">Политика конфиденциальности</string>
     <string name="settings_more_apps_button">Другие приложения QuietLogic</string>
@@ -54,11 +54,11 @@
 
     <string name="care_edit_title">Добавить элемент</string>
     <string name="care_edit_name_label">Название элемента</string>
-    <string name="care_edit_name_hint">Пример: Лекарство от давления</string>
+    <string name="care_edit_name_hint">Пример: Ежедневная задача</string>
     <string name="care_edit_instruction_label">Инструкция</string>
     <string name="care_instruction_none">Нет</string>
-    <string name="care_instruction_before_food">До еды</string>
-    <string name="care_instruction_after_food">После еды</string>
+    <string name="care_instruction_before_food">До приёма пищи</string>
+    <string name="care_instruction_after_food">После приёма пищи</string>
     <string name="care_edit_repeat_label">Повторять</string>
     <string name="care_repeat_daily">Ежедневно</string>
     <string name="care_repeat_specific_days">Определённые дни</string>
@@ -137,7 +137,7 @@
     <string name="pin_enter_admin">Введите PIN администратора</string>
     <string name="pin_unlock">Разблокировать</string>
     <string name="pin_enter_button">Войти</string>
-    <string name="pin_emergency_info">Экстренная информация</string>
+    <string name="pin_emergency_info">Личная информация</string>
     <string name="pin_set">Установить PIN</string>
     <string name="pin_save">Сохранить PIN</string>
     <string name="pin_save_admin">Сохранить PIN администратора</string>
@@ -163,7 +163,7 @@
     <string name="date_format_us">US&#10;MM/DD/YYYY</string>
 
     <string name="history_title">История</string>
-    <string name="history_empty">Нет архивированных элементов</string>
+    <string name="history_empty">Нет архивированных напоминаний</string>
     <string name="history_item_name_placeholder">Название элемента</string>
     <string name="history_item_date_placeholder">Дата окончания</string>
 
@@ -187,34 +187,34 @@
 
     <string name="admin_mode_active">РЕЖИМ АДМИНИСТРАТОРА АКТИВЕН</string>
 
-    <string name="emergency_info_title">Экстренная информация</string>
+    <string name="emergency_info_title">Личная информация</string>
     <string name="edit">Редактировать</string>
     <string name="blood_type">Группа крови: -</string>
     <string name="allergies">Аллергии: -</string>
-    <string name="conditions">Состояния: -</string>
+    <string name="conditions">Подробности: -</string>
     <string name="notes">Заметки: -</string>
-    <string name="recent_taken_title">Недавно принятые (72 ч)</string>
+    <string name="recent_taken_title">Последняя активность (72 ч)</string>
 
-    <string name="edit_emergency_title">Редактировать экстренную информацию</string>
+    <string name="edit_emergency_title">Редактировать личную информацию</string>
     <string name="hint_blood_type">Группа крови</string>
     <string name="hint_allergies">Аллергии</string>
-    <string name="hint_conditions">Состояния</string>
+    <string name="hint_conditions">Подробности</string>
     <string name="hint_notes">Заметки</string>
     <string name="save">Сохранить</string>
     <string name="clear">Очистить</string>
 
-    <string name="emergency_info_saved">Экстренная информация сохранена</string>
-    <string name="emergency_info_cleared">Экстренная информация очищена</string>
+    <string name="emergency_info_saved">Личная информация сохранена</string>
+    <string name="emergency_info_cleared">Личная информация очищена</string>
 
     <string name="blood_type_value">Группа крови: %1$s</string>
     <string name="allergies_value">Аллергии: %1$s</string>
-    <string name="conditions_value">Состояния: %1$s</string>
+    <string name="conditions_value">Подробности: %1$s</string>
     <string name="notes_value">Заметки: %1$s</string>
 
     <string name="contact_relative">Близкий</string>
     <string name="contact_doctor">Семья</string>
-    <string name="contact_3">Врач</string>
-    <string name="contact_emergency">Экстренно</string>
+    <string name="contact_3">Поддержка</string>
+    <string name="contact_emergency">Срочный</string>
 
     <string name="contact_edit_title">РЕДАКТИРОВАТЬ КОНТАКТ</string>
     <string name="edit_contact_title">РЕДАКТИРОВАТЬ КОНТАКТ</string>
@@ -224,7 +224,7 @@
     <string name="alarm_care_name_preview">Название лекарства</string>
     <string name="alarm_instruction_preview">Принимать после еды</string>
 
-    <string name="alarm_taken">ПРИНЯТО</string>
+    <string name="alarm_taken">ГОТОВО</string>
     <string name="alarm_snooze_5">5 мин</string>
     <string name="alarm_snooze_10">10 мин</string>
     <string name="alarm_snooze_15">15 мин</string>
@@ -242,7 +242,7 @@
 
     <string name="recent_taken_date_placeholder">2026-03-06</string>
     <string name="recent_taken_time_placeholder">08:30</string>
-    <string name="recent_taken_status_taken">Принято</string>
+    <string name="recent_taken_status_taken">Готово</string>
     <string name="recent_taken_name_placeholder">Парацетамол</string>
 
     <string name="admin_required_title">Требуется администратор</string>

@@ -23,7 +23,7 @@
     <string name="settings_export_button">Esporta dati</string>
     <string name="settings_import_button">Importa dati</string>
     <string name="settings_history_title">Cronologia</string>
-    <string name="settings_history_button">Elementi archiviati</string>
+    <string name="settings_history_button">Promemoria archiviati</string>
     <string name="settings_about_title">Informazioni</string>
     <string name="settings_privacy_button">Informativa sulla privacy</string>
     <string name="settings_more_apps_button">Altre app di QuietLogic</string>
@@ -54,11 +54,11 @@
 
     <string name="care_edit_title">Aggiungi elemento</string>
     <string name="care_edit_name_label">Nome dell\'elemento</string>
-    <string name="care_edit_name_hint">Esempio: Farmaco per la pressione</string>
+    <string name="care_edit_name_hint">Esempio: Attività quotidiana</string>
     <string name="care_edit_instruction_label">Istruzione</string>
     <string name="care_instruction_none">Nessuna</string>
-    <string name="care_instruction_before_food">Prima di mangiare</string>
-    <string name="care_instruction_after_food">Dopo aver mangiato</string>
+    <string name="care_instruction_before_food">Prima del pasto</string>
+    <string name="care_instruction_after_food">Dopo il pasto</string>
     <string name="care_edit_repeat_label">Ripeti</string>
     <string name="care_repeat_daily">Quotidiano</string>
     <string name="care_repeat_specific_days">Giorni specifici</string>
@@ -137,7 +137,7 @@
     <string name="pin_enter_admin">Inserisci PIN amministratore</string>
     <string name="pin_unlock">Sblocca</string>
     <string name="pin_enter_button">Entra</string>
-    <string name="pin_emergency_info">Informazioni di emergenza</string>
+    <string name="pin_emergency_info">Informazioni personali</string>
     <string name="pin_set">Imposta PIN</string>
     <string name="pin_save">Salva PIN</string>
     <string name="pin_save_admin">Salva PIN amministratore</string>
@@ -163,7 +163,7 @@
     <string name="date_format_us">US&#10;MM/DD/YYYY</string>
 
     <string name="history_title">Cronologia</string>
-    <string name="history_empty">Nessun elemento archiviato</string>
+    <string name="history_empty">Nessun promemoria archiviato</string>
     <string name="history_item_name_placeholder">Nome elemento</string>
     <string name="history_item_date_placeholder">Data di fine</string>
 
@@ -187,34 +187,34 @@
 
     <string name="admin_mode_active">MODALITÀ AMMINISTRATORE ATTIVA</string>
 
-    <string name="emergency_info_title">Informazioni di emergenza</string>
+    <string name="emergency_info_title">Informazioni personali</string>
     <string name="edit">Modifica</string>
     <string name="blood_type">Gruppo sanguigno: -</string>
     <string name="allergies">Allergie: -</string>
-    <string name="conditions">Condizioni: -</string>
+    <string name="conditions">Dettagli: -</string>
     <string name="notes">Note: -</string>
-    <string name="recent_taken_title">Presi di recente (72 h)</string>
+    <string name="recent_taken_title">Attività recente (72 h)</string>
 
-    <string name="edit_emergency_title">Modifica informazioni di emergenza</string>
+    <string name="edit_emergency_title">Modifica informazioni personali</string>
     <string name="hint_blood_type">Gruppo sanguigno</string>
     <string name="hint_allergies">Allergie</string>
-    <string name="hint_conditions">Condizioni</string>
+    <string name="hint_conditions">Dettagli</string>
     <string name="hint_notes">Note</string>
     <string name="save">Salva</string>
     <string name="clear">Cancella</string>
 
-    <string name="emergency_info_saved">Informazioni di emergenza salvate</string>
-    <string name="emergency_info_cleared">Informazioni di emergenza cancellate</string>
+    <string name="emergency_info_saved">Informazioni personali salvate</string>
+    <string name="emergency_info_cleared">Informazioni personali cancellate</string>
 
     <string name="blood_type_value">Gruppo sanguigno: %1$s</string>
     <string name="allergies_value">Allergie: %1$s</string>
-    <string name="conditions_value">Condizioni: %1$s</string>
+    <string name="conditions_value">Dettagli: %1$s</string>
     <string name="notes_value">Note: %1$s</string>
 
     <string name="contact_relative">Persona vicina</string>
     <string name="contact_doctor">Famiglia</string>
-    <string name="contact_3">Medico</string>
-    <string name="contact_emergency">Emergenza</string>
+    <string name="contact_3">Supporto</string>
+    <string name="contact_emergency">Urgente</string>
 
     <string name="contact_edit_title">MODIFICA CONTATTO</string>
     <string name="edit_contact_title">MODIFICA CONTATTO</string>
@@ -224,7 +224,7 @@
     <string name="alarm_care_name_preview">Nome del farmaco</string>
     <string name="alarm_instruction_preview">Prendere dopo i pasti</string>
 
-    <string name="alarm_taken">PRESO</string>
+    <string name="alarm_taken">FATTO</string>
     <string name="alarm_snooze_5">5 min</string>
     <string name="alarm_snooze_10">10 min</string>
     <string name="alarm_snooze_15">15 min</string>
@@ -242,7 +242,7 @@
 
     <string name="recent_taken_date_placeholder">2026-03-06</string>
     <string name="recent_taken_time_placeholder">08:30</string>
-    <string name="recent_taken_status_taken">Preso</string>
+    <string name="recent_taken_status_taken">Fatto</string>
     <string name="recent_taken_name_placeholder">Paracetamolo</string>
 
     <string name="admin_required_title">Amministratore richiesto</string>
