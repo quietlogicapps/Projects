@@ -49,7 +49,7 @@
     <string name="home_info">INFO</string>
 
     <string name="care_add">ADD</string>
-    <string name="care_empty">No care items yet</string>
+    <string name="care_empty">No reminders yet</string>
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Add Care Item</string>

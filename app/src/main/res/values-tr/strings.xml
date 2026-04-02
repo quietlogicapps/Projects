@@ -49,7 +49,7 @@
     <string name="home_info">BİLGİ</string>
 
     <string name="care_add">EKLE</string>
-    <string name="care_empty">Henüz öğe yok</string>
+    <string name="care_empty">Henüz hatırlatıcı yok</string>
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Öğe ekle</string>

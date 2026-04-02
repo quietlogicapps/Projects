@@ -49,7 +49,7 @@
     <string name="home_info">INFO</string>
 
     <string name="care_add">DODAJ</string>
-    <string name="care_empty">Brak elementów</string>
+    <string name="care_empty">Brak przypomnień</string>
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Dodaj element</string>

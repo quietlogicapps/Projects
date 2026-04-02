@@ -49,7 +49,7 @@
     <string name="home_info">INFO</string>
 
     <string name="care_add">HINZUFÜGEN</string>
-    <string name="care_empty">Noch keine Einträge</string>
+    <string name="care_empty">Noch keine Erinnerungen</string>
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Eintrag hinzufügen</string>

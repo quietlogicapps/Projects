@@ -49,7 +49,7 @@
     <string name="home_info">INFO</string>
 
     <string name="care_add">AGGIUNGI</string>
-    <string name="care_empty">Nessun elemento ancora</string>
+    <string name="care_empty">Nessun promemoria ancora</string>
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Aggiungi elemento</string>
