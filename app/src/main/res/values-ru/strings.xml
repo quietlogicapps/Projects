@@ -53,7 +53,7 @@
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Добавить элемент</string>
-    <string name="care_edit_name_label">Название напоминания</string>
+    <string name="care_edit_name_label">Название задачи</string>
     <string name="care_edit_name_hint">Пример: Ежедневная задача</string>
     <string name="care_edit_instruction_label">Инструкция</string>
     <string name="care_instruction_none">Нет</string>
