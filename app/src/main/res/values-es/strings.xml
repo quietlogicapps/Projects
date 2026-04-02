@@ -53,7 +53,7 @@
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Añadir elemento</string>
-    <string name="care_edit_name_label">Nombre del elemento</string>
+    <string name="care_edit_name_label">Nombre del recordatorio</string>
     <string name="care_edit_name_hint">Ejemplo: Tarea diaria</string>
     <string name="care_edit_instruction_label">Instrucción</string>
     <string name="care_instruction_none">Ninguna</string>
