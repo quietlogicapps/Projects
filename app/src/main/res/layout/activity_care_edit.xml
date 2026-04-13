@@ -156,7 +156,7 @@
                     android:layout_height="64dp"
                     android:text="@string/care_start_date"
                     android:textAllCaps="true"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:backgroundTint="?attr/colorPrimary" />
 
@@ -188,7 +188,7 @@
                     android:layout_height="64dp"
                     android:text="@string/care_end_date"
                     android:textAllCaps="true"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:backgroundTint="?attr/colorPrimary" />
 
