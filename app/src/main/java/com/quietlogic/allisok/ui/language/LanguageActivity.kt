@@ -1,39 +1,16 @@
 package com.quietlogic.allisok.ui.language
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
 import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
-import com.quietlogic.allisok.PermissionSetupActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.ui.home.Button3D
-import java.util.Locale
 
 class LanguageActivity : AppCompatActivity() {
 
     private lateinit var prefs: SharedPreferences
-
-    override fun attachBaseContext(newBase: Context) {
-        val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
-        val languageCode = prefs.getString("app_language", "en") ?: "en"
-
-        val locale = if (languageCode.contains("-")) {
-            val parts = languageCode.split("-")
-            Locale(parts[0], parts[1])
-        } else {
-            Locale(languageCode)
-        }
-        Locale.setDefault(locale)
-
-        val configuration = Configuration(newBase.resources.configuration)
-        configuration.setLocale(locale)
-
-        val context = newBase.createConfigurationContext(configuration)
-        super.attachBaseContext(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,13 +90,12 @@ class LanguageActivity : AppCompatActivity() {
 
     private fun setLanguage(langCode: String) {
         prefs.edit().putString("app_language", langCode).apply()
+
         val locales = androidx.core.os.LocaleListCompat.forLanguageTags(langCode)
         androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(locales)
-        val intent = Intent(this, PermissionSetupActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.putExtra("skip_pin", true)
-        startActivity(intent)
-        finish()
+
+        // ВАЖНО: веднага refresh вместо navigation
+        recreate()
     }
 
     override fun onSupportNavigateUp(): Boolean {
