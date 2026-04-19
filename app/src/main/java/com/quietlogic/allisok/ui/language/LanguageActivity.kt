@@ -7,6 +7,7 @@ import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.ui.home.Button3D
+import com.quietlogic.allisok.ui.home.HomeActivity
 
 class LanguageActivity : AppCompatActivity() {
 
@@ -94,8 +95,10 @@ class LanguageActivity : AppCompatActivity() {
         val locales = androidx.core.os.LocaleListCompat.forLanguageTags(langCode)
         androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(locales)
 
-        // ВАЖНО: веднага refresh вместо navigation
-        recreate()
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     override fun onSupportNavigateUp(): Boolean {
