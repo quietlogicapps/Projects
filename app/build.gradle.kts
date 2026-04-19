@@ -8,12 +8,18 @@ android {
     namespace = "com.quietlogic.allisok"
     compileSdk = 35
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     defaultConfig {
         applicationId = "com.quietlogic.allisok"
         minSdk = 28
         targetSdk = 35
-        versionCode = 10
-        versionName = "1.10"
+        versionCode = 11
+        versionName = "1.11"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
