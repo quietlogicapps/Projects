@@ -1,10 +1,7 @@
 package com.quietlogic.allisok.ui.home
 
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -27,30 +24,10 @@ import com.quietlogic.allisok.ui.language.LanguageActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
 import com.quietlogic.allisok.ui.settings.DateFormatActivity
-import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
 
     private var skipUserUnlockOnce = false
-
-    override fun attachBaseContext(newBase: Context) {
-        val prefs = newBase.getSharedPreferences("app_settings", MODE_PRIVATE)
-        val languageCode = prefs.getString("app_language", "en") ?: "en"
-
-        val locale = if (languageCode.contains("-")) {
-            val parts = languageCode.split("-")
-            Locale(parts[0], parts[1])
-        } else {
-            Locale(languageCode)
-        }
-        Locale.setDefault(locale)
-
-        val configuration = Configuration(newBase.resources.configuration)
-        configuration.setLocale(locale)
-
-        val context = newBase.createConfigurationContext(configuration)
-        super.attachBaseContext(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
