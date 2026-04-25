@@ -571,10 +571,8 @@ class CareEditActivity : AppCompatActivity() {
     }
 
     private fun openDatePicker(onPicked: (LocalDate) -> Unit) {
-
         val now = LocalDate.now()
-
-        DatePickerDialog(
+        val dialog = DatePickerDialog(
             this,
             { _, year, month, day ->
                 onPicked(LocalDate.of(year, month + 1, day))
@@ -582,15 +580,17 @@ class CareEditActivity : AppCompatActivity() {
             now.year,
             now.monthValue - 1,
             now.dayOfMonth
-        ).show()
+        )
+        dialog.datePicker.minDate = System.currentTimeMillis()
+        dialog.show()
     }
 
     private fun buildFirstTriggerAtMillis(startDate: LocalDate, time: LocalTime): Long {
         val now = LocalDateTime.now()
-        var triggerDate = startDate
+        var triggerDate = if (LocalDate.now().isBefore(startDate)) startDate else LocalDate.now()
         var triggerDateTime = LocalDateTime.of(triggerDate, time)
 
-        if (!triggerDateTime.isAfter(now)) {
+        while (!triggerDateTime.isAfter(now)) {
             triggerDate = triggerDate.plusDays(1)
             triggerDateTime = LocalDateTime.of(triggerDate, time)
         }
