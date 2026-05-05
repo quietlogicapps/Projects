@@ -151,6 +151,10 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".reminders.TrialReminderReceiver"
+            android:exported="false" />
+
     </application>
 
 </manifest>
