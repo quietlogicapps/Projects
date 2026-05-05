@@ -14,6 +14,7 @@ import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.security.LockGate
+import com.quietlogic.allisok.security.TrialManager
 import com.quietlogic.allisok.ui.backup.ExportActivity
 import com.quietlogic.allisok.ui.backup.ImportActivity
 import com.quietlogic.allisok.ui.care.CareActivity
@@ -24,6 +25,7 @@ import com.quietlogic.allisok.ui.language.LanguageActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.security.SecurityActivity
 import com.quietlogic.allisok.ui.settings.DateFormatActivity
+import com.quietlogic.allisok.ui.trial.TrialEndedActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -65,6 +67,14 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        if (!TrialManager.isTrialActive(this)) {
+            val intent = Intent(this, TrialEndedActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            return
+        }
 
         updateAdminIndicator()
         invalidateOptionsMenu()
