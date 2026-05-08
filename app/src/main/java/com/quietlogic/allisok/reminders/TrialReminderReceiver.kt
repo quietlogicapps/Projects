@@ -16,6 +16,12 @@ import com.quietlogic.allisok.PermissionSetupActivity
 class TrialReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
+
+        val purchased = context
+            .getSharedPreferences("trial_prefs", Context.MODE_PRIVATE)
+            .getBoolean("is_purchased", false)
+        if (purchased) return
+
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

@@ -253,6 +253,10 @@ class AlarmActivity : AppCompatActivity() {
 
         ringtone = rt
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            rt.isLooping = true
+        }
+
         try {
             rt.play()
         } catch (_: Throwable) {}
