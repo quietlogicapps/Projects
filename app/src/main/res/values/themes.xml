@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Base.Theme.AllIsOK" parent="Theme.Material3.DayNight.NoActionBar">
     </style>
+
     <style name="Theme.AllIsOK" parent="Base.Theme.AllIsOK">
         <item name="colorPrimary">@color/expirely_primary</item>
         <item name="colorOnPrimary">@color/expirely_onPrimary</item>
         <item name="android:statusBarColor">@color/expirely_primary</item>
+
         <item name="popupMenuStyle">@style/Widget.AllIsOK.PopupMenu</item>
         <item name="actionOverflowMenuStyle">@style/Widget.AllIsOK.PopupMenu</item>
+
+        <item name="android:textColorPrimary">#111111</item>
+        <item name="android:textColorSecondary">#333333</item>
     </style>
+
     <style name="Widget.AllIsOK.PopupMenu" parent="Widget.Material3.PopupMenu">
         <item name="android:popupBackground">@drawable/bg_rounded_popup</item>
         <item name="android:popupElevation">12dp</item>
+        <item name="android:textColor">#111111</item>
+        <item name="android:itemTextAppearance">@style/AllIsOK.PopupMenuItemText</item>
     </style>
+
+    <style name="AllIsOK.PopupMenuItemText" parent="@android:style/TextAppearance.Material.Menu">
+        <item name="android:textColor">#111111</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="CutCornersButton">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">28dp</item>
     </style>
+
     <style name="CutCornersButton_TopLeft">
         <item name="cornerFamilyTopLeft">cut</item>
         <item name="cornerFamilyTopRight">rounded</item>
@@ -24,6 +40,7 @@
         <item name="cornerFamilyBottomRight">rounded</item>
         <item name="cornerSizeTopLeft">28dp</item>
     </style>
+
     <style name="CutCornersButton_TopRight">
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyTopRight">cut</item>
@@ -31,6 +48,7 @@
         <item name="cornerFamilyBottomRight">rounded</item>
         <item name="cornerSizeTopRight">28dp</item>
     </style>
+
     <style name="CutCornersButton_BottomLeft">
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
@@ -38,6 +56,7 @@
         <item name="cornerFamilyBottomRight">rounded</item>
         <item name="cornerSizeBottomLeft">28dp</item>
     </style>
+
     <style name="CutCornersButton_BottomRight">
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
@@ -45,11 +64,14 @@
         <item name="cornerFamilyBottomRight">cut</item>
         <item name="cornerSizeBottomRight">28dp</item>
     </style>
+
     <style name="AllIsOK.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="android:textSize">16sp</item>
         <item name="buttonBarNegativeButtonStyle">@style/AllIsOK.DialogButton</item>
     </style>
+
     <style name="AllIsOK.DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textSize">16sp</item>
     </style>
+
 </resources>
