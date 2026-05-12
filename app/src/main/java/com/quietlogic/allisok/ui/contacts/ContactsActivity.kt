@@ -2,7 +2,6 @@ package com.quietlogic.allisok.ui.contacts
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -10,7 +9,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
-import com.quietlogic.allisok.ui.contacts.Button3DContacts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -61,41 +59,15 @@ class ContactsActivity : AppCompatActivity() {
         Button3DContacts.apply(buttonContact3, cornerDp = 18f, cutCorner = CutCorner.TOP_RIGHT)
         Button3DContacts.apply(buttonEmergency, cornerDp = 18f, cutCorner = CutCorner.TOP_LEFT)
 
-        buttonRelative.setOnClickListener {
-            handleContactTap(1)
-        }
+        buttonRelative.setOnClickListener { handleContactTap(1) }
+        buttonDoctor.setOnClickListener { handleContactTap(2) }
+        buttonContact3.setOnClickListener { handleContactTap(3) }
+        buttonEmergency.setOnClickListener { handleContactTap(4) }
 
-        buttonDoctor.setOnClickListener {
-            handleContactTap(2)
-        }
-
-        buttonContact3.setOnClickListener {
-            handleContactTap(3)
-        }
-
-        buttonEmergency.setOnClickListener {
-            handleContactTap(4)
-        }
-
-        buttonRelative.setOnLongClickListener {
-            openAdminContactActions(R.id.buttonRelative)
-            true
-        }
-
-        buttonDoctor.setOnLongClickListener {
-            openAdminContactActions(R.id.buttonDoctor)
-            true
-        }
-
-        buttonContact3.setOnLongClickListener {
-            openAdminContactActions(R.id.buttonContact3)
-            true
-        }
-
-        buttonEmergency.setOnLongClickListener {
-            openAdminContactActions(R.id.buttonEmergency)
-            true
-        }
+        buttonRelative.setOnLongClickListener { openAdminContactActions(R.id.buttonRelative); true }
+        buttonDoctor.setOnLongClickListener { openAdminContactActions(R.id.buttonDoctor); true }
+        buttonContact3.setOnLongClickListener { openAdminContactActions(R.id.buttonContact3); true }
+        buttonEmergency.setOnLongClickListener { openAdminContactActions(R.id.buttonEmergency); true }
 
         lifecycleScope.launch {
             repository.getAllContacts().collectLatest { contacts ->
@@ -152,7 +124,6 @@ class ContactsActivity : AppCompatActivity() {
                     }
                 }
             }
-
             pendingButtonId = View.NO_ID
         }
     }
@@ -191,7 +162,7 @@ class ContactsActivity : AppCompatActivity() {
     }
 
     private fun showContactActionsDialog(buttonId: Int) {
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(this, R.style.AllIsOK_MaterialAlertDialog)
+        val dialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(this, R.style.AllIsOK_MaterialAlertDialog)
             .setTitle(getString(R.string.contact_options_title))
             .setItems(
                 arrayOf(
@@ -205,14 +176,21 @@ class ContactsActivity : AppCompatActivity() {
                         intent.putExtra("buttonId", buttonId)
                         startActivityForResult(intent, REQUEST_EDIT_CONTACT)
                     }
-
-                    1 -> {
-                        deleteContact(buttonId)
-                    }
+                    1 -> deleteContact(buttonId)
                 }
             }
             .setNegativeButton(getString(R.string.dialog_cancel), null)
             .show()
+
+        val listView = dialog.listView
+        listView?.post {
+            for (i in 0 until listView.count) {
+                val child = listView.getChildAt(i)
+                if (child is android.widget.TextView) {
+                    child.setTextColor(android.graphics.Color.parseColor("#111111"))
+                }
+            }
+        }
     }
 
     private fun deleteContact(buttonId: Int) {

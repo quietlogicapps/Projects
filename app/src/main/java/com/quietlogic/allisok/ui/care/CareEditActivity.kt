@@ -1,6 +1,5 @@
 package com.quietlogic.allisok.ui.care
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -18,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 import com.quietlogic.allisok.data.local.db.AppDatabase
@@ -90,8 +90,8 @@ class CareEditActivity : AppCompatActivity() {
             val pattern = if (settings?.dateFormat == "US") "MM/dd/yyyy" else "dd/MM/yyyy"
             dateFormatter = DateTimeFormatter.ofPattern(pattern)
 
-            val textStart = findViewById<android.widget.TextView>(R.id.textStart)
-            val textEnd = findViewById<android.widget.TextView>(R.id.textEnd)
+            val textStart = findViewById<TextView>(R.id.textStart)
+            val textEnd = findViewById<TextView>(R.id.textEnd)
 
             if (startDate != null) {
                 textStart.text = getString(R.string.care_start_value, startDate!!.format(dateFormatter))
@@ -360,16 +360,15 @@ class CareEditActivity : AppCompatActivity() {
     }
 
     private fun openDaysDialog(textRepeatDays: TextView) {
+        val checkedItems = checkedDays.copyOf()
 
-        AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this, R.style.AllIsOK_MaterialAlertDialog)
             .setTitle(getString(R.string.care_select_days))
-            .setMultiChoiceItems(dayLabels, checkedDays) { _, which, isChecked ->
+            .setMultiChoiceItems(dayLabels, checkedItems) { _, which, isChecked ->
                 checkedDays[which] = isChecked
             }
             .setPositiveButton(getString(R.string.dialog_ok)) { _, _ ->
-
                 selectedDays.clear()
-
                 for (i in dayCodes.indices) {
                     if (checkedDays[i]) {
                         selectedDays.add(dayCodes[i])
@@ -380,7 +379,6 @@ class CareEditActivity : AppCompatActivity() {
                     textRepeatDays.text = getString(R.string.care_days_not_selected)
                 } else {
                     val selectedDayLabels = selectedDays.map { code -> mapDayCodeToLabel(code) }
-
                     textRepeatDays.text = getString(
                         R.string.care_days_selected,
                         selectedDayLabels.joinToString(", ")
@@ -396,6 +394,16 @@ class CareEditActivity : AppCompatActivity() {
                 }
             }
             .show()
+
+        val listView = dialog.listView
+        listView?.post {
+            for (i in 0 until listView.count) {
+                val child = listView.getChildAt(i)
+                if (child is TextView) {
+                    child.setTextColor(android.graphics.Color.parseColor("#111111"))
+                }
+            }
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -543,6 +551,7 @@ class CareEditActivity : AppCompatActivity() {
 
         val dialog = TimePickerDialog(
             this,
+            R.style.AllIsOK_TimePickerDialog,
             { _, hourOfDay, minute ->
 
                 val picked = LocalTime.of(hourOfDay, minute)
@@ -574,6 +583,7 @@ class CareEditActivity : AppCompatActivity() {
         val now = LocalDate.now()
         val dialog = DatePickerDialog(
             this,
+            R.style.AllIsOK_DatePickerDialog,
             { _, year, month, day ->
                 onPicked(LocalDate.of(year, month + 1, day))
             },

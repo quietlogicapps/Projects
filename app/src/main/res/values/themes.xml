@@ -8,10 +8,8 @@
         <item name="colorPrimary">@color/expirely_primary</item>
         <item name="colorOnPrimary">@color/expirely_onPrimary</item>
         <item name="android:statusBarColor">@color/expirely_primary</item>
-
         <item name="popupMenuStyle">@style/Widget.AllIsOK.PopupMenu</item>
         <item name="actionOverflowMenuStyle">@style/Widget.AllIsOK.PopupMenu</item>
-
         <item name="android:textColorPrimary">#111111</item>
         <item name="android:textColorSecondary">#333333</item>
     </style>
@@ -72,6 +70,21 @@
 
     <style name="AllIsOK.DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AllIsOK.DatePickerDialog" parent="ThemeOverlay.Material3.MaterialCalendar">
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#111111</item>
+        <item name="colorPrimary">#374151</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:textColorPrimary">#111111</item>
+        <item name="android:textColorSecondary">#333333</item>
+    </style>
+
+    <style name="AllIsOK.TimePickerDialog" parent="Theme.Material3.DayNight.Dialog">
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:textColorPrimary">#111111</item>
+        <item name="android:textColorSecondary">#333333</item>
     </style>
 
 </resources>
