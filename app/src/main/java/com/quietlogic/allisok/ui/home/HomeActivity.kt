@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -35,6 +37,11 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_home)
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        val primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.expirely_primary)
+        window.statusBarColor = primaryColor
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         val toolbar = findViewById<Toolbar>(R.id.toolbarHome)
         setSupportActionBar(toolbar)
