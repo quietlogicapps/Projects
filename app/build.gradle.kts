@@ -20,8 +20,8 @@ android {
         applicationId = "com.quietlogic.allisok"
         minSdk = 28
         targetSdk = 35
-        versionCode = 17
-        versionName = "1.17"
+        versionCode = 18
+        versionName = "1.18"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
