@@ -7,7 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
@@ -38,14 +40,25 @@ class HomeActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_home)
 
-        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         val primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.expirely_primary)
         window.statusBarColor = primaryColor
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         val toolbar = findViewById<Toolbar>(R.id.toolbarHome)
-        setSupportActionBar(toolbar)
+        val originalHeight = resources.getDimensionPixelSize(R.dimen.toolbar_height)
 
+        ViewCompat.setOnApplyWindowInsetsListener(toolbar) { view, insets ->
+            val statusBarTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            view.setPadding(view.paddingLeft, statusBarTop, view.paddingRight, view.paddingBottom)
+            val params = view.layoutParams
+            params.height = originalHeight + statusBarTop
+            view.layoutParams = params
+            view.requestLayout()
+            insets
+        }
+
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.overflowIcon?.setTint(Color.WHITE)
 
