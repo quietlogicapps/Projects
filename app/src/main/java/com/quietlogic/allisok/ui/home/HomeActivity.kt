@@ -10,7 +10,6 @@ import android.widget.Button
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -41,9 +40,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        val primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.expirely_primary)
-        window.statusBarColor = primaryColor
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         val toolbar = findViewById<Toolbar>(R.id.toolbarHome)
         val originalHeight = resources.getDimensionPixelSize(R.dimen.toolbar_height)
