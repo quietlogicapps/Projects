@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "450783981314",
+    "project_id": "allisok-846aa",
+    "storage_bucket": "allisok-846aa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450783981314:android:879ce4e389deb2c8231c1b",
+        "android_client_info": {
+          "package_name": "com.quietlogic.allisok"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0-VhEIBNtiPuFU3M8YON4U24Xpedsyr0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
