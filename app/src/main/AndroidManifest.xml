@@ -11,10 +11,8 @@
     <!-- Notifications (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- Exact alarms (Android 12+ special access) -->
-    <uses-permission
-        android:name="android.permission.SCHEDULE_EXACT_ALARM"
-        tools:targetApi="s" />
+    <!-- Exact alarms -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <!-- For reschedule after reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
