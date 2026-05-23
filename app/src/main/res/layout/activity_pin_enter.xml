@@ -38,7 +38,10 @@
             android:inputType="numberPassword"
             android:maxLength="4"
             android:gravity="center"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#111111"
+            android:textColorHint="#6B7280"
+            android:backgroundTint="#111111" />
 
         <EditText
             android:id="@+id/editPinSecond"
@@ -48,7 +51,10 @@
             android:hint="@string/pin_hint_confirm"
             android:inputType="numberPassword"
             android:maxLength="4"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:textColor="#111111"
+            android:textColorHint="#6B7280"
+            android:backgroundTint="#111111" />
 
         <TextView
             android:id="@+id/textForgot"
