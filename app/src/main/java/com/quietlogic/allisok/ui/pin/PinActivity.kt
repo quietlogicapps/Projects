@@ -311,6 +311,9 @@ class PinActivity : AppCompatActivity() {
             } else {
                 showError(getString(R.string.pin_error_wrong))
             }
+            editPin.text.clear()
+            editPin.hint = "— — — —"
+            editPin.requestFocus()
         }
     }
 
