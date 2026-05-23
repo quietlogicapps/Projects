@@ -8,11 +8,14 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.ui.home.Button3D
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
@@ -59,6 +62,15 @@ class PinActivity : AppCompatActivity() {
         buttonSecondary = findViewById(R.id.buttonSecondary)
         Button3D.apply(buttonPrimary, cornerDp = 18f)
         Button3D.apply(buttonSecondary, cornerDp = 18f)
+
+        val cardPin = findViewById<LinearLayout>(R.id.cardPin)
+        ViewCompat.setOnApplyWindowInsetsListener(cardPin) { view, insets ->
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            val navHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            val bottomPadding = if (imeHeight > 0) (imeHeight - navHeight) / 2 else 0
+            view.translationY = -bottomPadding.toFloat()
+            insets
+        }
 
         unlockMode = intentMode ?: LockGate.MODE_USER_UNLOCK
 

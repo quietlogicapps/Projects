@@ -45,7 +45,8 @@
 
         <activity
             android:name=".ui.pin.PinActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- ENTRY GATE -->
         <activity
