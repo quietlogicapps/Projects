@@ -63,13 +63,15 @@ class PinActivity : AppCompatActivity() {
         Button3D.apply(buttonPrimary, cornerDp = 18f)
         Button3D.apply(buttonSecondary, cornerDp = 18f)
 
-        val cardPin = findViewById<LinearLayout>(R.id.cardPin)
-        ViewCompat.setOnApplyWindowInsetsListener(cardPin) { view, insets ->
-            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-            val navHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-            val bottomPadding = if (imeHeight > 0) (imeHeight - navHeight) / 2 else 0
-            view.translationY = -bottomPadding.toFloat()
-            insets
+        if (intentMode == LockGate.MODE_USER_UNLOCK && intentTitle.isNullOrEmpty()) {
+            val cardPin = findViewById<LinearLayout>(R.id.cardPin)
+            ViewCompat.setOnApplyWindowInsetsListener(cardPin) { view, insets ->
+                val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+                val navHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+                val bottomPadding = if (imeHeight > 0) (imeHeight - navHeight) / 2 else 0
+                view.translationY = -bottomPadding.toFloat()
+                insets
+            }
         }
 
         unlockMode = intentMode ?: LockGate.MODE_USER_UNLOCK
