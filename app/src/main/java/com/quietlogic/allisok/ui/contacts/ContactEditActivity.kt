@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
 import com.google.android.material.button.MaterialButton
-import com.quietlogic.allisok.ui.home.Button3D
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
@@ -50,7 +49,6 @@ class ContactEditActivity : AppCompatActivity() {
         buttonId = intent.getIntExtra("buttonId", View.NO_ID)
 
         val buttonPick = findViewById<MaterialButton>(R.id.buttonPickContact)
-        Button3D.apply(buttonPick, cornerDp = 16f, depthDp = 6f)
 
         buttonPick.setOnClickListener {
             val intent = Intent(

@@ -3,7 +3,6 @@ package com.quietlogic.allisok.ui.security
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.button.MaterialButton
-import com.quietlogic.allisok.ui.home.Button3D
 import com.google.android.material.switchmaterial.SwitchMaterial
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -36,11 +35,6 @@ class SecurityActivity : AppCompatActivity() {
         buttonUserDisablePin = findViewById(R.id.buttonUserDisablePin)
         buttonAdminPin = findViewById(R.id.buttonAdminPin)
         buttonAdminChangePin = findViewById(R.id.buttonAdminChangePin)
-
-        Button3D.apply(buttonUserChangePin, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(buttonUserDisablePin, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(buttonAdminPin, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(buttonAdminChangePin, cornerDp = 16f, depthDp = 6f)
 
         updateState()
 

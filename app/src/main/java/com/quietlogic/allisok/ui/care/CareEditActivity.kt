@@ -26,7 +26,6 @@ import com.quietlogic.allisok.data.local.entity.CareItemEntity
 import com.quietlogic.allisok.data.local.entity.CareTimeEntity
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
-import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
@@ -132,12 +131,6 @@ class CareEditActivity : AppCompatActivity() {
         val textNoTimes = findViewById<TextView>(R.id.textNoTimes)
 
         val btnSave = findViewById<MaterialButton>(R.id.btnSaveCare)
-
-        Button3D.apply(btnPickDays, 12f)
-        Button3D.apply(btnPickStart, 12f)
-        Button3D.apply(btnPickEnd, 12f)
-        Button3D.apply(btnAddTime, 12f)
-        Button3D.apply(btnSave, 12f)
 
         btnPickDays.visibility = View.GONE
         updateDateButtonsState(

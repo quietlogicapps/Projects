@@ -54,11 +54,6 @@ class ContactsActivity : AppCompatActivity() {
         buttonContact3 = findViewById(R.id.buttonContact3)
         buttonEmergency = findViewById(R.id.buttonEmergency)
 
-        Button3DContacts.apply(buttonRelative, cornerDp = 18f, cutCorner = CutCorner.BOTTOM_RIGHT)
-        Button3DContacts.apply(buttonDoctor, cornerDp = 18f, cutCorner = CutCorner.BOTTOM_LEFT)
-        Button3DContacts.apply(buttonContact3, cornerDp = 18f, cutCorner = CutCorner.TOP_RIGHT)
-        Button3DContacts.apply(buttonEmergency, cornerDp = 18f, cutCorner = CutCorner.TOP_LEFT)
-
         buttonRelative.setOnClickListener { handleContactTap(1) }
         buttonDoctor.setOnClickListener { handleContactTap(2) }
         buttonContact3.setOnClickListener { handleContactTap(3) }

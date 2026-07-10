@@ -29,10 +29,6 @@ class HomeFragment : Fragment() {
         val careButton = view.findViewById<MaterialButton>(R.id.buttonCare)
         val infoButton = view.findViewById<MaterialButton>(R.id.buttonInfo)
 
-        Button3D.apply(contactsButton, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(careButton, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(infoButton, cornerDp = 16f, depthDp = 6f)
-
         contactsButton.setOnClickListener {
             startActivity(Intent(requireContext(), ContactsActivity::class.java))
         }

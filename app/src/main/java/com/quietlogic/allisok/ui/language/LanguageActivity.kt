@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
-import com.quietlogic.allisok.ui.home.Button3D
 import com.quietlogic.allisok.ui.home.HomeActivity
 
 class LanguageActivity : AppCompatActivity() {
@@ -31,16 +30,6 @@ class LanguageActivity : AppCompatActivity() {
         val buttonTurkish = findViewById<MaterialButton>(R.id.buttonLanguageTurkish)
         val buttonPolish = findViewById<MaterialButton>(R.id.buttonLanguagePolish)
         val buttonRussian = findViewById<MaterialButton>(R.id.buttonLanguageRussian)
-
-        Button3D.apply(buttonEnglish, 16f, 6f)
-        Button3D.apply(buttonSpanish, 16f, 6f)
-        Button3D.apply(buttonPortuguese, 16f, 6f)
-        Button3D.apply(buttonGerman, 16f, 6f)
-        Button3D.apply(buttonFrench, 16f, 6f)
-        Button3D.apply(buttonItalian, 16f, 6f)
-        Button3D.apply(buttonTurkish, 16f, 6f)
-        Button3D.apply(buttonPolish, 16f, 6f)
-        Button3D.apply(buttonRussian, 16f, 6f)
 
         buttonEnglish.setOnClickListener { setLanguage("en") }
         buttonSpanish.setOnClickListener { setLanguage("es") }

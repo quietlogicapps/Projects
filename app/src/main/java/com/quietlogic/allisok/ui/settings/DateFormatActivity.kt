@@ -13,7 +13,6 @@ import com.quietlogic.allisok.R
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
 import com.quietlogic.allisok.data.local.entity.AppSettingsEntity
 import com.quietlogic.allisok.data.repository.SettingsRepository
-import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -31,9 +30,6 @@ class DateFormatActivity : AppCompatActivity() {
 
         btnEU.text = buildStyledLabel("EU", "DD/MM/YYYY")
         btnUS.text = buildStyledLabel("US", "MM/DD/YYYY")
-
-        Button3D.apply(btnEU, 16f, 6f)
-        Button3D.apply(btnUS, 16f, 6f)
 
         lifecycleScope.launch {
             val current = repository.getSettings().first()

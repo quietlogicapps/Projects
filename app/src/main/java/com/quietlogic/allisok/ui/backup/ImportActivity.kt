@@ -10,7 +10,6 @@ import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.engine.AlarmRescheduler
 import com.quietlogic.allisok.data.backup.RestoreRepository
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
-import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,8 +26,6 @@ class ImportActivity : AppCompatActivity() {
 
         val buttonLoadBackup = findViewById<MaterialButton>(R.id.buttonLoadBackup)
         val textImportPreview = findViewById<TextView>(R.id.textImportPreview)
-
-        Button3D.apply(buttonLoadBackup, 16f, 6f)
 
         buttonLoadBackup.setOnClickListener {
 

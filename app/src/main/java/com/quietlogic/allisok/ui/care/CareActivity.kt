@@ -18,7 +18,6 @@ import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.ui.care.adapter.CareAdapter
-import com.quietlogic.allisok.ui.home.Button3D
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -55,8 +54,6 @@ class CareActivity : AppCompatActivity() {
         val recycler = findViewById<RecyclerView>(R.id.recyclerCare)
         val empty = findViewById<TextView>(R.id.textEmpty)
         val btnAdd = findViewById<MaterialButton>(R.id.btnAddCare)
-
-        Button3D.apply(btnAdd, 16f)
 
         adapter = CareAdapter { itemId ->
             if (!AdminSession.isActive()) return@CareAdapter

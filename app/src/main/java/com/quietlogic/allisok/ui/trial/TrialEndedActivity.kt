@@ -11,7 +11,6 @@ import com.quietlogic.allisok.PermissionSetupActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.databinding.ActivityTrialEndedBinding
 import com.quietlogic.allisok.security.TrialManager
-import com.quietlogic.allisok.ui.home.Button3D
 
 class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
 
@@ -29,9 +28,6 @@ class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
                 // Block back button
             }
         })
-
-        Button3D.apply(binding.btnBuy, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(binding.btnRestore, cornerDp = 16f, depthDp = 6f)
 
         billingManager = BillingManager(this, this)
         billingManager.startConnection()
