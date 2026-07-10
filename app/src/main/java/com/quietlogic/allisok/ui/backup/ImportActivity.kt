@@ -53,7 +53,7 @@ class ImportActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.IO) {
                     val db = DatabaseProvider.getDatabase(applicationContext)
-                    val repository = RestoreRepository(db)
+                    val repository = RestoreRepository(applicationContext, db)
                     repository.restoreFromJson(json)
 
                     val rescheduler = AlarmRescheduler(applicationContext)

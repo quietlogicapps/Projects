@@ -1,14 +1,20 @@
 package com.quietlogic.allisok.data.backup
 
+import android.content.Context
 import com.quietlogic.allisok.data.local.db.AppDatabase
+import com.quietlogic.allisok.data.local.entity.AppSettingsEntity
+import com.quietlogic.allisok.data.local.entity.EmergencyInfoEntity
 import org.json.JSONArray
 import org.json.JSONObject
 
-class BackupRepository(private val db: AppDatabase) {
+class BackupRepository(
+    private val context: Context,
+    private val db: AppDatabase
+) {
 
     suspend fun buildExportJson(): String {
-
         val root = JSONObject()
+        root.put("backupVersion", BackupConstants.BACKUP_VERSION)
 
         val contacts = db.contactSlotDao().getAllDirect()
         val contactsArray = JSONArray()
@@ -16,7 +22,7 @@ class BackupRepository(private val db: AppDatabase) {
             val obj = JSONObject()
             obj.put("slotId", it.slotId)
             obj.put("label", it.label)
-            obj.put("phoneNumber", it.phoneNumber)
+            putNullableString(obj, "phoneNumber", it.phoneNumber)
             obj.put("iconType", it.iconType)
             contactsArray.put(obj)
         }
@@ -52,26 +58,57 @@ class BackupRepository(private val db: AppDatabase) {
         logs.forEach {
             val obj = JSONObject()
             obj.put("careItemId", it.careItemId)
-            obj.put("date", it.date)
-            obj.put("scheduledTime", it.scheduledTime)
+            obj.put("date", it.date.toString())
+            obj.put("scheduledTime", it.scheduledTime.toString())
             logsArray.put(obj)
         }
         root.put("careLogs", logsArray)
 
         val emergency = db.emergencyInfoDao().getDirect()
         if (emergency != null) {
-            val obj = JSONObject()
-            obj.put("data", emergency.toString())
-            root.put("emergencyInfo", obj)
+            root.put("emergencyInfo", emergencyInfoToJson(emergency))
         }
 
         val settings = db.appSettingsDao().getDirect()
         if (settings != null) {
-            val obj = JSONObject()
-            obj.put("data", settings.toString())
-            root.put("settings", obj)
+            root.put("settings", settingsToJson(settings))
         }
 
+        root.put("sharedPreferences", BackupPreferencesSnapshot.exportToJson(context))
+
         return root.toString()
+    }
+
+    private fun emergencyInfoToJson(entity: EmergencyInfoEntity): JSONObject {
+        val obj = JSONObject()
+        putNullableString(obj, "bloodType", entity.bloodType)
+        putNullableString(obj, "allergies", entity.allergies)
+        putNullableString(obj, "conditions", entity.conditions)
+        putNullableString(obj, "notes", entity.notes)
+        return obj
+    }
+
+    private fun settingsToJson(entity: AppSettingsEntity): JSONObject {
+        val obj = JSONObject()
+        obj.put("id", entity.id)
+        putNullableString(obj, "appPinHash", entity.appPinHash)
+        putNullableString(obj, "adminPinHash", entity.adminPinHash)
+        if (entity.trialStartTimestamp == null) {
+            obj.put("trialStartTimestamp", JSONObject.NULL)
+        } else {
+            obj.put("trialStartTimestamp", entity.trialStartTimestamp)
+        }
+        obj.put("isTrialUsed", entity.isTrialUsed)
+        obj.put("languageCode", entity.languageCode)
+        obj.put("dateFormat", entity.dateFormat)
+        return obj
+    }
+
+    private fun putNullableString(objectJson: JSONObject, key: String, value: String?) {
+        if (value == null) {
+            objectJson.put(key, JSONObject.NULL)
+        } else {
+            objectJson.put(key, value)
+        }
     }
 }

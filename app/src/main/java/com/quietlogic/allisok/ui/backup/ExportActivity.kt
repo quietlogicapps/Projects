@@ -38,7 +38,7 @@ class ExportActivity : AppCompatActivity() {
                 val json = withContext(Dispatchers.IO) {
 
                     val db = DatabaseProvider.getDatabase(applicationContext)
-                    val repository = BackupRepository(db)
+                    val repository = BackupRepository(applicationContext, db)
                     repository.buildExportJson()
                 }
 

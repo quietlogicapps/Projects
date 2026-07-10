@@ -1,38 +1,34 @@
 package com.quietlogic.allisok.ui.home
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.Button
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.button.MaterialButton
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
-import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.security.TrialManager
-import com.quietlogic.allisok.ui.backup.ExportActivity
-import com.quietlogic.allisok.ui.backup.ImportActivity
-import com.quietlogic.allisok.ui.care.CareActivity
-import com.quietlogic.allisok.ui.contacts.ContactsActivity
-import com.quietlogic.allisok.ui.history.HistoryActivity
+import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.ui.info.InfoActivity
-import com.quietlogic.allisok.ui.language.LanguageActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
-import com.quietlogic.allisok.ui.security.SecurityActivity
-import com.quietlogic.allisok.ui.settings.DateFormatActivity
 import com.quietlogic.allisok.ui.trial.TrialEndedActivity
 
 class HomeActivity : AppCompatActivity() {
 
     private var skipUserUnlockOnce = false
+    private var isSettingsVisible = false
+
+    private var homeFragment: HomeFragment? = null
+    private var settingsFragment: SettingsFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,29 +52,42 @@ class HomeActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        toolbar.overflowIcon?.setTint(Color.WHITE)
 
-        val contactsButton = findViewById<MaterialButton>(R.id.buttonContacts)
-        val careButton = findViewById<MaterialButton>(R.id.buttonCare)
-        val infoButton = findViewById<MaterialButton>(R.id.buttonInfo)
-
-        Button3D.apply(contactsButton, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(careButton, cornerDp = 16f, depthDp = 6f)
-        Button3D.apply(infoButton, cornerDp = 16f, depthDp = 6f)
-
-        contactsButton.setOnClickListener {
-            startActivity(Intent(this, ContactsActivity::class.java))
+        findViewById<AppCompatImageButton>(R.id.buttonOpenSettings).apply {
+            setImageDrawable(
+                AppCompatResources.getDrawable(
+                    this@HomeActivity,
+                    androidx.appcompat.R.drawable.abc_ic_menu_overflow_material
+                )
+            )
+            imageTintList = ColorStateList.valueOf(Color.WHITE)
+            setOnClickListener { showSettingsFragment() }
         }
 
-        careButton.setOnClickListener {
-            startActivity(Intent(this, CareActivity::class.java))
+        if (savedInstanceState != null) {
+            isSettingsVisible = savedInstanceState.getBoolean(STATE_SETTINGS_VISIBLE, false)
         }
 
-        infoButton.setOnClickListener {
-            startActivity(Intent(this, InfoActivity::class.java))
-        }
+        ensureFragments()
+        applyFragmentVisibility()
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isSettingsVisible) {
+                    showHomeFragment()
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
 
         updateAdminIndicator()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_SETTINGS_VISIBLE, isSettingsVisible)
     }
 
     override fun onResume() {
@@ -93,7 +102,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         updateAdminIndicator()
-        invalidateOptionsMenu()
 
         if (skipUserUnlockOnce) {
             skipUserUnlockOnce = false
@@ -130,86 +138,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.home_menu, menu)
-
-        val adminItem = menu.findItem(R.id.menu_exit_admin)
-
-        adminItem?.title =
-            if (AdminSession.isActive()) getString(R.string.menu_exit_admin_mode)
-            else getString(R.string.menu_enter_admin)
-
-        return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val adminItem = menu.findItem(R.id.menu_exit_admin)
-
-        adminItem?.title =
-            if (AdminSession.isActive()) getString(R.string.menu_exit_admin_mode)
-            else getString(R.string.menu_enter_admin)
-
-        return super.onPrepareOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-
-            R.id.menu_exit_admin -> {
-                if (AdminSession.isActive()) {
-                    AdminSession.stop()
-                    updateAdminIndicator()
-                    invalidateOptionsMenu()
-                } else {
-                    val intent = Intent(this, PinActivity::class.java)
-                    intent.putExtra("mode", LockGate.MODE_ADMIN_UNLOCK)
-                    startActivity(intent)
-                }
-
-                return true
-            }
-
-            R.id.menu_security -> {
-                startActivity(Intent(this, SecurityActivity::class.java))
-                return true
-            }
-
-            R.id.menu_language -> {
-                startActivity(Intent(this, LanguageActivity::class.java))
-                return true
-            }
-
-            R.id.menu_date_format -> {
-                startActivity(Intent(this, DateFormatActivity::class.java))
-                return true
-            }
-
-            R.id.menu_export -> {
-                startActivity(Intent(this, ExportActivity::class.java))
-                return true
-            }
-
-            R.id.menu_import -> {
-                startActivity(Intent(this, ImportActivity::class.java))
-                return true
-            }
-
-            R.id.menu_history -> {
-                startActivity(Intent(this, HistoryActivity::class.java))
-                return true
-            }
-
-            R.id.menu_more_apps -> {
-                getSharedPreferences("home_prefs", MODE_PRIVATE)
-                    .edit().putBoolean("returning_from_store", true).apply()
-                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://play.google.com/store/apps/developer?id=QuietLogic"))
-                startActivity(intent)
-                return true
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
+    // toolbar_settings_menu.xml is kept for future cleanup; not inflated or used.
 
     override fun onStop() {
         super.onStop()
@@ -219,9 +148,74 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    fun onAdminStateChanged() {
+        updateAdminIndicator()
+    }
+
+    private fun ensureFragments() {
+        val fragmentManager = supportFragmentManager
+        homeFragment = fragmentManager.findFragmentByTag(TAG_HOME) as? HomeFragment
+        settingsFragment = fragmentManager.findFragmentByTag(TAG_SETTINGS) as? SettingsFragment
+
+        if (homeFragment != null && settingsFragment != null) {
+            return
+        }
+
+        val transaction = fragmentManager.beginTransaction().setReorderingAllowed(true)
+
+        if (homeFragment == null) {
+            homeFragment = HomeFragment()
+            transaction.add(R.id.fragmentContainer, homeFragment!!, TAG_HOME)
+        }
+
+        if (settingsFragment == null) {
+            settingsFragment = SettingsFragment()
+            transaction.add(R.id.fragmentContainer, settingsFragment!!, TAG_SETTINGS)
+            transaction.hide(settingsFragment!!)
+        }
+
+        transaction.commitNow()
+    }
+
+    private fun applyFragmentVisibility() {
+        ensureFragments()
+
+        val home = homeFragment ?: return
+        val settings = settingsFragment ?: return
+
+        supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .apply {
+                if (isSettingsVisible) {
+                    hide(home)
+                    show(settings)
+                } else {
+                    hide(settings)
+                    show(home)
+                }
+            }
+            .commit()
+    }
+
+    private fun showSettingsFragment() {
+        isSettingsVisible = true
+        applyFragmentVisibility()
+    }
+
+    private fun showHomeFragment() {
+        isSettingsVisible = false
+        applyFragmentVisibility()
+    }
+
     private fun updateAdminIndicator() {
         val indicator = findViewById<View>(R.id.viewAdminIndicator)
         indicator.visibility =
             if (AdminSession.isActive()) View.VISIBLE else View.GONE
+    }
+
+    companion object {
+        private const val TAG_HOME = "home_fragment"
+        private const val TAG_SETTINGS = "settings_fragment"
+        private const val STATE_SETTINGS_VISIBLE = "state_settings_visible"
     }
 }

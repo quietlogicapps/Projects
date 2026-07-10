@@ -189,6 +189,24 @@
     <string name="import_file_not_found">Backup file not found</string>
     <string name="import_restored">Backup restored</string>
 
+    <string name="backup_title">Backup</string>
+    <string name="backup_export">Export</string>
+    <string name="backup_import">Import</string>
+    <string name="backup_export_status_empty">No export started yet</string>
+    <string name="backup_import_status_empty">No import started yet</string>
+    <string name="backup_export_status_success">Export completed successfully</string>
+    <string name="backup_export_status_error">Export failed</string>
+    <string name="backup_export_status_cancelled">Export cancelled</string>
+    <string name="backup_import_status_success">Import completed successfully</string>
+    <string name="backup_import_status_error">Import failed</string>
+    <string name="backup_import_status_cancelled">Import cancelled</string>
+    <string name="backup_import_status_running">Import in progress…</string>
+    <string name="backup_import_status_validation_error">Invalid backup file: %1$s</string>
+    <string name="backup_import_confirm_title">Replace current data?</string>
+    <string name="backup_import_confirm_message">Importing this backup will replace all current app data on this device.</string>
+    <string name="backup_import_confirm_cancel">Cancel</string>
+    <string name="backup_import_confirm_action">Import</string>
+
     <string name="trial_title">Trial ended</string>
     <string name="trial_buy">Buy</string>
     <string name="trial_restore">Restore</string>
