@@ -7,6 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.ProductDetails
 import com.quietlogic.allisok.BillingManager
+import com.quietlogic.allisok.BuildConfig
 import com.quietlogic.allisok.PermissionSetupActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.databinding.ActivityTrialEndedBinding
@@ -59,6 +60,9 @@ class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
     }
 
     override fun onPurchaseSuccess() {
+        if (BuildConfig.DEBUG) {
+            return
+        }
         TrialManager.setPurchased(this)
         val intent = Intent(this, PermissionSetupActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -76,6 +80,9 @@ class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
 
     override fun onPurchaseRestored(hasPurchase: Boolean) {
         if (hasPurchase) {
+            if (BuildConfig.DEBUG) {
+                return
+            }
             TrialManager.setPurchased(this)
             val intent = Intent(this, PermissionSetupActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

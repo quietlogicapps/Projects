@@ -1,6 +1,7 @@
 package com.quietlogic.allisok.security
 
 import android.content.Context
+import com.quietlogic.allisok.BuildConfig
 import com.quietlogic.allisok.reminders.TrialReminderScheduler
 
 object TrialManager {
@@ -29,6 +30,9 @@ object TrialManager {
     }
 
     fun isPurchased(context: Context): Boolean {
+        if (BuildConfig.DEBUG) {
+            return false
+        }
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return prefs.getBoolean(KEY_PURCHASED, false)
     }
