@@ -3,25 +3,13 @@ package com.quietlogic.allisok.ui.pin
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputType
-import android.text.TextWatcher
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.LinearLayout
-import com.google.android.material.button.MaterialButton
 import android.widget.EditText
+import com.google.android.material.button.MaterialButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.quietlogic.allisok.R
-import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
-import com.quietlogic.allisok.security.PinHasher
 import com.quietlogic.allisok.security.PinPrefs
-import com.quietlogic.allisok.security.PinValidator
-import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.ui.home.HomeActivity
 import com.quietlogic.allisok.ui.info.InfoActivity
 
@@ -36,6 +24,10 @@ class PinActivity : AppCompatActivity() {
     private lateinit var buttonSecondary: MaterialButton
 
     private lateinit var pinPrefs: PinPrefs
+    private lateinit var keyboardHelper: PinKeyboardHelper
+    private lateinit var screenRenderer: PinScreenRenderer
+    private lateinit var inputController: PinInputController
+    private lateinit var actionExecutor: PinActionExecutor
 
     private var currentScreen: String = SCREEN_ENTER_PIN
     private var unlockMode: String = LockGate.MODE_USER_UNLOCK
@@ -51,6 +43,7 @@ class PinActivity : AppCompatActivity() {
         }
 
         pinPrefs = PinPrefs(this)
+        actionExecutor = PinActionExecutor(pinPrefs, this)
 
         textTitle = findViewById(R.id.textTitle)
         editPin = findViewById(R.id.editPin)
@@ -60,15 +53,36 @@ class PinActivity : AppCompatActivity() {
         buttonPrimary = findViewById(R.id.buttonPrimary)
         buttonSecondary = findViewById(R.id.buttonSecondary)
 
+        val keyboardHelper = PinKeyboardHelper(
+            activity = this,
+            editPin = editPin,
+            editPinSecond = editPinSecond
+        )
+        this.keyboardHelper = keyboardHelper
+
+        screenRenderer = PinScreenRenderer(
+            activity = this,
+            textTitle = textTitle,
+            editPin = editPin,
+            editPinSecond = editPinSecond,
+            textForgot = textForgot,
+            textError = textError,
+            buttonPrimary = buttonPrimary,
+            buttonSecondary = buttonSecondary,
+            keyboardHelper = keyboardHelper
+        )
+
+        inputController = PinInputController(
+            editPin = editPin,
+            editPinSecond = editPinSecond,
+            keyboardHelper = keyboardHelper,
+            screenRenderer = screenRenderer,
+            currentScreenProvider = { currentScreen },
+            unlockModeProvider = { unlockMode }
+        )
+
         if (intentMode == LockGate.MODE_USER_UNLOCK && intentTitle.isNullOrEmpty()) {
-            val cardPin = findViewById<LinearLayout>(R.id.cardPin)
-            ViewCompat.setOnApplyWindowInsetsListener(cardPin) { view, insets ->
-                val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-                val navHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-                val bottomPadding = if (imeHeight > 0) (imeHeight - navHeight) / 2 else 0
-                view.translationY = -bottomPadding.toFloat()
-                insets
-            }
+            keyboardHelper.attachCardPinImeInsets(findViewById(R.id.cardPin))
         }
 
         unlockMode = intentMode ?: LockGate.MODE_USER_UNLOCK
@@ -89,8 +103,8 @@ class PinActivity : AppCompatActivity() {
             else -> SCREEN_ENTER_PIN
         }
 
-        setupInputs()
-        renderScreen()
+        inputController.setupInputs()
+        screenRenderer.renderScreen(currentScreen, unlockMode)
 
         buttonPrimary.setOnClickListener {
             when (currentScreen) {
@@ -115,403 +129,129 @@ class PinActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupInputs() {
-
-        editPin.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
-        editPinSecond.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
-
-        editPin.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val value = s?.toString().orEmpty()
-
-                if (value.length > 4) {
-                    editPin.setText(value.take(4))
-                    editPin.setSelection(editPin.text.length)
-                    return
-                }
-
-                if (value.length == 4 && editPinSecond.visibility == View.VISIBLE) {
-                    editPinSecond.requestFocus()
-                    editPinSecond.setSelection(editPinSecond.text.length)
-                    showKeyboard(editPinSecond)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        editPinSecond.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val value = s?.toString().orEmpty()
-
-                if (value.length > 4) {
-                    editPinSecond.setText(value.take(4))
-                    editPinSecond.setSelection(editPinSecond.text.length)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        editPin.setOnFocusChangeListener { _, hasFocus ->
-            updateFieldHint(editPin, firstRowLabel(), hasFocus)
-        }
-
-        editPinSecond.setOnFocusChangeListener { _, hasFocus ->
-            updateFieldHint(editPinSecond, secondRowLabel(), hasFocus)
-        }
-    }
-
-    private fun renderScreen() {
-        textError.visibility = View.GONE
-        editPin.setText("")
-        editPinSecond.setText("")
-
-        when (currentScreen) {
-
-            SCREEN_ENTER_PIN -> {
-                textTitle.text =
-                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                        getString(R.string.menu_enter_admin)
-                    } else {
-                        "Enter"
-                    }
-
-                editPin.visibility = View.VISIBLE
-                editPinSecond.visibility = View.GONE
-
-                textForgot.visibility = View.GONE
-
-                buttonPrimary.text =
-                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                        getString(R.string.pin_enter_button)
-                    } else {
-                        getString(R.string.pin_unlock)
-                    }
-
-                if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                    buttonSecondary.visibility = View.GONE
-                } else {
-                    buttonSecondary.visibility = View.VISIBLE
-                    buttonSecondary.text = getString(R.string.pin_emergency_info)
-                }
-
-                editPin.hint = firstRowLabel()
-                clearFocusAndHideKeyboard()
-            }
-
-            SCREEN_SET_PIN -> {
-                textTitle.text = getString(R.string.pin_set)
-
-                editPin.visibility = View.VISIBLE
-                editPinSecond.visibility = View.VISIBLE
-
-                textForgot.visibility = View.GONE
-
-                buttonPrimary.text = getString(R.string.pin_save)
-                buttonSecondary.visibility = View.GONE
-
-                editPin.hint = firstRowLabel()
-                editPinSecond.hint = secondRowLabel()
-                clearFocusAndHideKeyboard()
-            }
-
-            SCREEN_CHANGE_PIN -> {
-                textTitle.text = getString(R.string.pin_title_change_pin)
-
-                editPin.visibility = View.VISIBLE
-                editPinSecond.visibility = View.VISIBLE
-
-                textForgot.visibility = View.GONE
-
-                buttonPrimary.text = getString(R.string.pin_save)
-                buttonSecondary.visibility = View.GONE
-
-                editPin.hint = firstRowLabel()
-                editPinSecond.hint = secondRowLabel()
-                clearFocusAndHideKeyboard()
-            }
-
-            SCREEN_SET_ADMIN_PIN -> {
-                textTitle.text = getString(R.string.pin_title_set_admin_pin)
-
-                editPin.visibility = View.VISIBLE
-                editPinSecond.visibility = View.VISIBLE
-
-                textForgot.visibility = View.GONE
-
-                buttonPrimary.text = getString(R.string.pin_save_admin)
-                buttonSecondary.visibility = View.GONE
-
-                editPin.hint = firstRowLabel()
-                editPinSecond.hint = secondRowLabel()
-                clearFocusAndHideKeyboard()
-            }
-
-            SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> {
-                textTitle.text = getString(R.string.pin_title_change_admin_pin)
-
-                editPin.visibility = View.VISIBLE
-                editPinSecond.visibility = View.GONE
-
-                textForgot.visibility = View.VISIBLE
-                textForgot.text = getString(R.string.pin_forgot_admin)
-
-                buttonPrimary.text = getString(R.string.pin_continue)
-                buttonSecondary.visibility = View.GONE
-
-                editPin.hint = firstRowLabel()
-                clearFocusAndHideKeyboard()
-            }
-
-            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> {
-                textTitle.text = getString(R.string.pin_title_change_admin_pin)
-
-                editPin.visibility = View.VISIBLE
-                editPinSecond.visibility = View.VISIBLE
-
-                textForgot.visibility = View.GONE
-
-                buttonPrimary.text = getString(R.string.pin_save_admin)
-                buttonSecondary.visibility = View.GONE
-
-                editPin.hint = firstRowLabel()
-                editPinSecond.hint = secondRowLabel()
-                clearFocusAndHideKeyboard()
-            }
-        }
-    }
-
     private fun handleEnterPin() {
-
-        val inputPin = editPin.text.toString().trim()
-        val state = pinPrefs.getState()
-
-        val ok = if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-            PinHasher.verify(inputPin, state.adminPinHash)
-        } else {
-            PinHasher.verify(inputPin, state.userPinHash)
-        }
-
-        if (ok) {
-
-            if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                AdminSession.start()
+        when (val result = actionExecutor.enterPin(editPin.text.toString().trim(), unlockMode)) {
+            PinActionResult.AdminUnlockSuccess -> {
                 setResult(Activity.RESULT_OK)
                 finish()
-                return
             }
 
-            LockGate.markUserUnlocked()
-            UserSession.start(this)
-
-            val homeIntent = Intent(this, HomeActivity::class.java)
-            homeIntent.flags =
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            startActivity(homeIntent)
-            finish()
-
-        } else {
-            if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                showError(getString(R.string.pin_error_wrong_admin))
-            } else {
-                showError(getString(R.string.pin_error_wrong))
+            PinActionResult.UserUnlockSuccess -> {
+                val homeIntent = Intent(this, HomeActivity::class.java)
+                homeIntent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(homeIntent)
+                finish()
             }
-            editPin.text.clear()
-            editPin.hint = "— — — —"
-            editPin.requestFocus()
+
+            is PinActionResult.WrongPin -> {
+                screenRenderer.showError(getString(result.messageResId))
+                if (result.retryFirstField) {
+                    editPin.text.clear()
+                    editPin.hint = "— — — —"
+                    editPin.requestFocus()
+                }
+            }
+
+            else -> Unit
         }
     }
 
     private fun handleSetUserPin() {
+        when (val result = actionExecutor.setUserPin(
+            editPin.text.toString().trim(),
+            editPinSecond.text.toString().trim()
+        )) {
+            is PinActionResult.ValidationError -> {
+                screenRenderer.showError(getString(result.messageResId))
+            }
 
-        val pin = editPin.text.toString().trim()
-        val confirmPin = editPinSecond.text.toString().trim()
-        val state = pinPrefs.getState()
+            PinActionResult.UserPinSaveSuccess -> {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
 
-        if (!PinValidator.isValidFormat(pin)) {
-            showError(getString(R.string.pin_error_format))
-            return
+            else -> Unit
         }
-
-        if (pin != confirmPin) {
-            showError(getString(R.string.pin_error_mismatch))
-            return
-        }
-
-        if (!PinValidator.isDifferentFromAdmin(pin, state.adminPinHash)) {
-            showError(getString(R.string.pin_error_same))
-            return
-        }
-
-        pinPrefs.setUserPin(PinHasher.hash(pin))
-        LockGate.markUserUnlocked()
-        setResult(Activity.RESULT_OK)
-        finish()
     }
 
     private fun handleChangeUserPin() {
+        when (val result = actionExecutor.changeUserPin(
+            editPin.text.toString().trim(),
+            editPinSecond.text.toString().trim()
+        )) {
+            is PinActionResult.ValidationError -> {
+                screenRenderer.showError(getString(result.messageResId))
+            }
 
-        val pin = editPin.text.toString().trim()
-        val confirmPin = editPinSecond.text.toString().trim()
-        val state = pinPrefs.getState()
+            PinActionResult.UserPinSaveSuccess -> {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
 
-        if (!PinValidator.isValidFormat(pin)) {
-            showError(getString(R.string.pin_error_format))
-            return
+            else -> Unit
         }
-
-        if (pin != confirmPin) {
-            showError(getString(R.string.pin_error_mismatch))
-            return
-        }
-
-        if (!PinValidator.isDifferentFromAdmin(pin, state.adminPinHash)) {
-            showError(getString(R.string.pin_error_same))
-            return
-        }
-
-        pinPrefs.setUserPin(PinHasher.hash(pin))
-        LockGate.markUserUnlocked()
-        setResult(Activity.RESULT_OK)
-        finish()
     }
 
     private fun handleSetAdminPin() {
+        when (val result = actionExecutor.setAdminPin(
+            editPin.text.toString().trim(),
+            editPinSecond.text.toString().trim()
+        )) {
+            is PinActionResult.ValidationError -> {
+                screenRenderer.showError(getString(result.messageResId))
+            }
 
-        val pin = editPin.text.toString().trim()
-        val confirmPin = editPinSecond.text.toString().trim()
-        val state = pinPrefs.getState()
+            PinActionResult.AdminPinSaveSuccess -> {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
 
-        if (!PinValidator.isValidFormat(pin)) {
-            showError(getString(R.string.pin_error_format_admin))
-            return
+            else -> Unit
         }
-
-        if (pin != confirmPin) {
-            showError(getString(R.string.pin_error_mismatch))
-            return
-        }
-
-        if (!PinValidator.isDifferentFromUser(pin, state.userPinHash)) {
-            showError(getString(R.string.pin_error_same))
-            return
-        }
-
-        pinPrefs.setAdminPin(PinHasher.hash(pin))
-        AdminSession.start()
-        setResult(Activity.RESULT_OK)
-        finish()
     }
 
     private fun handleAdminPinStep1() {
+        when (val result = actionExecutor.verifyAdminPinStep1(editPin.text.toString().trim())) {
+            is PinActionResult.GoToNextScreen -> {
+                currentScreen = result.nextScreen
+                screenRenderer.renderScreen(currentScreen, unlockMode)
+            }
 
-        val currentAdminPin = editPin.text.toString().trim()
-        val state = pinPrefs.getState()
+            is PinActionResult.WrongPin -> {
+                screenRenderer.showError(getString(result.messageResId))
+            }
 
-        if (PinHasher.verify(currentAdminPin, state.adminPinHash)) {
-            currentScreen = SCREEN_CHANGE_ADMIN_PIN_STEP_2
-            renderScreen()
-        } else {
-            showError(getString(R.string.pin_error_wrong_admin))
+            else -> Unit
         }
     }
 
     private fun handleAdminPinStep2() {
-
-        val pin = editPin.text.toString().trim()
-        val confirmPin = editPinSecond.text.toString().trim()
-        val state = pinPrefs.getState()
-
-        if (!PinValidator.isValidFormat(pin)) {
-            showError(getString(R.string.pin_error_format_admin))
-            return
-        }
-
-        if (pin != confirmPin) {
-            showError(getString(R.string.pin_error_mismatch))
-            return
-        }
-
-        if (!PinValidator.isDifferentFromUser(pin, state.userPinHash)) {
-            showError(getString(R.string.pin_error_same))
-            return
-        }
-
-        pinPrefs.setAdminPin(PinHasher.hash(pin))
-        AdminSession.start()
-        setResult(Activity.RESULT_OK)
-        finish()
-    }
-
-    private fun updateFieldHint(field: EditText, label: String, hasFocus: Boolean) {
-        field.hint = if (hasFocus && field.text.isNullOrEmpty()) "— — — —" else label
-    }
-
-    private fun firstRowLabel(): String {
-        return when (currentScreen) {
-            SCREEN_ENTER_PIN -> {
-                if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                    getString(R.string.pin_label_admin)
-                } else {
-                    getString(R.string.pin_label_pin)
-                }
+        when (val result = actionExecutor.changeAdminPinStep2(
+            editPin.text.toString().trim(),
+            editPinSecond.text.toString().trim()
+        )) {
+            is PinActionResult.ValidationError -> {
+                screenRenderer.showError(getString(result.messageResId))
             }
 
-            SCREEN_SET_PIN -> getString(R.string.pin_hint_enter)
-            SCREEN_CHANGE_PIN -> getString(R.string.pin_hint_enter)
-            SCREEN_SET_ADMIN_PIN -> getString(R.string.pin_hint_enter_admin)
-            SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> getString(R.string.pin_hint_current_admin)
-            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> getString(R.string.pin_hint_new_admin)
-            else -> getString(R.string.pin_label_pin)
+            PinActionResult.AdminPinSaveSuccess -> {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+
+            else -> Unit
         }
-    }
-
-    private fun secondRowLabel(): String {
-        return when (currentScreen) {
-            SCREEN_SET_PIN -> getString(R.string.pin_hint_confirm)
-            SCREEN_CHANGE_PIN -> getString(R.string.pin_hint_confirm)
-            SCREEN_SET_ADMIN_PIN -> getString(R.string.pin_hint_confirm_admin)
-            SCREEN_CHANGE_ADMIN_PIN_STEP_2 -> getString(R.string.pin_hint_confirm_admin)
-            else -> getString(R.string.pin_hint_confirm)
-        }
-    }
-
-    private fun clearFocusAndHideKeyboard() {
-        editPin.clearFocus()
-        editPinSecond.clearFocus()
-        hideKeyboard()
-    }
-
-    private fun showKeyboard(view: View) {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    private fun hideKeyboard() {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        val token = currentFocus?.windowToken ?: return
-        imm.hideSoftInputFromWindow(token, 0)
-    }
-
-    private fun showError(message: String) {
-        textError.text = message
-        textError.visibility = View.VISIBLE
     }
 
     companion object {
         const val RESULT_OPEN_EMERGENCY_INFO = 1002
 
-        private const val SCREEN_ENTER_PIN = "screen_enter_pin"
-        private const val SCREEN_SET_PIN = "screen_set_pin"
-        private const val SCREEN_CHANGE_PIN = "screen_change_pin"
-        private const val SCREEN_SET_ADMIN_PIN = "screen_set_admin_pin"
-        private const val SCREEN_CHANGE_ADMIN_PIN_STEP_1 = "screen_change_admin_pin_step_1"
-        private const val SCREEN_CHANGE_ADMIN_PIN_STEP_2 = "screen_change_admin_pin_step_2"
+        internal const val SCREEN_ENTER_PIN = "screen_enter_pin"
+        internal const val SCREEN_SET_PIN = "screen_set_pin"
+        internal const val SCREEN_CHANGE_PIN = "screen_change_pin"
+        internal const val SCREEN_SET_ADMIN_PIN = "screen_set_admin_pin"
+        internal const val SCREEN_CHANGE_ADMIN_PIN_STEP_1 = "screen_change_admin_pin_step_1"
+        internal const val SCREEN_CHANGE_ADMIN_PIN_STEP_2 = "screen_change_admin_pin_step_2"
     }
 }
