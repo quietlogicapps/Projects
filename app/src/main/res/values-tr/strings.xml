@@ -6,8 +6,6 @@
     <string name="menu_security">Güvenlik</string>
     <string name="menu_language">Dil</string>
     <string name="menu_date_format">Tarih formatı</string>
-    <string name="menu_export">Dışa aktar</string>
-    <string name="menu_import">İçe aktar</string>
     <string name="menu_history">Geçmiş</string>
     <string name="menu_more_apps">QuietLogic\'ten daha fazlası</string>
     <string name="menu_enter_admin">Yönetici PIN\'i ile giriş</string>

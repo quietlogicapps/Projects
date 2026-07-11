@@ -6,8 +6,6 @@
     <string name="menu_security">Security</string>
     <string name="menu_language">Language</string>
     <string name="menu_date_format">Date Format</string>
-    <string name="menu_export">Export</string>
-    <string name="menu_import">Import</string>
     <string name="menu_history">History</string>
     <string name="menu_more_apps">More from QuietLogic</string>
     <string name="menu_enter_admin">Enter with Admin PIN</string>

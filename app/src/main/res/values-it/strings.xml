@@ -6,8 +6,6 @@
     <string name="menu_security">Sicurezza</string>
     <string name="menu_language">Lingua</string>
     <string name="menu_date_format">Formato data</string>
-    <string name="menu_export">Esporta</string>
-    <string name="menu_import">Importa</string>
     <string name="menu_history">Cronologia</string>
     <string name="menu_more_apps">Altro da QuietLogic</string>
     <string name="menu_enter_admin">Accedi con PIN amministratore</string>

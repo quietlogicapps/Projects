@@ -6,8 +6,6 @@
     <string name="menu_security">Безопасность</string>
     <string name="menu_language">Язык</string>
     <string name="menu_date_format">Формат даты</string>
-    <string name="menu_export">Экспорт</string>
-    <string name="menu_import">Импорт</string>
     <string name="menu_history">История</string>
     <string name="menu_more_apps">Больше от QuietLogic</string>
     <string name="menu_enter_admin">Войти как администратор</string>
