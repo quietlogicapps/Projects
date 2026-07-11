@@ -151,17 +151,7 @@
     <string name="history_item_name_placeholder">Öğe adı</string>
     <string name="history_item_date_placeholder">Bitiş tarihi</string>
 
-    <string name="export_title">Verileri dışa aktar</string>
-    <string name="export_generate">Dışa aktarma JSON\'ı oluştur</string>
-    <string name="export_empty">Henüz dışa aktarma oluşturulmadı</string>
     <string name="export_generating">Oluşturuluyor…</string>
-    <string name="export_saved">Yedek kaydedildi:\n%1$s</string>
-
-    <string name="import_title">Verileri içe aktar</string>
-    <string name="import_load">Yedek dosyasını yükle</string>
-    <string name="import_empty">Dosya yüklenmedi</string>
-    <string name="import_file_not_found">Yedek dosyası bulunamadı</string>
-    <string name="import_restored">Yedek geri yüklendi</string>
 
     <string name="backup_title">Yedekleme ve geri yükleme</string>
     <string name="backup_export">Yedeği dışa aktar</string>

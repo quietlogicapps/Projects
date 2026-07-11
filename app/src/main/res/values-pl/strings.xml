@@ -154,17 +154,7 @@
     <string name="history_item_name_placeholder">Nazwa elementu</string>
     <string name="history_item_date_placeholder">Data zakończenia</string>
 
-    <string name="export_title">Eksportuj dane</string>
-    <string name="export_generate">Generuj JSON eksportu</string>
-    <string name="export_empty">Nie wygenerowano jeszcze eksportu</string>
     <string name="export_generating">Generowanie…</string>
-    <string name="export_saved">Kopia zapisana:\n%1$s</string>
-
-    <string name="import_title">Importuj dane</string>
-    <string name="import_load">Wczytaj plik kopii zapasowej</string>
-    <string name="import_empty">Nie wczytano pliku</string>
-    <string name="import_file_not_found">Plik kopii zapasowej nie znaleziony</string>
-    <string name="import_restored">Kopia przywrócona</string>
 
     <string name="backup_title">Kopia zapasowa i przywracanie</string>
     <string name="backup_export">Eksportuj kopię zapasową</string>

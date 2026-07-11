@@ -151,17 +151,7 @@
     <string name="history_item_name_placeholder">Nome elemento</string>
     <string name="history_item_date_placeholder">Data di fine</string>
 
-    <string name="export_title">Esporta dati</string>
-    <string name="export_generate">Genera JSON di esportazione</string>
-    <string name="export_empty">Nessuna esportazione generata</string>
     <string name="export_generating">Generazione…</string>
-    <string name="export_saved">Backup salvato:\n%1$s</string>
-
-    <string name="import_title">Importa dati</string>
-    <string name="import_load">Carica file di backup</string>
-    <string name="import_empty">Nessun file caricato</string>
-    <string name="import_file_not_found">File di backup non trovato</string>
-    <string name="import_restored">Backup ripristinato</string>
 
     <string name="backup_title">Backup e ripristino</string>
     <string name="backup_export">Esporta backup</string>

@@ -151,17 +151,7 @@
     <string name="history_item_name_placeholder">Название элемента</string>
     <string name="history_item_date_placeholder">Дата окончания</string>
 
-    <string name="export_title">Экспорт данных</string>
-    <string name="export_generate">Создать JSON экспорта</string>
-    <string name="export_empty">Экспорт ещё не создан</string>
     <string name="export_generating">Создание…</string>
-    <string name="export_saved">Резервная копия сохранена:\n%1$s</string>
-
-    <string name="import_title">Импорт данных</string>
-    <string name="import_load">Загрузить файл резервной копии</string>
-    <string name="import_empty">Файл не загружен</string>
-    <string name="import_file_not_found">Файл резервной копии не найден</string>
-    <string name="import_restored">Резервная копия восстановлена</string>
 
     <string name="backup_title">Резервное копирование и восстановление</string>
     <string name="backup_export">Экспортировать резервную копию</string>
