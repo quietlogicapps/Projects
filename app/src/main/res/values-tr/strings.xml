@@ -170,8 +170,10 @@
     <string name="backup_import_confirm_action">Geri yükle</string>
 
     <string name="trial_title">Deneme süresi sona erdi</string>
+    <string name="trial_body">All Is OK uygulamasını bir kez satın alın.\nTam erişimi kalıcı olarak açın.</string>
+    <string name="trial_no_subscription">Abonelik yok. Bir kez ödeyin, sürekli kullanın.</string>
     <string name="trial_buy">Satın al</string>
-    <string name="trial_restore">Geri yükle</string>
+    <string name="trial_restore">Satın almayı geri yükle</string>
     <string name="trial_purchase_soon">Satın alma yakında kullanılabilir</string>
     <string name="trial_restore_soon">Geri yükleme yakında kullanılabilir</string>
 

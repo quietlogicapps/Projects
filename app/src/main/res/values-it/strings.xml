@@ -169,9 +169,11 @@
     <string name="backup_import_confirm_cancel">Annulla</string>
     <string name="backup_import_confirm_action">Ripristina</string>
 
-    <string name="trial_title">Periodo di prova terminato</string>
+    <string name="trial_title">Il periodo di prova è terminato</string>
+    <string name="trial_body">Acquista All Is OK una sola volta.\nSblocca per sempre l\'accesso completo.</string>
+    <string name="trial_no_subscription">Nessun abbonamento. Paghi una volta e lo usi per sempre.</string>
     <string name="trial_buy">Acquista</string>
-    <string name="trial_restore">Ripristina</string>
+    <string name="trial_restore">Ripristina acquisto</string>
     <string name="trial_purchase_soon">Acquisto disponibile a breve</string>
     <string name="trial_restore_soon">Ripristino disponibile a breve</string>
 

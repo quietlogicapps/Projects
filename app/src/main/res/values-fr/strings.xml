@@ -171,9 +171,11 @@
     <string name="backup_import_confirm_cancel">Annuler</string>
     <string name="backup_import_confirm_action">Restaurer</string>
 
-    <string name="trial_title">Période d\'essai terminée</string>
+    <string name="trial_title">La période d\'essai est terminée</string>
+    <string name="trial_body">Achetez All Is OK une seule fois.\nDébloquez l\'accès complet définitivement.</string>
+    <string name="trial_no_subscription">Aucun abonnement. Payez une fois, utilisez-le pour toujours.</string>
     <string name="trial_buy">Acheter</string>
-    <string name="trial_restore">Restaurer</string>
+    <string name="trial_restore">Restaurer l\'achat</string>
     <string name="trial_purchase_soon">Achat disponible prochainement</string>
     <string name="trial_restore_soon">Restauration disponible prochainement</string>
 

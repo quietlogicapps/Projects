@@ -170,8 +170,10 @@
     <string name="backup_import_confirm_action">Восстановить</string>
 
     <string name="trial_title">Пробный период завершён</string>
+    <string name="trial_body">Купите All Is OK один раз.\nПолучите полный доступ навсегда.</string>
+    <string name="trial_no_subscription">Без подписки. Один платёж — доступ навсегда.</string>
     <string name="trial_buy">Купить</string>
-    <string name="trial_restore">Восстановить</string>
+    <string name="trial_restore">Восстановить покупку</string>
     <string name="trial_purchase_soon">Покупка скоро будет доступна</string>
     <string name="trial_restore_soon">Восстановление скоро будет доступно</string>
 

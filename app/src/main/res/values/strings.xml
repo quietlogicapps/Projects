@@ -179,8 +179,10 @@
     <string name="backup_import_confirm_cancel">Cancel</string>
     <string name="backup_import_confirm_action">Import</string>
 
-    <string name="trial_title">Trial ended</string>
-    <string name="trial_buy">Buy</string>
+    <string name="trial_title">Trial period ended</string>
+    <string name="trial_body">Purchase All Is OK once.\nUnlock full access forever.</string>
+    <string name="trial_no_subscription">No subscription. Pay once, use forever.</string>
+    <string name="trial_buy">Purchase</string>
     <string name="trial_restore">Restore</string>
     <string name="trial_purchase_soon">Purchase coming soon</string>
     <string name="trial_restore_soon">Restore coming soon</string>

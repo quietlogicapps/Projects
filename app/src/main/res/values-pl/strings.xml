@@ -172,9 +172,11 @@
     <string name="backup_import_confirm_cancel">Anuluj</string>
     <string name="backup_import_confirm_action">Przywróć</string>
 
-    <string name="trial_title">Okres próbny zakończony</string>
+    <string name="trial_title">Okres próbny dobiegł końca</string>
+    <string name="trial_body">Kup All Is OK tylko raz.\nOdblokuj pełny dostęp na zawsze.</string>
+    <string name="trial_no_subscription">Bez abonamentu. Płacisz raz i korzystasz bez ograniczeń.</string>
     <string name="trial_buy">Kup</string>
-    <string name="trial_restore">Przywróć</string>
+    <string name="trial_restore">Przywróć zakup</string>
     <string name="trial_purchase_soon">Zakup wkrótce dostępny</string>
     <string name="trial_restore_soon">Przywracanie wkrótce dostępne</string>
 
