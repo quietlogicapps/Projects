@@ -15,22 +15,7 @@
     <string name="menu_exit_admin_mode">Esci dalla modalità amministratore</string>
 
     <string name="settings_title">Impostazioni</string>
-    <string name="settings_security_title">Sicurezza</string>
-    <string name="settings_security_button">Impostazioni di sicurezza</string>
-    <string name="settings_language_title">Lingua</string>
-    <string name="settings_language_button">Cambia lingua</string>
     <string name="settings_backup_title">Backup</string>
-    <string name="settings_export_button">Esporta dati</string>
-    <string name="settings_import_button">Importa dati</string>
-    <string name="settings_history_title">Cronologia</string>
-    <string name="settings_history_button">Promemoria archiviati</string>
-    <string name="settings_about_title">Informazioni</string>
-    <string name="settings_privacy_button">Informativa sulla privacy</string>
-    <string name="settings_more_apps_button">Altre app di QuietLogic</string>
-
-    <string name="settings_history_opening">Apertura cronologia</string>
-    <string name="settings_export_pressed">Esporta premuto</string>
-    <string name="settings_import_pressed">Importa premuto</string>
 
     <string name="language_screen_title">Lingua</string>
 

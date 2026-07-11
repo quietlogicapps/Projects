@@ -15,22 +15,7 @@
     <string name="menu_exit_admin_mode">Yönetici modundan çık</string>
 
     <string name="settings_title">Ayarlar</string>
-    <string name="settings_security_title">Güvenlik</string>
-    <string name="settings_security_button">Güvenlik ayarları</string>
-    <string name="settings_language_title">Dil</string>
-    <string name="settings_language_button">Dili değiştir</string>
     <string name="settings_backup_title">Yedekleme</string>
-    <string name="settings_export_button">Verileri dışa aktar</string>
-    <string name="settings_import_button">Verileri içe aktar</string>
-    <string name="settings_history_title">Geçmiş</string>
-    <string name="settings_history_button">Arşivlenen hatırlatıcılar</string>
-    <string name="settings_about_title">Hakkında</string>
-    <string name="settings_privacy_button">Gizlilik politikası</string>
-    <string name="settings_more_apps_button">QuietLogic\'in diğer uygulamaları</string>
-
-    <string name="settings_history_opening">Geçmiş açılıyor</string>
-    <string name="settings_export_pressed">Dışa aktar tıklandı</string>
-    <string name="settings_import_pressed">İçe aktar tıklandı</string>
 
     <string name="language_screen_title">Dil</string>
 

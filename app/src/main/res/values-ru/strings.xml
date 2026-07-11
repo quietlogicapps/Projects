@@ -15,22 +15,7 @@
     <string name="menu_exit_admin_mode">Выйти из режима администратора</string>
 
     <string name="settings_title">Настройки</string>
-    <string name="settings_security_title">Безопасность</string>
-    <string name="settings_security_button">Настройки безопасности</string>
-    <string name="settings_language_title">Язык</string>
-    <string name="settings_language_button">Изменить язык</string>
     <string name="settings_backup_title">Резервная копия</string>
-    <string name="settings_export_button">Экспортировать данные</string>
-    <string name="settings_import_button">Импортировать данные</string>
-    <string name="settings_history_title">История</string>
-    <string name="settings_history_button">Архивированные напоминания</string>
-    <string name="settings_about_title">О приложении</string>
-    <string name="settings_privacy_button">Политика конфиденциальности</string>
-    <string name="settings_more_apps_button">Другие приложения QuietLogic</string>
-
-    <string name="settings_history_opening">Открытие истории</string>
-    <string name="settings_export_pressed">Экспорт нажат</string>
-    <string name="settings_import_pressed">Импорт нажат</string>
 
     <string name="language_screen_title">Язык</string>
 
