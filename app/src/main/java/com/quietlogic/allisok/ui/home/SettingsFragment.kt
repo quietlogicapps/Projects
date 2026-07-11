@@ -2,7 +2,6 @@ package com.quietlogic.allisok.ui.home
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,8 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.billing.store.StoreModule
+import com.quietlogic.allisok.billing.store.StoreNavigator
 import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
@@ -28,6 +29,8 @@ class SettingsFragment : Fragment() {
     private lateinit var textAdminTitle: TextView
 
     private var pendingOpenBackup = false
+
+    private val storeNavigator: StoreNavigator = StoreModule.createStoreNavigator()
 
     private val adminUnlockLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -101,11 +104,7 @@ class SettingsFragment : Fragment() {
                 .edit()
                 .putBoolean("returning_from_store", true)
                 .apply()
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/developer?id=QuietLogic")
-            )
-            startActivity(intent)
+            storeNavigator.openStorePage(requireContext())
         }
 
         rowAdmin = view.findViewById(R.id.rowAdmin)
