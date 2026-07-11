@@ -2,17 +2,15 @@ package com.quietlogic.allisok
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.Gravity
-import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.alarm.engine.PermissionGate
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.security.PinPrefs
@@ -24,11 +22,15 @@ import com.quietlogic.allisok.ui.trial.TrialEndedActivity
 
 class PermissionSetupActivity : AppCompatActivity() {
 
-    private lateinit var statusText: TextView
-    private lateinit var btnNotifications: Button
-    private lateinit var btnExactAlarms: Button
-    private lateinit var btnContinue: Button
-    private lateinit var btnOverlay: Button
+    private lateinit var labelNotifications: TextView
+    private lateinit var labelExactAlarms: TextView
+    private lateinit var labelOverlay: TextView
+    private lateinit var statusNotifications: TextView
+    private lateinit var statusExactAlarms: TextView
+    private lateinit var statusOverlay: TextView
+    private lateinit var btnNotifications: MaterialButton
+    private lateinit var btnExactAlarms: MaterialButton
+    private lateinit var btnOverlay: MaterialButton
 
     private val requestPostNotifications = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -43,13 +45,28 @@ class PermissionSetupActivity : AppCompatActivity() {
         resetRestoredPinDataOnFirstLaunch()
         UserSession.stop(this)
 
-        setContentView(buildContentView())
+        setContentView(R.layout.activity_permission_setup)
+        window.decorView.setBackgroundColor(Color.BLACK)
+
+        labelNotifications = findViewById(R.id.labelNotifications)
+        labelExactAlarms = findViewById(R.id.labelExactAlarms)
+        labelOverlay = findViewById(R.id.labelOverlay)
+        labelNotifications.text = permissionLabel(R.string.permission_status_notifications_ok)
+        labelExactAlarms.text = permissionLabel(R.string.permission_status_exact_alarms_ok)
+        labelOverlay.text = permissionLabel(R.string.permission_status_overlay_ok)
+
+        statusNotifications = findViewById(R.id.statusNotifications)
+        statusExactAlarms = findViewById(R.id.statusExactAlarms)
+        statusOverlay = findViewById(R.id.statusOverlay)
+        btnNotifications = findViewById(R.id.btnNotifications)
+        btnExactAlarms = findViewById(R.id.btnExactAlarms)
+        btnOverlay = findViewById(R.id.btnOverlay)
+
         refreshUi()
         proceedIfReady()
 
         btnNotifications.setOnClickListener { onEnableNotificationsClicked() }
         btnExactAlarms.setOnClickListener { onEnableExactAlarmsClicked() }
-        btnContinue.setOnClickListener { proceedIfReady(force = true) }
         btnOverlay.setOnClickListener { onEnableOverlayClicked() }
     }
 
@@ -120,29 +137,61 @@ class PermissionSetupActivity : AppCompatActivity() {
         val needsExact = PermissionGate.needsExactAlarmPermission(this)
         val needsOverlay = PermissionGate.needsOverlayPermission(this)
 
-        val lines = mutableListOf<String>()
+        updateStatusRow(
+            statusView = statusNotifications,
+            needsPermission = needsNotif,
+            okRes = R.string.permission_status_notifications_ok,
+            notEnabledRes = R.string.permission_status_notifications_not_enabled
+        )
 
-        lines.add(if (needsNotif)
-            getString(R.string.permission_status_notifications_not_enabled)
-        else
-            getString(R.string.permission_status_notifications_ok))
+        updateStatusRow(
+            statusView = statusExactAlarms,
+            needsPermission = needsExact,
+            okRes = R.string.permission_status_exact_alarms_ok,
+            notEnabledRes = R.string.permission_status_exact_alarms_not_enabled
+        )
 
-        lines.add(if (needsExact)
-            getString(R.string.permission_status_exact_alarms_not_enabled)
-        else
-            getString(R.string.permission_status_exact_alarms_ok))
-
-        lines.add(if (needsOverlay)
-            getString(R.string.permission_status_overlay_not_enabled)
-        else
-            getString(R.string.permission_status_overlay_ok))
-
-        statusText.text = lines.joinToString("\n")
+        updateStatusRow(
+            statusView = statusOverlay,
+            needsPermission = needsOverlay,
+            okRes = R.string.permission_status_overlay_ok,
+            notEnabledRes = R.string.permission_status_overlay_not_enabled
+        )
 
         btnNotifications.isEnabled = needsNotif
         btnExactAlarms.isEnabled = needsExact
         btnOverlay.isEnabled = needsOverlay
-        btnContinue.visibility = if (needsNotif || needsExact || needsOverlay) View.GONE else View.VISIBLE
+    }
+
+    private fun updateStatusRow(
+        statusView: TextView,
+        needsPermission: Boolean,
+        okRes: Int,
+        notEnabledRes: Int
+    ) {
+        val fullText = getString(if (needsPermission) notEnabledRes else okRes)
+        statusView.text = permissionStatusOnly(fullText)
+        statusView.setTextColor(if (needsPermission) COLOR_STATUS_MISSING else COLOR_STATUS_OK)
+    }
+
+    private fun permissionLabel(statusOkRes: Int): String {
+        val cleaned = getString(statusOkRes).removePrefix("•").trim()
+        val colonIndex = cleaned.indexOf(':')
+        return if (colonIndex >= 0) {
+            cleaned.substring(0, colonIndex + 1).trim()
+        } else {
+            cleaned
+        }
+    }
+
+    private fun permissionStatusOnly(fullText: String): String {
+        val cleaned = fullText.removePrefix("•").trim()
+        val colonIndex = cleaned.indexOf(':')
+        return if (colonIndex >= 0) {
+            cleaned.substring(colonIndex + 1).trim()
+        } else {
+            cleaned
+        }
     }
 
     private fun onEnableNotificationsClicked() {
@@ -195,72 +244,10 @@ class PermissionSetupActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun buildContentView(): View {
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER_HORIZONTAL
-            setPadding(dp(20), dp(24), dp(20), dp(24))
-        }
-
-        val title = TextView(this).apply {
-            text = getString(R.string.permission_setup_title)
-            textSize = 22f
-            gravity = Gravity.CENTER_HORIZONTAL
-        }
-
-        val subtitle = TextView(this).apply {
-            text = getString(R.string.permission_setup_subtitle)
-            textSize = 16f
-            gravity = Gravity.CENTER_HORIZONTAL
-        }
-
-        statusText = TextView(this).apply {
-            textSize = 16f
-            setPadding(0, dp(18), 0, dp(18))
-        }
-
-        btnNotifications = Button(this).apply {
-            text = getString(R.string.permission_enable_notifications)
-        }
-
-        btnExactAlarms = Button(this).apply {
-            text = getString(R.string.permission_enable_exact_alarms)
-        }
-
-        btnOverlay = Button(this).apply {
-            text = getString(R.string.permission_enable_overlay)
-        }
-
-        btnContinue = Button(this).apply {
-            text = getString(R.string.permission_continue)
-            visibility = View.GONE
-        }
-
-        root.addView(title, lpMatchWrap())
-        root.addView(subtitle, lpMatchWrap().apply { topMargin = dp(10) })
-        root.addView(statusText, lpMatchWrap())
-        root.addView(btnNotifications, lpMatchWrap().apply { topMargin = dp(10) })
-        root.addView(btnExactAlarms, lpMatchWrap().apply { topMargin = dp(10) })
-        root.addView(btnOverlay, lpMatchWrap().apply { topMargin = dp(10) })
-        root.addView(btnContinue, lpMatchWrap().apply { topMargin = dp(16) })
-
-        return root
-    }
-
-    private fun lpMatchWrap(): LinearLayout.LayoutParams {
-        return LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-    }
-
-    private fun dp(value: Int): Int {
-        val density = resources.displayMetrics.density
-        return (value * density).toInt()
-    }
-
     companion object {
         private const val FIRST_RUN_PREFS = "first_run_prefs"
         private const val KEY_FIRST_RUN_DONE = "first_run_done"
+        private const val COLOR_STATUS_OK = 0xFF4CAF50.toInt()
+        private const val COLOR_STATUS_MISSING = 0xFFCE93D8.toInt()
     }
 }
