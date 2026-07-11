@@ -12,6 +12,7 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryProductDetailsResult
 import com.android.billingclient.api.QueryPurchasesParams
 
 class BillingManager(
@@ -83,7 +84,7 @@ class BillingManager(
             .setProductList(listOf(product))
             .build()
 
-        billingClient.queryProductDetailsAsync(params) { billingResult, productDetailsList ->
+        billingClient.queryProductDetailsAsync(params) { billingResult, queryProductDetailsResult ->
             if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
                 listener.onBillingError(
                     "Product query error: ${billingResult.debugMessage}"
@@ -91,7 +92,8 @@ class BillingManager(
                 return@queryProductDetailsAsync
             }
 
-            val details = productDetailsList.firstOrNull()
+            val details = queryProductDetailsResult.productDetailsList
+                .firstOrNull { it.productId == PRODUCT_ID }
 
             if (details == null) {
                 listener.onBillingError("Product not found in Play Console.")
