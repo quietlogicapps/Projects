@@ -5,18 +5,19 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.android.billingclient.api.ProductDetails
-import com.quietlogic.allisok.BillingManager
 import com.quietlogic.allisok.BuildConfig
 import com.quietlogic.allisok.PermissionSetupActivity
 import com.quietlogic.allisok.R
+import com.quietlogic.allisok.billing.store.BillingCoordinator
+import com.quietlogic.allisok.billing.store.StoreBillingListener
+import com.quietlogic.allisok.billing.store.StoreModule
 import com.quietlogic.allisok.databinding.ActivityTrialEndedBinding
 import com.quietlogic.allisok.security.TrialManager
 
-class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
+class TrialEndedActivity : AppCompatActivity(), StoreBillingListener {
 
     private lateinit var binding: ActivityTrialEndedBinding
-    private lateinit var billingManager: BillingManager
+    private lateinit var billingCoordinator: BillingCoordinator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,32 +31,32 @@ class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
             }
         })
 
-        billingManager = BillingManager(this, this)
-        billingManager.startConnection()
+        billingCoordinator = StoreModule.createBillingCoordinator(this, this)
+        billingCoordinator.connect()
 
         binding.btnBuy.setOnClickListener {
-            billingManager.launchPurchase(this)
+            billingCoordinator.purchase(this)
         }
 
         binding.btnRestore.setOnClickListener {
-            billingManager.restorePurchases()
+            billingCoordinator.restore()
         }
     }
 
     override fun onDestroy() {
-        billingManager.endConnection()
+        billingCoordinator.disconnect()
         super.onDestroy()
     }
 
-    override fun onBillingReady() {
-        billingManager.queryProductDetails()
+    override fun onStoreReady() {
+        billingCoordinator.queryProduct()
     }
 
-    override fun onBillingDisconnected() {
+    override fun onStoreDisconnected() {
         Toast.makeText(this, getString(R.string.trial_restore_soon), Toast.LENGTH_SHORT).show()
     }
 
-    override fun onProductLoaded(productDetails: ProductDetails) {
+    override fun onProductReady() {
         // Product loaded — ready to purchase
     }
 
@@ -78,7 +79,7 @@ class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
         Toast.makeText(this, getString(R.string.trial_purchase_soon), Toast.LENGTH_SHORT).show()
     }
 
-    override fun onPurchaseRestored(hasPurchase: Boolean) {
+    override fun onRestoreResult(hasPurchase: Boolean) {
         if (hasPurchase) {
             if (BuildConfig.DEBUG) {
                 return
@@ -93,7 +94,7 @@ class TrialEndedActivity : AppCompatActivity(), BillingManager.Listener {
         }
     }
 
-    override fun onBillingError(message: String) {
+    override fun onStoreError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
