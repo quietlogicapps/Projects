@@ -163,6 +163,24 @@
     <string name="import_file_not_found">Yedek dosyası bulunamadı</string>
     <string name="import_restored">Yedek geri yüklendi</string>
 
+    <string name="backup_title">Yedekleme ve geri yükleme</string>
+    <string name="backup_export">Yedeği dışa aktar</string>
+    <string name="backup_import">Yedeği içe aktar</string>
+    <string name="backup_export_status_empty">Henüz bir yedek dışa aktarılmadı.</string>
+    <string name="backup_import_status_empty">Henüz bir yedek içe aktarılmadı.</string>
+    <string name="backup_export_status_success">Yedek başarıyla dışa aktarıldı.</string>
+    <string name="backup_export_status_error">Yedek dışa aktarılamadı.</string>
+    <string name="backup_export_status_cancelled">Yedek dışa aktarma işlemi iptal edildi.</string>
+    <string name="backup_import_status_success">Yedek başarıyla geri yüklendi.</string>
+    <string name="backup_import_status_error">Yedek içe aktarılamadı.</string>
+    <string name="backup_import_status_cancelled">Yedek içe aktarma işlemi iptal edildi.</string>
+    <string name="backup_import_status_running">Yedek geri yükleniyor…</string>
+    <string name="backup_import_status_validation_error">Seçilen yedek dosyası geçersiz.</string>
+    <string name="backup_import_confirm_title">Yedek geri yüklensin mi?</string>
+    <string name="backup_import_confirm_message">Mevcut uygulama verileri bu yedekteki verilerle değiştirilecektir.</string>
+    <string name="backup_import_confirm_cancel">İptal</string>
+    <string name="backup_import_confirm_action">Geri yükle</string>
+
     <string name="trial_title">Deneme süresi sona erdi</string>
     <string name="trial_buy">Satın al</string>
     <string name="trial_restore">Geri yükle</string>

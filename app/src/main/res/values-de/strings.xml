@@ -163,6 +163,24 @@
     <string name="import_file_not_found">Backup-Datei nicht gefunden</string>
     <string name="import_restored">Backup wiederhergestellt</string>
 
+    <string name="backup_title">Sichern und Wiederherstellen</string>
+    <string name="backup_export">Sicherung exportieren</string>
+    <string name="backup_import">Sicherung importieren</string>
+    <string name="backup_export_status_empty">Noch keine Sicherung exportiert.</string>
+    <string name="backup_import_status_empty">Noch keine Sicherung importiert.</string>
+    <string name="backup_export_status_success">Sicherung wurde erfolgreich exportiert.</string>
+    <string name="backup_export_status_error">Sicherung konnte nicht exportiert werden.</string>
+    <string name="backup_export_status_cancelled">Export der Sicherung wurde abgebrochen.</string>
+    <string name="backup_import_status_success">Sicherung wurde erfolgreich wiederhergestellt.</string>
+    <string name="backup_import_status_error">Sicherung konnte nicht importiert werden.</string>
+    <string name="backup_import_status_cancelled">Import der Sicherung wurde abgebrochen.</string>
+    <string name="backup_import_status_running">Sicherung wird wiederhergestellt…</string>
+    <string name="backup_import_status_validation_error">Die ausgewählte Sicherungsdatei ist ungültig.</string>
+    <string name="backup_import_confirm_title">Sicherung wiederherstellen?</string>
+    <string name="backup_import_confirm_message">Die vorhandenen App-Daten werden durch die Daten aus dieser Sicherung ersetzt.</string>
+    <string name="backup_import_confirm_cancel">Abbrechen</string>
+    <string name="backup_import_confirm_action">Wiederherstellen</string>
+
     <string name="trial_title">Testphase beendet</string>
     <string name="trial_buy">Kaufen</string>
     <string name="trial_restore">Wiederherstellen</string>

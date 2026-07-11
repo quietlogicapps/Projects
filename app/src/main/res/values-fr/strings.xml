@@ -165,6 +165,24 @@
     <string name="import_file_not_found">Fichier de sauvegarde introuvable</string>
     <string name="import_restored">Sauvegarde restaurée</string>
 
+    <string name="backup_title">Sauvegarde et restauration</string>
+    <string name="backup_export">Exporter la sauvegarde</string>
+    <string name="backup_import">Importer une sauvegarde</string>
+    <string name="backup_export_status_empty">Aucune sauvegarde n\'a encore été exportée.</string>
+    <string name="backup_import_status_empty">Aucune sauvegarde n\'a encore été importée.</string>
+    <string name="backup_export_status_success">La sauvegarde a été exportée avec succès.</string>
+    <string name="backup_export_status_error">Impossible d\'exporter la sauvegarde.</string>
+    <string name="backup_export_status_cancelled">L\'exportation de la sauvegarde a été annulée.</string>
+    <string name="backup_import_status_success">La sauvegarde a été restaurée avec succès.</string>
+    <string name="backup_import_status_error">Impossible d\'importer la sauvegarde.</string>
+    <string name="backup_import_status_cancelled">L\'importation de la sauvegarde a été annulée.</string>
+    <string name="backup_import_status_running">Restauration de la sauvegarde…</string>
+    <string name="backup_import_status_validation_error">Le fichier de sauvegarde sélectionné n\'est pas valide.</string>
+    <string name="backup_import_confirm_title">Restaurer la sauvegarde ?</string>
+    <string name="backup_import_confirm_message">Les données actuelles de l\'application seront remplacées par celles de cette sauvegarde.</string>
+    <string name="backup_import_confirm_cancel">Annuler</string>
+    <string name="backup_import_confirm_action">Restaurer</string>
+
     <string name="trial_title">Période d\'essai terminée</string>
     <string name="trial_buy">Acheter</string>
     <string name="trial_restore">Restaurer</string>

@@ -166,6 +166,24 @@
     <string name="import_file_not_found">Archivo de copia no encontrado</string>
     <string name="import_restored">Copia restaurada</string>
 
+    <string name="backup_title">Copia de seguridad y restauración</string>
+    <string name="backup_export">Exportar copia de seguridad</string>
+    <string name="backup_import">Importar copia de seguridad</string>
+    <string name="backup_export_status_empty">Aún no se ha exportado ninguna copia de seguridad.</string>
+    <string name="backup_import_status_empty">Aún no se ha importado ninguna copia de seguridad.</string>
+    <string name="backup_export_status_success">La copia de seguridad se exportó correctamente.</string>
+    <string name="backup_export_status_error">No se pudo exportar la copia de seguridad.</string>
+    <string name="backup_export_status_cancelled">Se canceló la exportación de la copia de seguridad.</string>
+    <string name="backup_import_status_success">La copia de seguridad se restauró correctamente.</string>
+    <string name="backup_import_status_error">No se pudo importar la copia de seguridad.</string>
+    <string name="backup_import_status_cancelled">Se canceló la importación de la copia de seguridad.</string>
+    <string name="backup_import_status_running">Restaurando la copia de seguridad…</string>
+    <string name="backup_import_status_validation_error">El archivo de copia de seguridad seleccionado no es válido.</string>
+    <string name="backup_import_confirm_title">¿Restaurar la copia de seguridad?</string>
+    <string name="backup_import_confirm_message">Los datos actuales de la aplicación se sustituirán por los datos de esta copia de seguridad.</string>
+    <string name="backup_import_confirm_cancel">Cancelar</string>
+    <string name="backup_import_confirm_action">Restaurar</string>
+
     <string name="trial_title">Período de prueba terminado</string>
     <string name="trial_buy">Comprar</string>
     <string name="trial_restore">Restaurar</string>

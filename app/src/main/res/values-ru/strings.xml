@@ -163,6 +163,24 @@
     <string name="import_file_not_found">Файл резервной копии не найден</string>
     <string name="import_restored">Резервная копия восстановлена</string>
 
+    <string name="backup_title">Резервное копирование и восстановление</string>
+    <string name="backup_export">Экспортировать резервную копию</string>
+    <string name="backup_import">Импортировать резервную копию</string>
+    <string name="backup_export_status_empty">Резервная копия ещё не экспортировалась.</string>
+    <string name="backup_import_status_empty">Резервная копия ещё не импортировалась.</string>
+    <string name="backup_export_status_success">Резервная копия успешно экспортирована.</string>
+    <string name="backup_export_status_error">Не удалось экспортировать резервную копию.</string>
+    <string name="backup_export_status_cancelled">Экспорт резервной копии отменён.</string>
+    <string name="backup_import_status_success">Резервная копия успешно восстановлена.</string>
+    <string name="backup_import_status_error">Не удалось импортировать резервную копию.</string>
+    <string name="backup_import_status_cancelled">Импорт резервной копии отменён.</string>
+    <string name="backup_import_status_running">Восстановление резервной копии…</string>
+    <string name="backup_import_status_validation_error">Выбранный файл резервной копии недействителен.</string>
+    <string name="backup_import_confirm_title">Восстановить резервную копию?</string>
+    <string name="backup_import_confirm_message">Текущие данные приложения будут заменены данными из этой резервной копии.</string>
+    <string name="backup_import_confirm_cancel">Отмена</string>
+    <string name="backup_import_confirm_action">Восстановить</string>
+
     <string name="trial_title">Пробный период завершён</string>
     <string name="trial_buy">Купить</string>
     <string name="trial_restore">Восстановить</string>

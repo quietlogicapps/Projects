@@ -163,6 +163,24 @@
     <string name="import_file_not_found">File di backup non trovato</string>
     <string name="import_restored">Backup ripristinato</string>
 
+    <string name="backup_title">Backup e ripristino</string>
+    <string name="backup_export">Esporta backup</string>
+    <string name="backup_import">Importa backup</string>
+    <string name="backup_export_status_empty">Nessun backup è stato ancora esportato.</string>
+    <string name="backup_import_status_empty">Nessun backup è stato ancora importato.</string>
+    <string name="backup_export_status_success">Backup esportato correttamente.</string>
+    <string name="backup_export_status_error">Impossibile esportare il backup.</string>
+    <string name="backup_export_status_cancelled">Esportazione del backup annullata.</string>
+    <string name="backup_import_status_success">Backup ripristinato correttamente.</string>
+    <string name="backup_import_status_error">Impossibile importare il backup.</string>
+    <string name="backup_import_status_cancelled">Importazione del backup annullata.</string>
+    <string name="backup_import_status_running">Ripristino del backup in corso…</string>
+    <string name="backup_import_status_validation_error">Il file di backup selezionato non è valido.</string>
+    <string name="backup_import_confirm_title">Ripristinare il backup?</string>
+    <string name="backup_import_confirm_message">I dati attuali dell\'app verranno sostituiti con quelli di questo backup.</string>
+    <string name="backup_import_confirm_cancel">Annulla</string>
+    <string name="backup_import_confirm_action">Ripristina</string>
+
     <string name="trial_title">Periodo di prova terminato</string>
     <string name="trial_buy">Acquista</string>
     <string name="trial_restore">Ripristina</string>

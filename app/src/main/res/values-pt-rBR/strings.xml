@@ -163,6 +163,24 @@
     <string name="import_file_not_found">Arquivo de backup não encontrado</string>
     <string name="import_restored">Backup restaurado</string>
 
+    <string name="backup_title">Backup e restauração</string>
+    <string name="backup_export">Exportar backup</string>
+    <string name="backup_import">Importar backup</string>
+    <string name="backup_export_status_empty">Nenhum backup foi exportado ainda.</string>
+    <string name="backup_import_status_empty">Nenhum backup foi importado ainda.</string>
+    <string name="backup_export_status_success">Backup exportado com sucesso.</string>
+    <string name="backup_export_status_error">Não foi possível exportar o backup.</string>
+    <string name="backup_export_status_cancelled">A exportação do backup foi cancelada.</string>
+    <string name="backup_import_status_success">Backup restaurado com sucesso.</string>
+    <string name="backup_import_status_error">Não foi possível importar o backup.</string>
+    <string name="backup_import_status_cancelled">A importação do backup foi cancelada.</string>
+    <string name="backup_import_status_running">Restaurando o backup…</string>
+    <string name="backup_import_status_validation_error">O arquivo de backup selecionado é inválido.</string>
+    <string name="backup_import_confirm_title">Restaurar o backup?</string>
+    <string name="backup_import_confirm_message">Os dados atuais do aplicativo serão substituídos pelos dados deste backup.</string>
+    <string name="backup_import_confirm_cancel">Cancelar</string>
+    <string name="backup_import_confirm_action">Restaurar</string>
+
     <string name="trial_title">Período de teste encerrado</string>
     <string name="trial_buy">Comprar</string>
     <string name="trial_restore">Restaurar</string>
