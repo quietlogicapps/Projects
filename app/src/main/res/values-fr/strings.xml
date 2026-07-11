@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">All Is OK</string>
-    <string name="main_placeholder">Hello World!</string>
 
     <string name="menu_security">Sécurité</string>
     <string name="menu_language">Langue</string>
