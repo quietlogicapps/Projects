@@ -28,6 +28,7 @@
 
     <string name="home_contacts">CONTATOS</string>
     <string name="home_care">CUIDADOS</string>
+    <string name="home_routine">ROTINA</string>
     <string name="home_info">INFO</string>
 
     <string name="care_add">ADICIONAR</string>

@@ -28,6 +28,7 @@
 
     <string name="home_contacts">КОНТАКТЫ</string>
     <string name="home_care">УХОД</string>
+    <string name="home_routine">РУТИНА</string>
     <string name="home_info">ИНФО</string>
 
     <string name="care_add">ДОБАВИТЬ</string>

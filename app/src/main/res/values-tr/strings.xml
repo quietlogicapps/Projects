@@ -28,6 +28,7 @@
 
     <string name="home_contacts">KİŞİLER</string>
     <string name="home_care">BAKIM</string>
+    <string name="home_routine">RUTİN</string>
     <string name="home_info">BİLGİ</string>
 
     <string name="care_add">EKLE</string>
