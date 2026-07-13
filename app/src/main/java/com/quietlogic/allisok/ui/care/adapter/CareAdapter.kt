@@ -1,7 +1,5 @@
 package com.quietlogic.allisok.ui.care.adapter
 
-import android.content.Context
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,11 +52,6 @@ class CareAdapter(
         holder.name.text = item.name
         holder.subtitle.text = item.subtitle
 
-        (holder.itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.let { params ->
-            params.topMargin = dp(holder.itemView.context, if (position == 0) 9 else 3)
-            holder.itemView.layoutParams = params
-        }
-
         if (adminMode) {
             holder.delete.visibility = View.VISIBLE
             holder.delete.setOnClickListener {
@@ -85,14 +78,4 @@ class CareAdapter(
         val edit: ImageView,
         val delete: TextView
     ) : RecyclerView.ViewHolder(itemView)
-
-    companion object {
-        private fun dp(context: Context, value: Int): Int {
-            return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                value.toFloat(),
-                context.resources.displayMetrics
-            ).toInt()
-        }
-    }
 }

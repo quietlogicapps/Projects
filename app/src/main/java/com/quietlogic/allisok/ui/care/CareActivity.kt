@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -96,6 +98,17 @@ class CareActivity : AppCompatActivity() {
 
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
+        recycler.clipToPadding = true
+
+        val bottomAirPx = (8 * resources.displayMetrics.density).toInt()
+        ViewCompat.setOnApplyWindowInsetsListener(recycler) { view, insets ->
+            val navigationBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            view.setPadding(0, 0, 0, navigationBottom + bottomAirPx)
+            insets
+        }
+        ViewCompat.requestApplyInsets(recycler)
+
+        btnAdd.bringToFront()
 
         btnAdd.setOnClickListener {
             if (AdminSession.isActive()) {
