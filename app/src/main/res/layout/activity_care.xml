@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/bg_home_gradient">
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/textRoutineTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:text="@string/home_routine"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/viewAdminIndicator"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="28dp"
         android:background="@android:color/holo_red_dark"
         android:gravity="center"
@@ -18,38 +29,55 @@
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textRoutineTitle" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddCare"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="64dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
         android:text="@string/care_add"
         android:textAllCaps="false"
+        android:textColor="@color/allisok_onPrimary"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:backgroundTint="?attr/colorPrimary"
-        app:cornerRadius="16dp"/>
+        app:backgroundTint="?attr/colorPrimary"
+        app:cornerRadius="16dp"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewAdminIndicator" />
 
     <TextView
         android:id="@+id/textEmpty"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
         android:text="@string/care_empty"
         android:textSize="18sp"
-        android:gravity="center"
-        android:layout_marginTop="40dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnAddCare" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCare"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:fadeScrollbars="false"
-        android:scrollbarStyle="insideInset" />
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnAddCare" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
