@@ -12,7 +12,13 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
+import android.graphics.Color
+import android.graphics.Typeface
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
@@ -94,7 +100,7 @@ class AlarmActivity : AppCompatActivity() {
 
         val textAlarmTime = findViewById<TextView>(R.id.textAlarmTime)
         val textCareName = findViewById<TextView>(R.id.textCareName)
-        val textInstruction = findViewById<TextView>(R.id.textInstruction)
+        val layoutReminderItems = findViewById<LinearLayout>(R.id.layoutReminderItems)
 
         textAlarmTime.text = timeText
 
@@ -104,14 +110,27 @@ class AlarmActivity : AppCompatActivity() {
                     careItemNames != null &&
                     careItemNames.size == careItemIds.size
 
+        layoutReminderItems.removeAllViews()
+        (layoutReminderItems.layoutParams as? LinearLayout.LayoutParams)?.let { params ->
+            params.width = LinearLayout.LayoutParams.MATCH_PARENT
+            layoutReminderItems.layoutParams = params
+        }
+
         if (hasGroupedItems) {
             textCareName.text = getString(R.string.alarm_multiple_items, careItemIds!!.size)
-            textInstruction.text = careItemNames!!
-                .joinToString(separator = "\n") { getString(R.string.alarm_item_bullet, it) }
+            careItemNames!!.forEachIndexed { index, name ->
+                val itemInstruction = careItemInstructions?.getOrNull(index).orEmpty()
+                addReminderEntry(layoutReminderItems, name, itemInstruction)
+            }
         } else {
             textCareName.text = careName
-            textInstruction.text = instruction
+            if (shouldShowInstructionLine(instruction)) {
+                addInstructionLine(layoutReminderItems, instruction)
+            }
         }
+
+        layoutReminderItems.visibility =
+            if (layoutReminderItems.childCount > 0) View.VISIBLE else View.GONE
 
         findViewById<Button>(R.id.buttonTaken).setOnClickListener {
             stopRingtone()
@@ -226,6 +245,71 @@ class AlarmActivity : AppCompatActivity() {
     override fun onDestroy() {
         stopRingtone()
         super.onDestroy()
+    }
+
+    private fun isBeforeMealInstruction(instruction: String): Boolean {
+        return instruction == getString(R.string.care_instruction_before_food) ||
+            instruction.equals("Before food", ignoreCase = true)
+    }
+
+    private fun isAfterMealInstruction(instruction: String): Boolean {
+        return instruction == getString(R.string.care_instruction_after_food) ||
+            instruction.equals("After food", ignoreCase = true)
+    }
+
+    private fun shouldShowInstructionLine(instruction: String): Boolean {
+        return isBeforeMealInstruction(instruction) || isAfterMealInstruction(instruction)
+    }
+
+    private fun formatInstructionLabel(instruction: String): String {
+        return when {
+            isBeforeMealInstruction(instruction) -> getString(R.string.care_instruction_before_food)
+            isAfterMealInstruction(instruction) -> getString(R.string.care_instruction_after_food)
+            else -> instruction
+        }
+    }
+
+    private fun addReminderEntry(
+        container: LinearLayout,
+        name: String,
+        instruction: String
+    ) {
+        val entryLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.CENTER_HORIZONTAL
+            }
+        }
+
+        val nameView = TextView(this).apply {
+            text = getString(R.string.alarm_item_bullet, name)
+            setTextColor(Color.BLACK)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+            setTypeface(typeface, Typeface.BOLD)
+        }
+        entryLayout.addView(nameView)
+        container.addView(entryLayout)
+
+        if (shouldShowInstructionLine(instruction)) {
+            addInstructionLine(container, instruction)
+        }
+    }
+
+    private fun addInstructionLine(container: LinearLayout, instruction: String) {
+        val instructionView = TextView(this).apply {
+            text = formatInstructionLabel(instruction)
+            setTextColor(Color.BLACK)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+            gravity = Gravity.CENTER_HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+        container.addView(instructionView)
     }
 
     private fun startRingtone() {
