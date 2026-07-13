@@ -4,6 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.quietlogic.allisok.R
@@ -31,6 +35,8 @@ class InfoActivity : AppCompatActivity() {
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         title = getString(R.string.home_info)
 
         updateAdminIndicator()
@@ -39,6 +45,27 @@ class InfoActivity : AppCompatActivity() {
 
         binding.recyclerRecentTaken.layoutManager = LinearLayoutManager(this)
         binding.recyclerRecentTaken.adapter = adapter
+
+        val bottomAirPx = (8 * resources.displayMetrics.density).toInt()
+        fun applyRecyclerBottomInset(insets: WindowInsetsCompat) {
+            val navigationBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            binding.recyclerRecentTaken.updatePadding(
+                left = binding.recyclerRecentTaken.paddingLeft,
+                top = binding.recyclerRecentTaken.paddingTop,
+                right = binding.recyclerRecentTaken.paddingRight,
+                bottom = navigationBottom + bottomAirPx
+            )
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            applyRecyclerBottomInset(insets)
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerRecentTaken) { _, insets ->
+            applyRecyclerBottomInset(insets)
+            insets
+        }
+        ViewCompat.requestApplyInsets(binding.root)
 
         val database = DatabaseProvider.getDatabase(this)
         val careLogRepository = CareLogRepository(database.careLogDao())
@@ -78,22 +105,14 @@ class InfoActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             infoRepository.getInfo().collect { info ->
-                binding.textBloodType.text = getString(
-                    R.string.blood_type_value,
+                binding.textBloodType.text =
                     info?.bloodType?.takeIf { it.isNotBlank() } ?: "-"
-                )
-                binding.textAllergies.text = getString(
-                    R.string.allergies_value,
+                binding.textAllergies.text =
                     info?.allergies?.takeIf { it.isNotBlank() } ?: "-"
-                )
-                binding.textConditions.text = getString(
-                    R.string.conditions_value,
+                binding.textConditions.text =
                     info?.conditions?.takeIf { it.isNotBlank() } ?: "-"
-                )
-                binding.textNotes.text = getString(
-                    R.string.notes_value,
+                binding.textNotes.text =
                     info?.notes?.takeIf { it.isNotBlank() } ?: "-"
-                )
             }
         }
     }

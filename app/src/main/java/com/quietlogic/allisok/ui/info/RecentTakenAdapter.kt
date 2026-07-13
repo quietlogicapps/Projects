@@ -25,13 +25,9 @@ class RecentTakenAdapter : RecyclerView.Adapter<RecentTakenAdapter.ViewHolder>()
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: RecentTakenItem) {
-
+            binding.textCareName.text = item.careItemName
             binding.textDate.text = item.date
-
-            binding.textTime.text = "${item.scheduledTime}  ${item.careItemName}"
-
-            binding.textCareName.text = ""
-
+            binding.textTime.text = item.scheduledTime
             binding.textStatus.text = binding.root.context.getString(R.string.alarm_taken)
         }
     }
