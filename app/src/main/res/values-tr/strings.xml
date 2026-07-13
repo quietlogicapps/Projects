@@ -204,10 +204,10 @@
     <string name="conditions_value">Ayrıntılar: %1$s</string>
     <string name="notes_value">Notlar: %1$s</string>
 
-    <string name="contact_relative">Yakın Kişi</string>
-    <string name="contact_doctor">Aile</string>
-    <string name="contact_3">Destek</string>
-    <string name="contact_emergency">Acil Durum</string>
+    <string name="contact_slot_1">Kişi</string>
+    <string name="contact_slot_2">Kişi</string>
+    <string name="contact_slot_3">Kişi</string>
+    <string name="contact_slot_4">Kişi</string>
 
     <string name="contact_edit_title">KİŞİYİ DÜZENLE</string>
     <string name="edit_contact_title">KİŞİYİ DÜZENLE</string>

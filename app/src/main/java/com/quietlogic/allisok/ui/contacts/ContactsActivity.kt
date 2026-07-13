@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,10 +33,15 @@ class ContactsActivity : AppCompatActivity() {
     private var pendingCallNumber: String? = null
     private var currentContacts: List<ContactSlotEntity> = emptyList()
 
-    private lateinit var buttonRelative: MaterialButton
-    private lateinit var buttonDoctor: MaterialButton
-    private lateinit var buttonContact3: MaterialButton
-    private lateinit var buttonEmergency: MaterialButton
+    private lateinit var buttonRelative: View
+    private lateinit var buttonDoctor: View
+    private lateinit var buttonContact3: View
+    private lateinit var buttonEmergency: View
+
+    private lateinit var textRelative: android.widget.TextView
+    private lateinit var textDoctor: android.widget.TextView
+    private lateinit var textContact3: android.widget.TextView
+    private lateinit var textEmergency: android.widget.TextView
 
     private lateinit var repository: ContactsRepository
 
@@ -53,6 +57,11 @@ class ContactsActivity : AppCompatActivity() {
         buttonDoctor = findViewById(R.id.buttonDoctor)
         buttonContact3 = findViewById(R.id.buttonContact3)
         buttonEmergency = findViewById(R.id.buttonEmergency)
+
+        textRelative = findViewById(R.id.textRelative)
+        textDoctor = findViewById(R.id.textDoctor)
+        textContact3 = findViewById(R.id.textContact3)
+        textEmergency = findViewById(R.id.textEmergency)
 
         buttonRelative.setOnClickListener { handleContactTap(1) }
         buttonDoctor.setOnClickListener { handleContactTap(2) }
@@ -248,21 +257,21 @@ class ContactsActivity : AppCompatActivity() {
     }
 
     private fun applyContacts(contacts: List<ContactSlotEntity>) {
-        buttonRelative.text =
+        textRelative.text =
             contacts.firstOrNull { it.slotId == 1 }?.label?.takeIf { it.isNotBlank() }
-                ?: getString(R.string.contact_relative)
+                ?: getString(R.string.contact_slot_1)
 
-        buttonDoctor.text =
+        textDoctor.text =
             contacts.firstOrNull { it.slotId == 2 }?.label?.takeIf { it.isNotBlank() }
-                ?: getString(R.string.contact_doctor)
+                ?: getString(R.string.contact_slot_2)
 
-        buttonContact3.text =
+        textContact3.text =
             contacts.firstOrNull { it.slotId == 3 }?.label?.takeIf { it.isNotBlank() }
-                ?: getString(R.string.contact_3)
+                ?: getString(R.string.contact_slot_3)
 
-        buttonEmergency.text =
+        textEmergency.text =
             contacts.firstOrNull { it.slotId == 4 }?.label?.takeIf { it.isNotBlank() }
-                ?: getString(R.string.contact_emergency)
+                ?: getString(R.string.contact_slot_4)
     }
 
     private fun updateAdminIndicator() {

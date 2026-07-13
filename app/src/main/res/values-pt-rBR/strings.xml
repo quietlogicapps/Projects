@@ -204,10 +204,10 @@
     <string name="conditions_value">Detalhes: %1$s</string>
     <string name="notes_value">Notas: %1$s</string>
 
-    <string name="contact_relative">Próximo</string>
-    <string name="contact_doctor">Família</string>
-    <string name="contact_3">Suporte</string>
-    <string name="contact_emergency">Urgente</string>
+    <string name="contact_slot_1">Contato</string>
+    <string name="contact_slot_2">Contato</string>
+    <string name="contact_slot_3">Contato</string>
+    <string name="contact_slot_4">Contato</string>
 
     <string name="contact_edit_title">EDITAR CONTATO</string>
     <string name="edit_contact_title">EDITAR CONTATO</string>
