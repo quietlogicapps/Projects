@@ -40,24 +40,48 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="AllIsOK.DialogButton.CareDays" parent="AllIsOK.DialogButton">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="AllIsOK.MaterialAlertDialog.CareDays" parent="AllIsOK.MaterialAlertDialog">
+        <item name="android:background">@drawable/bg_care_select_days_dialog</item>
+        <item name="listItemLayout">@layout/dialog_list_item_care_days</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.Material3.Title.Text</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#000000</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AllIsOK.DialogButton.CareDays</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AllIsOK.DialogButton.CareDays</item>
+    </style>
+
     <style name="AllIsOK.DatePickerDialog" parent="Theme.Material3.Light.Dialog">
-        <item name="colorSurface">#FFFFFF</item>
+        <item name="android:windowBackground">@drawable/bg_care_select_days_dialog</item>
+        <item name="colorSurface">@android:color/transparent</item>
         <item name="colorOnSurface">#111111</item>
         <item name="colorPrimary">#7C6FA0</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="android:textColorPrimary">#111111</item>
-        <item name="android:textColorSecondary">#333333</item>
-        <item name="android:buttonBarButtonStyle">@style/AllIsOK.TimePickerButton</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AllIsOK.DialogButton.CareDays</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AllIsOK.DialogButton.CareDays</item>
     </style>
 
     <style name="AllIsOK.TimePickerDialog" parent="Theme.Material3.Light.Dialog">
-        <item name="colorSurface">#FFFFFF</item>
+        <item name="android:windowBackground">@drawable/bg_care_select_days_dialog</item>
+        <item name="colorSurface">@android:color/transparent</item>
         <item name="colorOnSurface">#111111</item>
         <item name="colorPrimary">#7C6FA0</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="android:textColorPrimary">#111111</item>
-        <item name="android:textColorSecondary">#333333</item>
-        <item name="android:buttonBarButtonStyle">@style/AllIsOK.TimePickerButton</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:timePickerStyle">@style/AllIsOK.TimePickerDialog.TimePicker</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AllIsOK.DialogButton.CareDays</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AllIsOK.DialogButton.CareDays</item>
     </style>
 
     <style name="AllIsOK.TimePickerButton" parent="Widget.Material3.Button.TextButton.Dialog">

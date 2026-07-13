@@ -36,6 +36,7 @@
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Añadir elemento</string>
+    <string name="care_add_routine_title">AÑADIR RUTINA</string>
     <string name="care_edit_name_label">Nombre de la tarea</string>
     <string name="care_edit_name_hint">Ejemplo: Tarea diaria</string>
     <string name="care_edit_instruction_label">Instrucción</string>

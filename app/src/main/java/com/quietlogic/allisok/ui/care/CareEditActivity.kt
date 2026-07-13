@@ -108,23 +108,24 @@ class CareEditActivity : AppCompatActivity() {
         val btnPickDays = findViewById<MaterialButton>(R.id.btnPickDays)
         val textRepeatDays = findViewById<TextView>(R.id.textRepeatDays)
 
-        val btnPickStart = findViewById<MaterialButton>(R.id.btnPickStart)
-        val btnPickEnd = findViewById<MaterialButton>(R.id.btnPickEnd)
+        val btnPickStart = findViewById<View>(R.id.btnPickStart)
+        val btnPickEnd = findViewById<View>(R.id.btnPickEnd)
 
         val textStart = findViewById<TextView>(R.id.textStart)
         val textEnd = findViewById<TextView>(R.id.textEnd)
 
-        val btnAddTime = findViewById<MaterialButton>(R.id.btnAddTime)
+        val btnAddTime = findViewById<View>(R.id.btnAddTime)
+        val textAddTime = findViewById<TextView>(R.id.textAddTime)
         val layoutTimes = findViewById<LinearLayout>(R.id.layoutTimes)
         val textNoTimes = findViewById<TextView>(R.id.textNoTimes)
 
-        val btnSave = findViewById<MaterialButton>(R.id.btnSaveCare)
+        val btnSave = findViewById<View>(R.id.btnSaveCare)
 
         val timesController = CareEditTimesController(
             activity = this,
             times = times,
             layoutTimes = layoutTimes,
-            btnAddTime = btnAddTime,
+            textAddTime = textAddTime,
             textNoTimes = textNoTimes,
             timeFormatter = timeFormatter
         )
@@ -175,6 +176,10 @@ class CareEditActivity : AppCompatActivity() {
             }
 
             if (checkedId == R.id.radioSpecific) {
+                if (repeatAndDateHelper.shouldSuppressDaysDialogOpen()) {
+                    return@setOnCheckedChangeListener
+                }
+
                 btnPickDays.visibility = View.GONE
 
                 startDate = null

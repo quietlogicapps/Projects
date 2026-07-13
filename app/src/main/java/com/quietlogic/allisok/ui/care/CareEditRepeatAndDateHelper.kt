@@ -1,10 +1,13 @@
 package com.quietlogic.allisok.ui.care
 
 import android.app.DatePickerDialog
+import android.view.View
+import android.widget.ListView
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
+import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.quietlogic.allisok.R
 import java.time.LocalDate
@@ -20,11 +23,15 @@ class CareEditRepeatAndDateHelper(
     private val startDateProvider: () -> LocalDate?,
     private val endDateProvider: () -> LocalDate?,
     private val groupRepeat: RadioGroup,
-    private val btnPickStart: MaterialButton,
-    private val btnPickEnd: MaterialButton,
+    private val btnPickStart: View,
+    private val btnPickEnd: View,
     private val textStart: TextView,
     private val textEnd: TextView
 ) {
+
+    private var suppressDaysDialogOpen = false
+
+    fun shouldSuppressDaysDialogOpen(): Boolean = suppressDaysDialogOpen
 
     fun updateDateButtonsState() {
         val isDaily = groupRepeat.checkedRadioButtonId == R.id.radioDaily
@@ -59,9 +66,13 @@ class CareEditRepeatAndDateHelper(
     }
 
     fun openDaysDialog(textRepeatDays: TextView) {
+        if (suppressDaysDialogOpen) return
+
         val checkedItems = checkedDays.copyOf()
 
-        val dialog = MaterialAlertDialogBuilder(activity, R.style.AllIsOK_MaterialAlertDialog)
+        lateinit var daysDialog: AlertDialog
+
+        daysDialog = MaterialAlertDialogBuilder(activity, R.style.AllIsOK_MaterialAlertDialog_CareDays)
             .setTitle(activity.getString(R.string.care_select_days))
             .setMultiChoiceItems(dayLabels, checkedItems) { _, which, isChecked ->
                 checkedDays[which] = isChecked
@@ -84,23 +95,50 @@ class CareEditRepeatAndDateHelper(
                     )
                 }
             }
-            .setNegativeButton(activity.getString(R.string.dialog_cancel)) { _, _ ->
-                if (
-                    selectedDays.isEmpty() &&
-                    groupRepeat.checkedRadioButtonId == R.id.radioSpecific
-                ) {
-                    textRepeatDays.text = activity.getString(R.string.care_days_not_selected)
+            .setNegativeButton(activity.getString(R.string.dialog_cancel), null)
+            .setBackground(
+                ContextCompat.getDrawable(activity, R.drawable.bg_care_select_days_dialog)
+            )
+            .create()
+
+        daysDialog.setOnShowListener {
+            daysDialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
+                suppressDaysDialogOpen = true
+                daysDialog.dismiss()
+                if (groupRepeat.checkedRadioButtonId == R.id.radioSpecific) {
+                    groupRepeat.check(R.id.radioDaily)
+                }
+                groupRepeat.post {
+                    suppressDaysDialogOpen = false
                 }
             }
-            .show()
+        }
 
-        val listView = dialog.listView
+        daysDialog.show()
+
+        applyCareDaysPopupGradient(daysDialog)
+
+        val listView = daysDialog.listView
         listView?.post {
-            for (i in 0 until listView.count) {
-                val child = listView.getChildAt(i)
-                if (child is TextView) {
-                    child.setTextColor(android.graphics.Color.parseColor("#111111"))
-                }
+            applyCareDaysListItemGradient(listView)
+        }
+    }
+
+    private fun applyCareDaysPopupGradient(dialog: AlertDialog) {
+        val gradientId = R.drawable.bg_care_select_days_gradient
+        dialog.findViewById<View>(androidx.appcompat.R.id.topPanel)?.setBackgroundResource(gradientId)
+        dialog.findViewById<View>(androidx.appcompat.R.id.contentPanel)?.setBackgroundResource(gradientId)
+        dialog.findViewById<View>(androidx.appcompat.R.id.buttonPanel)?.setBackgroundResource(gradientId)
+        dialog.listView?.setBackgroundResource(gradientId)
+    }
+
+    private fun applyCareDaysListItemGradient(listView: ListView) {
+        val gradientId = R.drawable.bg_care_select_days_gradient
+        for (i in 0 until listView.childCount) {
+            val child = listView.getChildAt(i)
+            child.setBackgroundResource(gradientId)
+            if (child is TextView) {
+                child.setTextColor(android.graphics.Color.parseColor("#FFFFFF"))
             }
         }
     }
@@ -119,6 +157,34 @@ class CareEditRepeatAndDateHelper(
         )
         dialog.datePicker.minDate = System.currentTimeMillis()
         dialog.show()
+        dialog.datePicker?.post {
+            applyDatePickerCareDaysBackground(dialog)
+        }
+    }
+
+    private fun applyDatePickerCareDaysBackground(dialog: DatePickerDialog) {
+        val panelBackground = R.drawable.bg_care_select_days_gradient
+        val datePicker = dialog.datePicker
+
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(activity, R.drawable.bg_care_select_days_dialog)
+        )
+
+        val headerId = datePicker.resources.getIdentifier("date_picker_header", "id", "android")
+        if (headerId != 0) {
+            datePicker.findViewById<View>(headerId)?.setBackgroundResource(panelBackground)
+        }
+
+        val calendarId = datePicker.resources.getIdentifier("date_picker_view_animator", "id", "android")
+        if (calendarId != 0) {
+            datePicker.findViewById<View>(calendarId)?.setBackgroundResource(panelBackground)
+        } else if (datePicker.childCount > 1) {
+            datePicker.getChildAt(0)?.setBackgroundResource(panelBackground)
+            datePicker.getChildAt(1)?.setBackgroundResource(panelBackground)
+        }
+
+        dialog.findViewById<View>(androidx.appcompat.R.id.buttonPanel)
+            ?.setBackgroundResource(panelBackground)
     }
 
     private fun mapDayCodeToLabel(code: String): String {

@@ -36,6 +36,7 @@
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Öğe ekle</string>
+    <string name="care_add_routine_title">RUTİN EKLE</string>
     <string name="care_edit_name_label">Görev adı</string>
     <string name="care_edit_name_hint">Örnek: Günlük görev</string>
     <string name="care_edit_instruction_label">Talimat</string>

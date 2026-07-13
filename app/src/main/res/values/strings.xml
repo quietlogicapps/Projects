@@ -36,6 +36,7 @@
     <string name="care_times_dash">—</string>
 
     <string name="care_edit_title">Add Care Item</string>
+    <string name="care_add_routine_title">ADD ROUTINE</string>
 
     <string name="care_edit_name_label">Task Name</string>
     <string name="care_edit_name_hint">Example: Daily care task</string>

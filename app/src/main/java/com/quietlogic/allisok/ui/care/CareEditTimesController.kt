@@ -2,12 +2,13 @@ package com.quietlogic.allisok.ui.care
 
 import android.app.TimePickerDialog
 import android.view.Gravity
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.R
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -16,7 +17,7 @@ class CareEditTimesController(
     private val activity: AppCompatActivity,
     private val times: MutableList<LocalTime>,
     private val layoutTimes: LinearLayout,
-    private val btnAddTime: MaterialButton,
+    private val textAddTime: TextView,
     private val textNoTimes: TextView,
     private val timeFormatter: DateTimeFormatter
 ) {
@@ -76,12 +77,14 @@ class CareEditTimesController(
 
     fun updateAddTimeUi() {
         if (times.isEmpty()) {
-            btnAddTime.text = activity.getString(R.string.care_add_time)
+            textAddTime.text = activity.getString(R.string.care_add_time)
             textNoTimes.text = activity.getString(R.string.care_no_times_added)
+            textNoTimes.setTextColor(ContextCompat.getColor(activity, android.R.color.white))
             textNoTimes.visibility = android.view.View.VISIBLE
         } else {
-            btnAddTime.text = activity.getString(R.string.care_add_another_time)
+            textAddTime.text = activity.getString(R.string.care_add_another_time)
             textNoTimes.text = activity.getString(R.string.care_add_another_time_hint)
+            textNoTimes.setTextColor(ContextCompat.getColor(activity, android.R.color.white))
             textNoTimes.visibility = android.view.View.VISIBLE
         }
     }
@@ -120,6 +123,44 @@ class CareEditTimesController(
         }
 
         dialog.show()
+        dialog.findViewById<TimePicker>(
+            activity.resources.getIdentifier("timePicker", "id", "android")
+        )?.post {
+            applyTimePickerCareBackground(dialog)
+        }
+    }
+
+    private fun applyTimePickerCareBackground(dialog: TimePickerDialog) {
+        val panelBackground = R.drawable.bg_care_select_days_gradient
+        val timePickerId = activity.resources.getIdentifier("timePicker", "id", "android")
+        val timePicker = if (timePickerId != 0) {
+            dialog.findViewById<TimePicker>(timePickerId)
+        } else {
+            null
+        } ?: return
+
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(activity, R.drawable.bg_care_select_days_dialog)
+        )
+
+        val headerId = timePicker.resources.getIdentifier("time_header", "id", "android")
+        if (headerId != 0) {
+            timePicker.findViewById<View>(headerId)?.setBackgroundResource(panelBackground)
+        }
+
+        val radialId = timePicker.resources.getIdentifier("radial_picker", "id", "android")
+        if (radialId != 0) {
+            timePicker.findViewById<View>(radialId)?.setBackgroundResource(panelBackground)
+        }
+
+        val toggleId = timePicker.resources.getIdentifier("toggle_mode", "id", "android")
+        if (toggleId != 0) {
+            (timePicker.findViewById<View>(toggleId)?.parent as? View)
+                ?.setBackgroundResource(panelBackground)
+        }
+
+        dialog.findViewById<View>(androidx.appcompat.R.id.buttonPanel)
+            ?.setBackgroundResource(panelBackground)
     }
 
     private fun createTimeCell(
@@ -147,7 +188,7 @@ class CareEditTimesController(
                 )
                 text = time.format(timeFormatter)
                 textSize = 18f
-                setTextColor(ContextCompat.getColor(activity, android.R.color.black))
+                setTextColor(ContextCompat.getColor(activity, android.R.color.white))
             }
 
             val deleteBtn = TextView(activity).apply {
