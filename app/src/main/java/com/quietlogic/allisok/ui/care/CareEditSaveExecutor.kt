@@ -2,6 +2,7 @@ package com.quietlogic.allisok.ui.care
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.room.withTransaction
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.alarm.engine.AlarmPlanner
 import com.quietlogic.allisok.data.local.db.AppDatabase
@@ -19,7 +20,8 @@ data class CareEditSaveInput(
     val selectedDays: List<String>,
     val startDate: LocalDate?,
     val endDate: LocalDate?,
-    val times: List<LocalTime>
+    val times: List<LocalTime>,
+    val careItemId: Long? = null
 )
 
 sealed class CareEditSaveResult {
@@ -71,6 +73,7 @@ class CareEditSaveExecutor(
         }
 
         val item = CareItemEntity(
+            id = input.careItemId ?: 0L,
             name = input.name,
             instruction = input.instruction,
             startDate = start,
@@ -79,32 +82,68 @@ class CareEditSaveExecutor(
         )
 
         withContext(Dispatchers.IO) {
-            val itemId = db.careItemDao().insert(item)
-
             val planner = AlarmPlanner(context)
+            val isEditMode = input.careItemId != null && input.careItemId > 0L
 
-            input.times.forEach { t ->
-                db.careTimeDao().insert(
-                    CareTimeEntity(
-                        careItemId = itemId,
-                        time = t
+            if (isEditMode) {
+                val itemId = input.careItemId!!
+                val oldTimes = db.careTimeDao().getTimesForItem(itemId).map { it.time }
+                planner.cancelCareItemAlarms(itemId, oldTimes)
+
+                db.withTransaction {
+                    db.careItemDao().update(item.copy(id = itemId))
+                    db.careTimeDao().deleteByItemId(itemId)
+
+                    input.times.forEach { time ->
+                        db.careTimeDao().insert(
+                            CareTimeEntity(
+                                careItemId = itemId,
+                                time = time
+                            )
+                        )
+                    }
+                }
+
+                input.times.forEach { time ->
+                    val triggerAtMillis = CareAlarmTriggerCalculator.buildFirstTriggerAtMillis(
+                        startDate = start,
+                        time = time
                     )
-                )
+                    val requestCode = planner.buildRequestCode(itemId, time)
+                    planner.scheduleCareAlarm(
+                        triggerAtMillis = triggerAtMillis,
+                        careItemId = itemId,
+                        requestCode = requestCode,
+                        title = input.name,
+                        text = input.instruction
+                    )
+                }
+            } else {
+                val itemId = db.careItemDao().insert(item)
 
-                val triggerAtMillis = CareAlarmTriggerCalculator.buildFirstTriggerAtMillis(
-                    startDate = start,
-                    time = t
-                )
+                input.times.forEach { time ->
+                    db.careTimeDao().insert(
+                        CareTimeEntity(
+                            careItemId = itemId,
+                            time = time
+                        )
+                    )
 
-                val requestCode = planner.buildRequestCode(itemId, t)
+                    val triggerAtMillis = CareAlarmTriggerCalculator.buildFirstTriggerAtMillis(
+                        startDate = start,
+                        time = time
+                    )
 
-                planner.scheduleCareAlarm(
-                    triggerAtMillis = triggerAtMillis,
-                    careItemId = itemId,
-                    requestCode = requestCode,
-                    title = input.name,
-                    text = input.instruction
-                )
+                    val requestCode = planner.buildRequestCode(itemId, time)
+
+                    planner.scheduleCareAlarm(
+                        triggerAtMillis = triggerAtMillis,
+                        careItemId = itemId,
+                        requestCode = requestCode,
+                        title = input.name,
+                        text = input.instruction
+                    )
+                }
             }
         }
 

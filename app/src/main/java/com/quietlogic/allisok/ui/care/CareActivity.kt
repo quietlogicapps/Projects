@@ -1,9 +1,11 @@
 package com.quietlogic.allisok.ui.care
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +23,7 @@ import com.quietlogic.allisok.ui.care.adapter.CareAdapter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class CareActivity : AppCompatActivity() {
 
@@ -30,6 +33,20 @@ class CareActivity : AppCompatActivity() {
 
     private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private var dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+    private val instructionLocales = listOf(
+        Locale.ENGLISH,
+        Locale("es"),
+        Locale("pt", "BR"),
+        Locale.GERMAN,
+        Locale.FRENCH,
+        Locale.ITALIAN,
+        Locale("tr"),
+        Locale("pl"),
+        Locale("ru")
+    )
+
+    private val localizedInstructionStringCache = mutableMapOf<Int, Set<String>>()
 
     override fun onStart() {
         super.onStart()
@@ -55,16 +72,25 @@ class CareActivity : AppCompatActivity() {
         val empty = findViewById<TextView>(R.id.textEmpty)
         val btnAdd = findViewById<MaterialButton>(R.id.btnAddCare)
 
-        adapter = CareAdapter { itemId ->
-            if (!AdminSession.isActive()) return@CareAdapter
+        adapter = CareAdapter(
+            onDeleteClick = { itemId ->
+                if (!AdminSession.isActive()) return@CareAdapter
 
-            lifecycleScope.launch {
-                val item = db.careItemDao().getAllActive().first().firstOrNull { it.id == itemId }
-                if (item != null) {
-                    repository.deleteCareItem(item)
+                lifecycleScope.launch {
+                    val item = db.careItemDao().getAllActive().first().firstOrNull { it.id == itemId }
+                    if (item != null) {
+                        repository.deleteCareItem(item)
+                    }
                 }
+            },
+            onEditClick = { itemId ->
+                startActivity(
+                    Intent(this, CareEditActivity::class.java).apply {
+                        putExtra(CareEditActivity.EXTRA_CARE_ITEM_ID, itemId)
+                    }
+                )
             }
-        }
+        )
 
         adapter.setAdminMode(AdminSession.isActive())
 
@@ -119,12 +145,7 @@ class CareActivity : AppCompatActivity() {
                         else -> item.repeatType
                     }
 
-                    val instructionText = when (item.instruction) {
-                        "None" -> getString(R.string.care_instruction_none)
-                        "Before food" -> getString(R.string.care_instruction_before_food)
-                        "After food" -> getString(R.string.care_instruction_after_food)
-                        else -> item.instruction
-                    }
+                    val instructionText = resolveInstructionDisplayText(item.instruction)
 
                     val subtitle = buildSubtitle(
                         dateRange = dateRange,
@@ -185,12 +206,7 @@ class CareActivity : AppCompatActivity() {
                     else -> item.repeatType
                 }
 
-                val instructionText = when (item.instruction) {
-                    "None" -> getString(R.string.care_instruction_none)
-                    "Before food" -> getString(R.string.care_instruction_before_food)
-                    "After food" -> getString(R.string.care_instruction_after_food)
-                    else -> item.instruction
-                }
+                val instructionText = resolveInstructionDisplayText(item.instruction)
 
                 val subtitle = buildSubtitle(
                     dateRange = dateRange,
@@ -232,6 +248,48 @@ class CareActivity : AppCompatActivity() {
         lines.add(repeatText)
 
         return lines.joinToString("\n")
+    }
+
+    private fun resolveInstructionDisplayText(storedInstruction: String): String {
+        return when {
+            isStoredInstructionBeforeMeal(storedInstruction) ->
+                getString(R.string.care_instruction_before_food)
+
+            isStoredInstructionAfterMeal(storedInstruction) ->
+                getString(R.string.care_instruction_after_food)
+
+            isStoredInstructionNone(storedInstruction) ->
+                getString(R.string.care_instruction_none)
+
+            else -> storedInstruction
+        }
+    }
+
+    private fun isStoredInstructionBeforeMeal(value: String): Boolean {
+        return value.equals("Before food", ignoreCase = true) ||
+            getAllLocalizedInstructionStrings(R.string.care_instruction_before_food).contains(value)
+    }
+
+    private fun isStoredInstructionAfterMeal(value: String): Boolean {
+        return value.equals("After food", ignoreCase = true) ||
+            getAllLocalizedInstructionStrings(R.string.care_instruction_after_food).contains(value)
+    }
+
+    private fun isStoredInstructionNone(value: String): Boolean {
+        return value.equals("None", ignoreCase = true) ||
+            getAllLocalizedInstructionStrings(R.string.care_instruction_none).contains(value)
+    }
+
+    private fun getAllLocalizedInstructionStrings(@StringRes resId: Int): Set<String> {
+        return localizedInstructionStringCache.getOrPut(resId) {
+            val values = linkedSetOf(getString(resId))
+            for (locale in instructionLocales) {
+                val config = Configuration(resources.configuration)
+                config.setLocale(locale)
+                values.add(createConfigurationContext(config).getString(resId))
+            }
+            values
+        }
     }
 
     private fun mapDayCodeToLabel(code: String): String {
