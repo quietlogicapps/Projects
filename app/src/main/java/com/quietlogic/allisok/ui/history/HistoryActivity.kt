@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +29,8 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         title = getString(R.string.history_title)
 
@@ -50,6 +56,27 @@ class HistoryActivity : AppCompatActivity() {
 
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
+
+        val bottomAirPx = (8 * resources.displayMetrics.density).toInt()
+        fun applyRecyclerBottomInset(insets: WindowInsetsCompat) {
+            val navigationBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            recycler.updatePadding(
+                left = recycler.paddingLeft,
+                top = recycler.paddingTop,
+                right = recycler.paddingRight,
+                bottom = navigationBottom + bottomAirPx
+            )
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.historyRecycler)) { _, insets ->
+            applyRecyclerBottomInset(insets)
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { _, insets ->
+            applyRecyclerBottomInset(insets)
+            insets
+        }
+        ViewCompat.requestApplyInsets(findViewById(android.R.id.content))
 
         lifecycleScope.launch {
             val settings = SettingsRepository(db.appSettingsDao()).getSettings().first()

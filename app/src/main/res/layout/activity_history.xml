@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@drawable/bg_home_gradient">
+    android:background="#000000">
 
     <TextView
         android:id="@+id/textHistoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
         android:text="@string/history_title"
-        android:textSize="28sp"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/history_empty"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,9 +35,11 @@
         android:id="@+id/historyRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
         android:fadeScrollbars="false"
-        android:paddingTop="16dp"
         android:scrollbarStyle="insideInset"
+        android:scrollbarThumbVertical="@drawable/scrollbar_thumb_info"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

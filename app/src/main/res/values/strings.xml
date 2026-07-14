@@ -156,7 +156,7 @@
     <string name="date_format_eu">EU&#10;DD/MM/YYYY</string>
     <string name="date_format_us">US&#10;MM/DD/YYYY</string>
 
-    <string name="history_title">History</string>
+    <string name="history_title">HISTORY</string>
     <string name="history_empty">No archived reminders</string>
     <string name="history_item_name_placeholder">Item name</string>
     <string name="history_item_date_placeholder">End date</string>
@@ -191,7 +191,7 @@
 
     <string name="admin_mode_active">ADMIN MODE ACTIVE</string>
 
-    <string name="emergency_info_title">Personal Info</string>
+    <string name="emergency_info_title">PERSONAL INFO</string>
     <string name="edit">Edit</string>
     <string name="blood_type">Blood type: -</string>
     <string name="allergies">Allergies: -</string>
@@ -199,7 +199,7 @@
     <string name="notes">Notes: -</string>
     <string name="recent_taken_title">Recent Activity (72H)</string>
 
-    <string name="edit_emergency_title">Edit Personal Info</string>
+    <string name="edit_emergency_title">EDIT PERSONAL INFO</string>
     <string name="hint_blood_type">Blood type</string>
     <string name="hint_allergies">Allergies</string>
     <string name="hint_conditions">Details</string>
