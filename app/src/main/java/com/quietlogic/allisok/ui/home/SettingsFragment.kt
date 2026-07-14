@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.billing.store.StoreModule
@@ -54,6 +57,15 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val settingsScroll = view.findViewById<View>(R.id.settingsScroll)
+        val bottomAirPx = (8 * resources.displayMetrics.density).toInt()
+        ViewCompat.setOnApplyWindowInsetsListener(settingsScroll) { scrollView, insets ->
+            val navigationBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            scrollView.updatePadding(bottom = navigationBottom + bottomAirPx)
+            insets
+        }
+        ViewCompat.requestApplyInsets(settingsScroll)
 
         bindRow(
             row = view.findViewById(R.id.rowSecurity),
