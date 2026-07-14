@@ -3,121 +3,173 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_home_gradient">
+    android:background="#000000"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
 
         <TextView
             android:id="@+id/textLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="35dp"
+            android:paddingBottom="20dp"
             android:text="@string/language_screen_title"
-            android:textColor="@color/allisok_primary"
-            android:textSize="22sp"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguageEnglish"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="70dp"
             android:layout_marginTop="28dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_english"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguageSpanish"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_spanish"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguagePortuguese"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_portuguese"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguageGerman"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_german"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguageFrench"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_french"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguageItalian"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_italian"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguageTurkish"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_turkish"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguagePolish"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_polish"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLanguageRussian"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="@string/lang_russian"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/allisok_primary" />
+            app:backgroundTint="@color/expirely_primary"
+            app:cornerRadius="12dp"
+            app:pressedTranslationZ="0dp" />
 
     </LinearLayout>
 
