@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,7 @@ class PinScreenRenderer(
         editPin.setText("")
         editPinSecond.setText("")
         resetSetPinVisualOverrides()
+        resetEnterUnlockVisualOverrides()
 
         when (currentScreen) {
             PinActivity.SCREEN_ENTER_PIN -> {
@@ -48,6 +50,7 @@ class PinScreenRenderer(
                     )
                 } else {
                     textTitle.text = "Enter"
+                    applyEnterUnlockVisualOverrides()
                 }
 
                 editPin.visibility = View.VISIBLE
@@ -147,6 +150,154 @@ class PinScreenRenderer(
                 keyboardHelper.clearFocusAndHideKeyboard()
             }
         }
+    }
+
+    private fun pinEnterRootLayout(): LinearLayout? {
+        val card = textTitle.parent as? View ?: return null
+        if (card.id != R.id.cardPin) return null
+        return card.parent as? LinearLayout
+    }
+
+    private fun pinEnterCardLayout(): LinearLayout? {
+        val card = textTitle.parent as? LinearLayout ?: return null
+        return if (card.id == R.id.cardPin) card else null
+    }
+
+    private fun applyEnterUnlockVisualOverrides() {
+        val root = pinEnterRootLayout() ?: return
+        root.setBackgroundColor(Color.parseColor("#000000"))
+        pinEnterCardLayout()?.setBackgroundResource(R.drawable.bg_pin_set_card)
+        applyEnterUnlockTitleStyle()
+        applyEnterUnlockPinFieldStyle()
+        applyEnterUnlockLockToggle()
+        applyEnterUnlockButtonCardStyle(buttonPrimary)
+        applyEnterUnlockButtonCardStyle(buttonSecondary)
+    }
+
+    private fun resetEnterUnlockVisualOverrides() {
+        val root = pinEnterRootLayout() ?: return
+        root.setBackgroundResource(R.drawable.bg_home_gradient)
+        pinEnterCardLayout()?.setBackgroundResource(R.drawable.bg_form_card)
+        resetEnterUnlockTitleStyle()
+        resetEnterUnlockPinFieldStyle()
+        resetEnterUnlockLockToggle()
+        resetEnterUnlockButtonStyle(buttonPrimary)
+        resetEnterUnlockButtonStyle(buttonSecondary)
+    }
+
+    private fun applyEnterUnlockTitleStyle() {
+        textTitle.setTextColor(Color.parseColor("#FFFFFF"))
+        textTitle.gravity = Gravity.CENTER_HORIZONTAL
+
+        val titleParams = textTitle.layoutParams as LinearLayout.LayoutParams
+        titleParams.width = LinearLayout.LayoutParams.MATCH_PARENT
+        titleParams.gravity = Gravity.CENTER_HORIZONTAL
+        textTitle.layoutParams = titleParams
+    }
+
+    private fun resetEnterUnlockTitleStyle() {
+        textTitle.setTextColor(ContextCompat.getColor(activity, R.color.expirely_primary))
+        textTitle.gravity = Gravity.NO_GRAVITY
+
+        val titleParams = textTitle.layoutParams as LinearLayout.LayoutParams
+        titleParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
+        titleParams.gravity = Gravity.CENTER_HORIZONTAL
+        textTitle.layoutParams = titleParams
+    }
+
+    private fun applyEnterUnlockPinFieldStyle() {
+        val white = Color.parseColor("#FFFFFF")
+        editPin.setTextColor(white)
+        editPin.setHintTextColor(white)
+        editPin.backgroundTintList = ColorStateList.valueOf(white)
+    }
+
+    private fun resetEnterUnlockPinFieldStyle() {
+        editPin.setTextColor(Color.parseColor("#111111"))
+        editPin.setHintTextColor(Color.parseColor("#6B7280"))
+        editPin.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#111111"))
+    }
+
+    private fun pinEnterLockIcon(): ImageView? =
+        activity.findViewById(R.id.imagePinLock)
+
+    private fun applyEnterUnlockLockToggle() {
+        if (pinEnterCardLayout() == null) return
+        val lockIcon = pinEnterLockIcon() ?: return
+
+        editPinVisible = false
+        editPin.setOnTouchListener(null)
+        editPin.setCompoundDrawablesRelative(null, null, null, null)
+        editPin.compoundDrawablePadding = 0
+
+        lockIcon.visibility = View.VISIBLE
+        lockIcon.setOnClickListener {
+            editPinVisible = !editPinVisible
+            setEnterUnlockPinFieldVisibility(editPinVisible)
+            updateEnterUnlockLockIcon(lockIcon, editPinVisible)
+        }
+        updateEnterUnlockLockIcon(lockIcon, false)
+        setEnterUnlockPinFieldVisibility(false)
+    }
+
+    private fun resetEnterUnlockLockToggle() {
+        if (pinEnterCardLayout() == null) return
+
+        editPinVisible = false
+        editPin.setOnTouchListener(null)
+        editPin.setCompoundDrawablesRelative(null, null, null, null)
+        editPin.compoundDrawablePadding = 0
+
+        pinEnterLockIcon()?.apply {
+            visibility = View.GONE
+            setOnClickListener(null)
+        }
+
+        val typeface = editPin.typeface
+        editPin.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+        editPin.typeface = typeface
+    }
+
+    private fun setEnterUnlockPinFieldVisibility(visible: Boolean) {
+        val typeface = editPin.typeface
+        val selectionStart = editPin.selectionStart
+        val selectionEnd = editPin.selectionEnd
+
+        editPin.inputType = if (visible) {
+            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
+        } else {
+            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+        }
+        editPin.typeface = typeface
+
+        val length = editPin.text?.length ?: 0
+        val safeStart = selectionStart.coerceIn(0, length)
+        val safeEnd = selectionEnd.coerceIn(0, length)
+        editPin.setSelection(safeStart, safeEnd)
+    }
+
+    private fun updateEnterUnlockLockIcon(lockIcon: ImageView, isOpen: Boolean) {
+        val iconRes = if (isOpen) R.drawable.ic_lock_open else R.drawable.ic_lock
+        lockIcon.setImageResource(iconRes)
+        lockIcon.imageTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+    }
+
+    private fun applyEnterUnlockButtonCardStyle(button: MaterialButton) {
+        button.cornerRadius = dp(18)
+        button.elevation = 0f
+        button.translationZ = 0f
+        button.stateListAnimator = null
+        button.insetTop = 0
+        button.insetBottom = 0
+    }
+
+    private fun resetEnterUnlockButtonStyle(button: MaterialButton) {
+        button.cornerRadius = dp(4)
+        button.elevation = 0f
+        button.translationZ = 0f
+        button.stateListAnimator = null
+        button.insetTop = 0
+        button.insetBottom = 0
     }
 
     private fun pinRootLayout(): LinearLayout? {

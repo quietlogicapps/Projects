@@ -30,18 +30,34 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp" />
 
-        <EditText
-            android:id="@+id/editPin"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/pin_label_pin"
-            android:inputType="numberPassword"
-            android:maxLength="4"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textColor="#111111"
-            android:textColorHint="#6B7280"
-            android:backgroundTint="#111111" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editPin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pin_label_pin"
+                android:inputType="numberPassword"
+                android:maxLength="4"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="#111111"
+                android:textColorHint="#6B7280"
+                android:backgroundTint="#111111" />
+
+            <ImageView
+                android:id="@+id/imagePinLock"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:contentDescription="@null"
+                android:visibility="gone"
+                android:src="@drawable/ic_lock"
+                app:tint="#FFFFFF" />
+
+        </FrameLayout>
 
         <EditText
             android:id="@+id/editPinSecond"
