@@ -94,7 +94,7 @@ class PinScreenRenderer(
             }
 
             PinActivity.SCREEN_SET_ADMIN_PIN -> {
-                textTitle.text = activity.getString(R.string.pin_title_set_admin_pin)
+                applySetPinVisualOverrides(activity.getString(R.string.pin_title_set_admin_pin))
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.VISIBLE
