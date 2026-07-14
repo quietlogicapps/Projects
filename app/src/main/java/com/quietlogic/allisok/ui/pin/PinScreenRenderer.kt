@@ -110,7 +110,10 @@ class PinScreenRenderer(
             }
 
             PinActivity.SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> {
-                textTitle.text = activity.getString(R.string.pin_title_change_admin_pin)
+                applySetPinVisualOverrides(
+                    activity.getString(R.string.pin_title_change_admin_pin),
+                    singleFieldCard = true
+                )
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.GONE
@@ -163,7 +166,10 @@ class PinScreenRenderer(
         return activity.resources.displayMetrics.widthPixels - dp(48)
     }
 
-    private fun applySetPinVisualOverrides(title: String) {
+    private fun applySetPinVisualOverrides(
+        title: String,
+        singleFieldCard: Boolean = false
+    ) {
         pinRootLayout()?.setBackgroundColor(Color.parseColor("#000000"))
 
         textTitle.text = title
@@ -182,15 +188,25 @@ class PinScreenRenderer(
         val card = activityPinCardLayout() ?: return
         val cardParams = card.layoutParams as LinearLayout.LayoutParams
         cardParams.width = (availablePinContentWidth(root) * 0.8f).toInt()
-        cardParams.height = dp(305)
+        cardParams.height = if (singleFieldCard) {
+            dp(305 - 18 - 48)
+        } else {
+            dp(305)
+        }
         cardParams.gravity = Gravity.CENTER_HORIZONTAL
         card.layoutParams = cardParams
         card.setPadding(dp(20), dp(26), dp(20), dp(26))
         card.setBackgroundResource(R.drawable.bg_pin_set_card)
 
         applySetPinFieldColors()
-        applySetPinLockToggles()
-        applySetPinPrimaryButtonStyle()
+        if (singleFieldCard) {
+            textForgot.setTextColor(Color.parseColor("#FFFFFF"))
+            applySetPinLockToggles(listOf(editPin))
+            applySetPinPrimaryButtonStyle(topMarginDp = 24)
+        } else {
+            applySetPinLockToggles()
+            applySetPinPrimaryButtonStyle()
+        }
     }
 
     private fun applySetPinFieldColors() {
@@ -217,13 +233,13 @@ class PinScreenRenderer(
         }
     }
 
-    private fun applySetPinPrimaryButtonStyle() {
+    private fun applySetPinPrimaryButtonStyle(topMarginDp: Int = 64) {
         if (activityPinCardLayout() == null) return
 
         val buttonParams = buttonPrimary.layoutParams as LinearLayout.LayoutParams
         buttonParams.width = LinearLayout.LayoutParams.MATCH_PARENT
         buttonParams.height = dp(64)
-        buttonParams.topMargin = dp(64)
+        buttonParams.topMargin = dp(topMarginDp)
         buttonPrimary.layoutParams = buttonParams
         buttonPrimary.cornerRadius = dp(18)
         buttonPrimary.elevation = 0f
@@ -278,6 +294,8 @@ class PinScreenRenderer(
         titleParams.gravity = Gravity.NO_GRAVITY
         textTitle.layoutParams = titleParams
 
+        textForgot.setTextColor(Color.parseColor("#5F5F5F"))
+
         val card = activityPinCardLayout() ?: return
         val cardParams = card.layoutParams as LinearLayout.LayoutParams
         cardParams.width = LinearLayout.LayoutParams.MATCH_PARENT
@@ -293,23 +311,29 @@ class PinScreenRenderer(
         resetSetPinPrimaryButtonStyle()
     }
 
-    private fun applySetPinLockToggles() {
+    private fun applySetPinLockToggles(fields: List<EditText> = listOf(editPin, editPinSecond)) {
         if (activityPinCardLayout() == null) return
 
         editPinVisible = false
         editPinSecondVisible = false
 
-        setupPinFieldLock(editPin) {
-            editPinVisible = !editPinVisible
-            setPinFieldVisibility(editPin, editPinVisible)
-        }
-        setupPinFieldLock(editPinSecond) {
-            editPinSecondVisible = !editPinSecondVisible
-            setPinFieldVisibility(editPinSecond, editPinSecondVisible)
+        if (fields.contains(editPin)) {
+            setupPinFieldLock(editPin) {
+                editPinVisible = !editPinVisible
+                setPinFieldVisibility(editPin, editPinVisible)
+            }
         }
 
-        setPinFieldVisibility(editPin, false)
-        setPinFieldVisibility(editPinSecond, false)
+        if (fields.contains(editPinSecond)) {
+            setupPinFieldLock(editPinSecond) {
+                editPinSecondVisible = !editPinSecondVisible
+                setPinFieldVisibility(editPinSecond, editPinSecondVisible)
+            }
+        }
+
+        fields.forEach { field ->
+            setPinFieldVisibility(field, false)
+        }
     }
 
     private fun setupPinFieldLock(field: EditText, onToggle: () -> Unit) {
