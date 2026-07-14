@@ -114,7 +114,7 @@
     <string name="permission_status_overlay_ok">• Display over other apps: OK</string>
     <string name="permission_enable_overlay">Enable display over other apps</string>
 
-    <string name="security_title">Security</string>
+    <string name="security_title">SECURITY</string>
     <string name="pin_enable">Enable PIN</string>
     <string name="pin_status_enabled">App PIN enabled</string>
     <string name="pin_status_disabled">App opens without PIN</string>
