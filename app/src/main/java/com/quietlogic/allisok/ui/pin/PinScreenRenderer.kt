@@ -70,24 +70,15 @@ class PinScreenRenderer(
                 keyboardHelper.clearFocusAndHideKeyboard()
             }
 
-            PinActivity.SCREEN_SET_PIN -> {
-                applySetPinVisualOverrides()
-
-                editPin.visibility = View.VISIBLE
-                editPinSecond.visibility = View.VISIBLE
-
-                textForgot.visibility = View.GONE
-
-                buttonPrimary.text = activity.getString(R.string.pin_save)
-                buttonSecondary.visibility = View.GONE
-
-                editPin.hint = firstRowLabel(currentScreen, unlockMode)
-                editPinSecond.hint = secondRowLabel(currentScreen)
-                keyboardHelper.clearFocusAndHideKeyboard()
-            }
-
+            PinActivity.SCREEN_SET_PIN,
             PinActivity.SCREEN_CHANGE_PIN -> {
-                textTitle.text = activity.getString(R.string.pin_title_change_pin)
+                applySetPinVisualOverrides(
+                    if (currentScreen == PinActivity.SCREEN_SET_PIN) {
+                        "SET PIN"
+                    } else {
+                        "CHANGE PIN"
+                    }
+                )
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.VISIBLE
@@ -172,10 +163,10 @@ class PinScreenRenderer(
         return activity.resources.displayMetrics.widthPixels - dp(48)
     }
 
-    private fun applySetPinVisualOverrides() {
+    private fun applySetPinVisualOverrides(title: String) {
         pinRootLayout()?.setBackgroundColor(Color.parseColor("#000000"))
 
-        textTitle.text = "SET PIN"
+        textTitle.text = title
         textTitle.setTextColor(Color.parseColor("#FFFFFF"))
         textTitle.setTypeface(textTitle.typeface, Typeface.BOLD)
         textTitle.textSize = 22f
