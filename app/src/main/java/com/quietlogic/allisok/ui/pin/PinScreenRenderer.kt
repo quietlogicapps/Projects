@@ -16,6 +16,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.button.MaterialButton
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.LockGate
+import java.util.Locale
 
 class PinScreenRenderer(
     private val activity: AppCompatActivity,
@@ -40,12 +41,14 @@ class PinScreenRenderer(
 
         when (currentScreen) {
             PinActivity.SCREEN_ENTER_PIN -> {
-                textTitle.text =
-                    if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
-                        activity.getString(R.string.menu_enter_admin)
-                    } else {
-                        "Enter"
-                    }
+                if (unlockMode == LockGate.MODE_ADMIN_UNLOCK) {
+                    applySetPinVisualOverrides(
+                        activity.getString(R.string.menu_enter_admin),
+                        singleFieldCard = true
+                    )
+                } else {
+                    textTitle.text = "Enter"
+                }
 
                 editPin.visibility = View.VISIBLE
                 editPinSecond.visibility = View.GONE
@@ -166,13 +169,15 @@ class PinScreenRenderer(
         return activity.resources.displayMetrics.widthPixels - dp(48)
     }
 
+    private fun pinTabTitle(title: String): String = title.uppercase(Locale.getDefault())
+
     private fun applySetPinVisualOverrides(
         title: String,
         singleFieldCard: Boolean = false
     ) {
         pinRootLayout()?.setBackgroundColor(Color.parseColor("#000000"))
 
-        textTitle.text = title
+        textTitle.text = pinTabTitle(title)
         textTitle.setTextColor(Color.parseColor("#FFFFFF"))
         textTitle.setTypeface(textTitle.typeface, Typeface.BOLD)
         textTitle.textSize = 22f
