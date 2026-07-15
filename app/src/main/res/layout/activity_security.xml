@@ -209,6 +209,7 @@
             android:textSize="20sp" />
 
         <FrameLayout
+            android:id="@+id/frameAdminPinSetup"
             android:layout_width="match_parent"
             android:layout_height="84.5dp"
             android:layout_marginTop="28dp">
@@ -271,6 +272,16 @@
                 app:rippleColor="#33FFFFFF" />
 
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/textAdminPinStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/admin_pin_setup_already_set"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <FrameLayout
             android:layout_width="match_parent"

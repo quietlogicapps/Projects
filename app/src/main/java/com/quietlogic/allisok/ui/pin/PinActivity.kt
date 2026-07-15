@@ -103,6 +103,11 @@ class PinActivity : AppCompatActivity() {
             else -> SCREEN_ENTER_PIN
         }
 
+        if (currentScreen == SCREEN_SET_ADMIN_PIN && pinPrefs.getState().adminPinEnabled) {
+            finish()
+            return
+        }
+
         inputController.setupInputs()
         screenRenderer.renderScreen(currentScreen, unlockMode)
 
@@ -206,6 +211,8 @@ class PinActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
+
+            PinActionResult.AdminPinSetupBlocked -> finish()
 
             else -> Unit
         }

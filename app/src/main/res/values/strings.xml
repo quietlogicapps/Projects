@@ -126,6 +126,7 @@
     <string name="admin_title">Admin</string>
     <string name="admin_pin">Admin PIN</string>
     <string name="admin_change_pin">Admin Change PIN</string>
+    <string name="admin_pin_setup_already_set">Admin PIN is already set. Use Admin Change PIN.</string>
 
     <string name="pin_enter">Enter PIN</string>
     <string name="pin_enter_admin">Enter Admin PIN</string>

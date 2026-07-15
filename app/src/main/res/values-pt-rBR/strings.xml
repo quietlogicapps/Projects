@@ -116,6 +116,7 @@
     <string name="admin_title">Administrador</string>
     <string name="admin_pin">PIN de administrador</string>
     <string name="admin_change_pin">Alterar PIN de administrador</string>
+    <string name="admin_pin_setup_already_set">O PIN de administrador já está definido. Use Alterar PIN de administrador.</string>
 
     <string name="pin_enter">Inserir PIN</string>
     <string name="pin_enter_admin">Inserir PIN de administrador</string>

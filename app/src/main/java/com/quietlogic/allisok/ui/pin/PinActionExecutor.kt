@@ -18,6 +18,7 @@ sealed class PinActionResult {
     data class GoToNextScreen(val nextScreen: String) : PinActionResult()
     data object UserPinSaveSuccess : PinActionResult()
     data object AdminPinSaveSuccess : PinActionResult()
+    data object AdminPinSetupBlocked : PinActionResult()
 }
 
 class PinActionExecutor(
@@ -61,6 +62,9 @@ class PinActionExecutor(
     }
 
     fun setAdminPin(pin: String, confirmPin: String): PinActionResult {
+        if (pinPrefs.getState().adminPinEnabled) {
+            return PinActionResult.AdminPinSetupBlocked
+        }
         return saveAdminPin(pin, confirmPin)
     }
 

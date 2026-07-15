@@ -116,6 +116,7 @@
     <string name="admin_title">Yönetici</string>
     <string name="admin_pin">Yönetici PIN\'i</string>
     <string name="admin_change_pin">Yönetici PIN\'ini değiştir</string>
+    <string name="admin_pin_setup_already_set">Yönetici PIN\'i zaten ayarlanmış. Yönetici PIN\'ini değiştir\'i kullanın.</string>
 
     <string name="pin_enter">PIN girin</string>
     <string name="pin_enter_admin">Yönetici PIN\'i girin</string>
