@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -45,19 +46,24 @@ class InfoActivity : AppCompatActivity() {
 
         binding.recyclerRecentTaken.layoutManager = LinearLayoutManager(this)
         binding.recyclerRecentTaken.adapter = adapter
+        binding.recyclerRecentTaken.clipToPadding = true
 
         val bottomAirPx = (8 * resources.displayMetrics.density).toInt()
         fun applyRecyclerBottomInset(insets: WindowInsetsCompat) {
             val navigationBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-            binding.recyclerRecentTaken.updatePadding(
-                left = binding.recyclerRecentTaken.paddingLeft,
-                top = binding.recyclerRecentTaken.paddingTop,
-                right = binding.recyclerRecentTaken.paddingRight,
-                bottom = navigationBottom + bottomAirPx
-            )
+            val bottomInset = navigationBottom + bottomAirPx
+            val recycler = binding.recyclerRecentTaken
+            val params = recycler.layoutParams as ConstraintLayout.LayoutParams
+            if (params.bottomMargin != bottomInset) {
+                params.bottomMargin = bottomInset
+                recycler.layoutParams = params
+            }
+            if (recycler.paddingBottom != 0) {
+                recycler.updatePadding(bottom = 0)
+            }
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { _, insets ->
             applyRecyclerBottomInset(insets)
             insets
         }
@@ -65,7 +71,7 @@ class InfoActivity : AppCompatActivity() {
             applyRecyclerBottomInset(insets)
             insets
         }
-        ViewCompat.requestApplyInsets(binding.root)
+        ViewCompat.requestApplyInsets(window.decorView)
 
         val database = DatabaseProvider.getDatabase(this)
         val careLogRepository = CareLogRepository(database.careLogDao())
