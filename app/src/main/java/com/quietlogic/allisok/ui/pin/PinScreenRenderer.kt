@@ -347,7 +347,7 @@ class PinScreenRenderer(
         cardParams.height = if (singleFieldCard) {
             dp(305 - 18 - 48)
         } else {
-            dp(305)
+            dp(320)
         }
         cardParams.gravity = Gravity.CENTER_HORIZONTAL
         card.layoutParams = cardParams
