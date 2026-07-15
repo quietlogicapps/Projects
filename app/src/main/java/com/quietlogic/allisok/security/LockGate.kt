@@ -18,6 +18,17 @@ object LockGate {
 
     private var isObserverRegistered = false
     private var isUserUnlockedForCurrentForeground = false
+    private var externalUiActiveCount = 0
+
+    fun beginExternalUi() {
+        externalUiActiveCount++
+    }
+
+    fun endExternalUi() {
+        if (externalUiActiveCount > 0) {
+            externalUiActiveCount--
+        }
+    }
 
     fun requireUserUnlock(activity: Activity) {
 
@@ -74,7 +85,9 @@ object LockGate {
         ProcessLifecycleOwner.get().lifecycle.addObserver(
             object : DefaultLifecycleObserver {
                 override fun onStop(owner: LifecycleOwner) {
-                    isUserUnlockedForCurrentForeground = false
+                    if (externalUiActiveCount == 0) {
+                        isUserUnlockedForCurrentForeground = false
+                    }
                 }
             }
         )

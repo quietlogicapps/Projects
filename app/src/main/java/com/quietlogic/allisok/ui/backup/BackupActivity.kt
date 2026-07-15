@@ -14,6 +14,7 @@ import com.quietlogic.allisok.alarm.engine.AlarmRescheduler
 import com.quietlogic.allisok.data.backup.BackupRepository
 import com.quietlogic.allisok.data.backup.RestoreRepository
 import com.quietlogic.allisok.data.local.db.DatabaseProvider
+import com.quietlogic.allisok.security.LockGate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,89 +30,97 @@ class BackupActivity : AppCompatActivity() {
     private val createDocumentLauncher = registerForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
     ) { uri ->
-        if (uri == null) {
-            updateExportStatus(getString(R.string.backup_export_status_cancelled))
-            return@registerForActivityResult
-        }
-
-        val json = pendingExportJson
-        if (json == null) {
-            updateExportStatus(getString(R.string.backup_export_status_error))
-            return@registerForActivityResult
-        }
-
-        lifecycleScope.launch {
-            val success = withContext(Dispatchers.IO) {
-                try {
-                    contentResolver.openOutputStream(uri)?.use { stream ->
-                        stream.write(json.toByteArray(Charsets.UTF_8))
-                    } ?: return@withContext false
-                    true
-                } catch (_: Exception) {
-                    false
-                }
+        try {
+            if (uri == null) {
+                updateExportStatus(getString(R.string.backup_export_status_cancelled))
+                return@registerForActivityResult
             }
 
-            pendingExportJson = null
-            updateExportStatus(
-                if (success) {
-                    getString(R.string.backup_export_status_success)
-                } else {
-                    getString(R.string.backup_export_status_error)
-                },
-                success = success
-            )
+            val json = pendingExportJson
+            if (json == null) {
+                updateExportStatus(getString(R.string.backup_export_status_error))
+                return@registerForActivityResult
+            }
+
+            lifecycleScope.launch {
+                val success = withContext(Dispatchers.IO) {
+                    try {
+                        contentResolver.openOutputStream(uri)?.use { stream ->
+                            stream.write(json.toByteArray(Charsets.UTF_8))
+                        } ?: return@withContext false
+                        true
+                    } catch (_: Exception) {
+                        false
+                    }
+                }
+
+                pendingExportJson = null
+                updateExportStatus(
+                    if (success) {
+                        getString(R.string.backup_export_status_success)
+                    } else {
+                        getString(R.string.backup_export_status_error)
+                    },
+                    success = success
+                )
+            }
+        } finally {
+            LockGate.endExternalUi()
         }
     }
 
     private val openDocumentLauncher = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri ->
-        if (uri == null) {
-            clearPendingImport()
-            updateImportStatus(getString(R.string.backup_import_status_cancelled))
-            return@registerForActivityResult
-        }
+        try {
+            if (uri == null) {
+                clearPendingImport()
+                updateImportStatus(getString(R.string.backup_import_status_cancelled))
+                return@registerForActivityResult
+            }
 
-        lifecycleScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                try {
-                    val json = contentResolver.openInputStream(uri)?.use { stream ->
-                        stream.bufferedReader(Charsets.UTF_8).readText()
-                    } ?: return@withContext ImportReadResult.Error
+            lifecycleScope.launch {
+                val result = withContext(Dispatchers.IO) {
+                    try {
+                        val json = contentResolver.openInputStream(uri)?.use { stream ->
+                            stream.bufferedReader(Charsets.UTF_8).readText()
+                        } ?: return@withContext ImportReadResult.Error
 
-                    val validationError = BackupJsonValidator.validate(json)
-                    if (validationError != null) {
-                        return@withContext ImportReadResult.ValidationError(validationError)
+                        val validationError = BackupJsonValidator.validate(json)
+                        if (validationError != null) {
+                            return@withContext ImportReadResult.ValidationError(validationError)
+                        }
+
+                        ImportReadResult.Ready(json)
+                    } catch (_: Exception) {
+                        ImportReadResult.Error
+                    }
+                }
+
+                when (result) {
+                    is ImportReadResult.Ready -> {
+                        pendingImportJson = result.json
+                        showImportConfirmDialog()
                     }
 
-                    ImportReadResult.Ready(json)
-                } catch (_: Exception) {
-                    ImportReadResult.Error
-                }
-            }
-
-            when (result) {
-                is ImportReadResult.Ready -> {
-                    pendingImportJson = result.json
-                    showImportConfirmDialog()
-                }
-
-                is ImportReadResult.ValidationError -> {
-                    clearPendingImport()
-                    updateImportStatus(
-                        getString(
-                            R.string.backup_import_status_validation_error,
-                            result.message
+                    is ImportReadResult.ValidationError -> {
+                        clearPendingImport()
+                        updateImportStatus(
+                            getString(
+                                R.string.backup_import_status_validation_error,
+                                result.message
+                            )
                         )
-                    )
-                }
+                    }
 
-                ImportReadResult.Error -> {
-                    clearPendingImport()
-                    updateImportStatus(getString(R.string.backup_import_status_error))
+                    ImportReadResult.Error -> {
+                        clearPendingImport()
+                        updateImportStatus(getString(R.string.backup_import_status_error))
+                    }
                 }
             }
+        } finally {
+            LockGate.endExternalUi()
         }
     }
 
@@ -132,6 +141,7 @@ class BackupActivity : AppCompatActivity() {
         }
 
         findViewById<MaterialButton>(R.id.buttonImport).setOnClickListener {
+            LockGate.beginExternalUi()
             openDocumentLauncher.launch(arrayOf("application/json", "application/*", "*/*"))
         }
     }
@@ -168,6 +178,7 @@ class BackupActivity : AppCompatActivity() {
             }
 
             pendingExportJson = json
+            LockGate.beginExternalUi()
             createDocumentLauncher.launch(DEFAULT_EXPORT_FILE_NAME)
         }
     }
