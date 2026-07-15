@@ -17,7 +17,6 @@ import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.security.TrialManager
-import com.quietlogic.allisok.security.UserSession
 import com.quietlogic.allisok.ui.info.InfoActivity
 import com.quietlogic.allisok.ui.pin.PinActivity
 import com.quietlogic.allisok.ui.trial.TrialEndedActivity
@@ -139,14 +138,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     // toolbar_settings_menu.xml is kept for future cleanup; not inflated or used.
-
-    override fun onStop() {
-        super.onStop()
-        val homePrefs = getSharedPreferences("home_prefs", MODE_PRIVATE)
-        if (!homePrefs.getBoolean("returning_from_store", false)) {
-            UserSession.stop(this)
-        }
-    }
 
     fun onAdminStateChanged() {
         updateAdminIndicator()

@@ -1,6 +1,7 @@
 package com.quietlogic.allisok.security
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -19,6 +20,7 @@ object LockGate {
     private var isObserverRegistered = false
     private var isUserUnlockedForCurrentForeground = false
     private var externalUiActiveCount = 0
+    private var appContext: Context? = null
 
     fun beginExternalUi() {
         externalUiActiveCount++
@@ -32,7 +34,7 @@ object LockGate {
 
     fun requireUserUnlock(activity: Activity) {
 
-        ensureObserverRegistered()
+        ensureObserverRegistered(activity.applicationContext)
 
         val state = PinPrefs(activity).getState()
 
@@ -78,7 +80,11 @@ object LockGate {
         isUserUnlockedForCurrentForeground = true
     }
 
-    private fun ensureObserverRegistered() {
+    private fun ensureObserverRegistered(context: Context) {
+
+        if (appContext == null) {
+            appContext = context.applicationContext
+        }
 
         if (isObserverRegistered) return
 
@@ -87,6 +93,7 @@ object LockGate {
                 override fun onStop(owner: LifecycleOwner) {
                     if (externalUiActiveCount == 0) {
                         isUserUnlockedForCurrentForeground = false
+                        appContext?.let { UserSession.stop(it) }
                     }
                 }
             }

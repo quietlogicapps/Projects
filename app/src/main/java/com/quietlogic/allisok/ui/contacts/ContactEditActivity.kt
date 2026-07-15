@@ -10,6 +10,7 @@ import com.google.android.material.button.MaterialButton
 import androidx.appcompat.app.AppCompatActivity
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.security.AdminSession
+import com.quietlogic.allisok.security.LockGate
 
 class ContactEditActivity : AppCompatActivity() {
 
@@ -56,37 +57,44 @@ class ContactEditActivity : AppCompatActivity() {
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI
             )
 
+            LockGate.beginExternalUi()
             startActivityForResult(intent, REQUEST_PICK_CONTACT)
         }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        try {
+            super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_PICK_CONTACT && resultCode == Activity.RESULT_OK) {
-            val uri = data?.data ?: return
+            if (requestCode == REQUEST_PICK_CONTACT && resultCode == Activity.RESULT_OK) {
+                val uri = data?.data ?: return
 
-            val cursor = contentResolver.query(
-                uri,
-                arrayOf(
-                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
-                ),
-                null,
-                null,
-                null
-            )
+                val cursor = contentResolver.query(
+                    uri,
+                    arrayOf(
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                        ContactsContract.CommonDataKinds.Phone.NUMBER
+                    ),
+                    null,
+                    null,
+                    null
+                )
 
-            cursor?.use {
-                if (it.moveToFirst()) {
-                    val result = Intent()
-                    result.putExtra("buttonId", buttonId)
-                    result.putExtra("name", it.getString(0))
-                    result.putExtra("number", it.getString(1))
-                    setResult(Activity.RESULT_OK, result)
-                    finish()
+                cursor?.use {
+                    if (it.moveToFirst()) {
+                        val result = Intent()
+                        result.putExtra("buttonId", buttonId)
+                        result.putExtra("name", it.getString(0))
+                        result.putExtra("number", it.getString(1))
+                        setResult(Activity.RESULT_OK, result)
+                        finish()
+                    }
                 }
+            }
+        } finally {
+            if (requestCode == REQUEST_PICK_CONTACT) {
+                LockGate.endExternalUi()
             }
         }
     }
