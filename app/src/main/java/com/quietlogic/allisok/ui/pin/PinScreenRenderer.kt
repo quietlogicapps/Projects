@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -33,8 +34,10 @@ class PinScreenRenderer(
 
     private var editPinVisible = false
     private var editPinSecondVisible = false
+    private var currentScreen: String = PinActivity.SCREEN_ENTER_PIN
 
     fun renderScreen(currentScreen: String, unlockMode: String) {
+        this.currentScreen = currentScreen
         textError.visibility = View.GONE
         editPin.setText("")
         editPinSecond.setText("")
@@ -566,8 +569,23 @@ class PinScreenRenderer(
     }
 
     fun showError(message: String) {
+        if (isSingleFieldPinMode()) {
+            textError.visibility = View.GONE
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+            return
+        }
+
         textError.text = message
         textError.visibility = View.VISIBLE
+    }
+
+    private fun isSingleFieldPinMode(): Boolean {
+        return when (currentScreen) {
+            PinActivity.SCREEN_ENTER_PIN,
+            PinActivity.SCREEN_CHANGE_ADMIN_PIN_STEP_1 -> true
+
+            else -> false
+        }
     }
 
     fun firstRowLabel(currentScreen: String, unlockMode: String): String {
