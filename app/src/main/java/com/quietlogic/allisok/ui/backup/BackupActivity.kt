@@ -1,6 +1,7 @@
 package com.quietlogic.allisok.ui.backup
 
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Window
 import android.widget.TextView
@@ -29,13 +30,13 @@ class BackupActivity : AppCompatActivity() {
         ActivityResultContracts.CreateDocument("application/json")
     ) { uri ->
         if (uri == null) {
-            textExportStatus.text = getString(R.string.backup_export_status_cancelled)
+            updateExportStatus(getString(R.string.backup_export_status_cancelled))
             return@registerForActivityResult
         }
 
         val json = pendingExportJson
         if (json == null) {
-            textExportStatus.text = getString(R.string.backup_export_status_error)
+            updateExportStatus(getString(R.string.backup_export_status_error))
             return@registerForActivityResult
         }
 
@@ -52,11 +53,14 @@ class BackupActivity : AppCompatActivity() {
             }
 
             pendingExportJson = null
-            textExportStatus.text = if (success) {
-                getString(R.string.backup_export_status_success)
-            } else {
-                getString(R.string.backup_export_status_error)
-            }
+            updateExportStatus(
+                if (success) {
+                    getString(R.string.backup_export_status_success)
+                } else {
+                    getString(R.string.backup_export_status_error)
+                },
+                success = success
+            )
         }
     }
 
@@ -65,7 +69,7 @@ class BackupActivity : AppCompatActivity() {
     ) { uri ->
         if (uri == null) {
             clearPendingImport()
-            textImportStatus.text = getString(R.string.backup_import_status_cancelled)
+            updateImportStatus(getString(R.string.backup_import_status_cancelled))
             return@registerForActivityResult
         }
 
@@ -95,15 +99,17 @@ class BackupActivity : AppCompatActivity() {
 
                 is ImportReadResult.ValidationError -> {
                     clearPendingImport()
-                    textImportStatus.text = getString(
-                        R.string.backup_import_status_validation_error,
-                        result.message
+                    updateImportStatus(
+                        getString(
+                            R.string.backup_import_status_validation_error,
+                            result.message
+                        )
                     )
                 }
 
                 ImportReadResult.Error -> {
                     clearPendingImport()
-                    textImportStatus.text = getString(R.string.backup_import_status_error)
+                    updateImportStatus(getString(R.string.backup_import_status_error))
                 }
             }
         }
@@ -143,7 +149,7 @@ class BackupActivity : AppCompatActivity() {
     }
 
     private fun startExport() {
-        textExportStatus.text = getString(R.string.export_generating)
+        updateExportStatus(getString(R.string.export_generating))
 
         lifecycleScope.launch {
             val json = withContext(Dispatchers.IO) {
@@ -157,7 +163,7 @@ class BackupActivity : AppCompatActivity() {
 
             if (json == null) {
                 pendingExportJson = null
-                textExportStatus.text = getString(R.string.backup_export_status_error)
+                updateExportStatus(getString(R.string.backup_export_status_error))
                 return@launch
             }
 
@@ -176,13 +182,13 @@ class BackupActivity : AppCompatActivity() {
         dialog.setCancelable(true)
         dialog.setOnCancelListener {
             clearPendingImport()
-            textImportStatus.text = getString(R.string.backup_import_status_cancelled)
+            updateImportStatus(getString(R.string.backup_import_status_cancelled))
         }
 
         dialog.findViewById<MaterialButton>(R.id.buttonImportCancel).setOnClickListener {
             dialog.dismiss()
             clearPendingImport()
-            textImportStatus.text = getString(R.string.backup_import_status_cancelled)
+            updateImportStatus(getString(R.string.backup_import_status_cancelled))
         }
 
         dialog.findViewById<MaterialButton>(R.id.buttonImportConfirm).setOnClickListener {
@@ -197,11 +203,11 @@ class BackupActivity : AppCompatActivity() {
     private fun performImport() {
         val json = pendingImportJson
         if (json == null) {
-            textImportStatus.text = getString(R.string.backup_import_status_error)
+            updateImportStatus(getString(R.string.backup_import_status_error))
             return
         }
 
-        textImportStatus.text = getString(R.string.backup_import_status_running)
+        updateImportStatus(getString(R.string.backup_import_status_running))
 
         lifecycleScope.launch {
             val success = withContext(Dispatchers.IO) {
@@ -216,12 +222,29 @@ class BackupActivity : AppCompatActivity() {
             }
 
             clearPendingImport()
-            textImportStatus.text = if (success) {
-                getString(R.string.backup_import_status_success)
-            } else {
-                getString(R.string.backup_import_status_error)
-            }
+            updateImportStatus(
+                if (success) {
+                    getString(R.string.backup_import_status_success)
+                } else {
+                    getString(R.string.backup_import_status_error)
+                },
+                success = success
+            )
         }
+    }
+
+    private fun updateExportStatus(message: String, success: Boolean = false) {
+        textExportStatus.text = message
+        textExportStatus.setTextColor(
+            if (success) STATUS_SUCCESS_COLOR else STATUS_DEFAULT_COLOR
+        )
+    }
+
+    private fun updateImportStatus(message: String, success: Boolean = false) {
+        textImportStatus.text = message
+        textImportStatus.setTextColor(
+            if (success) STATUS_SUCCESS_COLOR else STATUS_DEFAULT_COLOR
+        )
     }
 
     private fun clearPendingImport() {
@@ -236,5 +259,7 @@ class BackupActivity : AppCompatActivity() {
 
     companion object {
         private const val DEFAULT_EXPORT_FILE_NAME = "allisok_backup.json"
+        private val STATUS_DEFAULT_COLOR = Color.parseColor("#B3FFFFFF")
+        private val STATUS_SUCCESS_COLOR = Color.parseColor("#16A34A")
     }
 }
