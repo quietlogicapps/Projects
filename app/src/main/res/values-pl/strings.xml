@@ -168,7 +168,7 @@
     <string name="backup_import_status_error">Nie udało się zaimportować kopii zapasowej.</string>
     <string name="backup_import_status_cancelled">Import kopii zapasowej został anulowany.</string>
     <string name="backup_import_status_running">Przywracanie kopii zapasowej…</string>
-    <string name="backup_import_status_validation_error">Wybrany plik kopii zapasowej jest nieprawidłowy.</string>
+    <string name="backup_import_status_validation_error">Wybrany plik kopii zapasowej jest nieprawidłowy: %1$s</string>
     <string name="backup_import_confirm_title">Przywrócić kopię zapasową?</string>
     <string name="backup_import_confirm_message">Bieżące dane aplikacji zostaną zastąpione danymi z tej kopii zapasowej.</string>
     <string name="backup_import_confirm_cancel">Anuluj</string>

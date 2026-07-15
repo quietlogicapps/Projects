@@ -165,7 +165,7 @@
     <string name="backup_import_status_error">Yedek içe aktarılamadı.</string>
     <string name="backup_import_status_cancelled">Yedek içe aktarma işlemi iptal edildi.</string>
     <string name="backup_import_status_running">Yedek geri yükleniyor…</string>
-    <string name="backup_import_status_validation_error">Seçilen yedek dosyası geçersiz.</string>
+    <string name="backup_import_status_validation_error">Seçilen yedek dosyası geçersiz: %1$s</string>
     <string name="backup_import_confirm_title">Yedek geri yüklensin mi?</string>
     <string name="backup_import_confirm_message">Mevcut uygulama verileri bu yedekteki verilerle değiştirilecektir.</string>
     <string name="backup_import_confirm_cancel">İptal</string>
