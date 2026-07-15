@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -56,27 +57,31 @@ class HistoryActivity : AppCompatActivity() {
 
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
+        recycler.clipToPadding = true
 
         val bottomAirPx = (8 * resources.displayMetrics.density).toInt()
-        fun applyRecyclerBottomInset(insets: WindowInsetsCompat) {
+        fun applyHistoryBottomInset(insets: WindowInsetsCompat) {
             val navigationBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-            recycler.updatePadding(
-                left = recycler.paddingLeft,
-                top = recycler.paddingTop,
-                right = recycler.paddingRight,
-                bottom = navigationBottom + bottomAirPx
-            )
+            val bottomInset = navigationBottom + bottomAirPx
+            val params = recycler.layoutParams as ConstraintLayout.LayoutParams
+            if (params.bottomMargin != bottomInset) {
+                params.bottomMargin = bottomInset
+                recycler.layoutParams = params
+            }
+            if (recycler.paddingBottom != 0) {
+                recycler.updatePadding(bottom = 0)
+            }
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.historyRecycler)) { _, insets ->
-            applyRecyclerBottomInset(insets)
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { _, insets ->
+            applyHistoryBottomInset(insets)
             insets
         }
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { _, insets ->
-            applyRecyclerBottomInset(insets)
+        ViewCompat.setOnApplyWindowInsetsListener(recycler) { _, insets ->
+            applyHistoryBottomInset(insets)
             insets
         }
-        ViewCompat.requestApplyInsets(findViewById(android.R.id.content))
+        ViewCompat.requestApplyInsets(window.decorView)
 
         lifecycleScope.launch {
             val settings = SettingsRepository(db.appSettingsDao()).getSettings().first()
