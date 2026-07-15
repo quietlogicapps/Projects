@@ -1,6 +1,5 @@
 package com.quietlogic.allisok.ui.home
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -16,7 +14,6 @@ import androidx.fragment.app.Fragment
 import com.quietlogic.allisok.R
 import com.quietlogic.allisok.billing.store.StoreModule
 import com.quietlogic.allisok.billing.store.StoreNavigator
-import com.quietlogic.allisok.security.AdminGate
 import com.quietlogic.allisok.security.AdminSession
 import com.quietlogic.allisok.security.LockGate
 import com.quietlogic.allisok.ui.backup.BackupActivity
@@ -31,21 +28,7 @@ class SettingsFragment : Fragment() {
     private lateinit var rowAdmin: View
     private lateinit var textAdminTitle: TextView
 
-    private var pendingOpenBackup = false
-
     private val storeNavigator: StoreNavigator = StoreModule.createStoreNavigator()
-
-    private val adminUnlockLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK && pendingOpenBackup) {
-            pendingOpenBackup = false
-            openBackupActivity()
-            (activity as? HomeActivity)?.onAdminStateChanged()
-        } else {
-            pendingOpenBackup = false
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,7 +71,7 @@ class SettingsFragment : Fragment() {
             iconRes = R.drawable.ic_settings_backup,
             titleRes = R.string.settings_backup_title
         ) {
-            openBackupWithAdminGate()
+            openBackupActivity()
         }
 
         bindRow(
@@ -142,19 +125,6 @@ class SettingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         updateAdminRowTitle()
-    }
-
-    private fun openBackupWithAdminGate() {
-        AdminGate.requireAdmin(requireContext()) {
-            if (AdminSession.isActive()) {
-                openBackupActivity()
-            } else {
-                pendingOpenBackup = true
-                val intent = Intent(requireContext(), PinActivity::class.java)
-                intent.putExtra("mode", LockGate.MODE_ADMIN_UNLOCK)
-                adminUnlockLauncher.launch(intent)
-            }
-        }
     }
 
     private fun openBackupActivity() {
