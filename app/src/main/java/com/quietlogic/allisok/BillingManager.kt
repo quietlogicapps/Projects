@@ -147,12 +147,30 @@ class BillingManager(
                 return@queryPurchasesAsync
             }
 
-            val hasValidPurchase = purchases.any { purchase ->
+            val matchingPurchases = purchases.filter { purchase ->
                 purchase.products.contains(PRODUCT_ID) &&
                         purchase.purchaseState == Purchase.PurchaseState.PURCHASED
             }
 
-            listener.onPurchaseRestored(hasValidPurchase)
+            if (matchingPurchases.isEmpty()) {
+                listener.onPurchaseRestored(false)
+                return@queryPurchasesAsync
+            }
+
+            var remaining = matchingPurchases.size
+            var anySuccess = false
+
+            matchingPurchases.forEach { purchase ->
+                handlePurchase(purchase, emitPurchaseSuccess = false) { success ->
+                    if (success) {
+                        anySuccess = true
+                    }
+                    remaining -= 1
+                    if (remaining == 0) {
+                        listener.onPurchaseRestored(anySuccess)
+                    }
+                }
+            }
         }
     }
 
@@ -170,7 +188,7 @@ class BillingManager(
                     return
                 }
 
-                handlePurchase(purchase)
+                handlePurchase(purchase, emitPurchaseSuccess = true)
             }
 
             BillingClient.BillingResponseCode.USER_CANCELED -> {
@@ -185,11 +203,23 @@ class BillingManager(
         }
     }
 
-    private fun handlePurchase(purchase: Purchase) {
+    private fun handlePurchase(
+        purchase: Purchase,
+        emitPurchaseSuccess: Boolean,
+        onProcessed: ((Boolean) -> Unit)? = null
+    ) {
+        if (!purchase.products.contains(PRODUCT_ID)) {
+            onProcessed?.invoke(false)
+            return
+        }
+
         when (purchase.purchaseState) {
             Purchase.PurchaseState.PURCHASED -> {
                 if (purchase.isAcknowledged) {
-                    listener.onPurchaseSuccess()
+                    if (emitPurchaseSuccess) {
+                        listener.onPurchaseSuccess()
+                    }
+                    onProcessed?.invoke(true)
                     return
                 }
 
@@ -199,21 +229,27 @@ class BillingManager(
 
                 billingClient.acknowledgePurchase(params) { billingResult ->
                     if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                        listener.onPurchaseSuccess()
+                        if (emitPurchaseSuccess) {
+                            listener.onPurchaseSuccess()
+                        }
+                        onProcessed?.invoke(true)
                     } else {
                         listener.onBillingError(
                             "Acknowledge error: ${billingResult.debugMessage}"
                         )
+                        onProcessed?.invoke(false)
                     }
                 }
             }
 
             Purchase.PurchaseState.PENDING -> {
                 listener.onPurchasePending()
+                onProcessed?.invoke(false)
             }
 
             else -> {
                 listener.onBillingError("Purchase state is not valid.")
+                onProcessed?.invoke(false)
             }
         }
     }
